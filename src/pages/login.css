@@ -1,0 +1,91 @@
+
+.login-page{
+    color:white;
+    width: 100%;
+    height: 100%;
+    background-image: url("../photos/wallpaperflare.com_wallpaper.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+.login-page::before{
+    content:"";
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.9));
+}
+.login-page-container{
+    position: relative;
+    z-index: 10000;
+    width:100%;
+    height: 100%;
+}
+.login-page-container main{
+    height: 88.1%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-container{
+    height: 88%;
+    background-color: rgba(41, 39, 39, 0.5);   
+    box-shadow: 0 5px 30px black,0 5px 30px black;
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    
+}
+.login-form-container h2{
+    transform: translateY(-90%);
+}
+.login-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 80%;
+    transform: translateY(-5%);
+}
+.login-form div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-form div{
+    width: 100%;
+}
+
+#login-forgot-password-div{
+display: flex;
+justify-content: flex-start;
+width: 80%;
+}
+#login-forgot-password{
+    color: white;
+    margin:.2rem 0 .5rem 0;
+}
+
+.login-form .sign-in-btn-div{
+
+    margin-bottom: 1.3em;
+}
+.social-media-logos{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin:  .3em 0  1.3em 0;
+    gap:30px;
+}
+.social-media-logos *{
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,56 @@
+html , body{
+    height: 100%;
+}
+.moviesPageContainer{
+    min-height: 100vh;
+    width: 100%;
+    background-color: black;
+    overflow: visible;
+}
+.moviesPageContainer header{
+    width: 100%;
+}
+
+.moviesBackground{
+    height: 200%;
+    width: 87%;
+    margin: auto;
+    overflow: auto;
+    overflow: visible;
+}
+
+.moviesBackground .crouselsection{
+    height: 100vh;
+}
+.crouselsection .socialMedia-MoviesPage{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    color: white;
+    
+}
+.crouselsection .socialMedia-MoviesPage div{
+    width: 100%;
+    height:fit-content;
+    display:flex;
+    gap:20px
+}
+.crouselsection .socialMedia-MoviesPage div *{
+    border-radius: 0px;
+}
+
+
+.moviesBackground .moviesSection{
+    height: 100%;
+    width: 100%;
+
+}
+
+
+
+
+
+
+

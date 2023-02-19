@@ -1,0 +1,132 @@
+.Container{
+    margin:1.5rem auto 0 auto;
+    width:80%;
+    height: 100%;
+    color: white;
+}
+.cmntCountUsername{
+    display: flex;
+    align-items: end;
+    margin-bottom: 1em;
+    justify-content: space-between;
+}
+.cmntPfpInput{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: black;
+}
+.cmntInputForm{
+    width: 93%;
+    min-height: 9vh;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    position: relative;
+}
+.cmntInput{
+    width: 100%;
+    height: 9vh;
+    background-color: white;
+    padding: 14px 14px 30px 14px;
+    border-radius: 17px;
+    transition: height .3s;
+    overflow: hidden;
+    resize: none;
+    position: relative;
+    outline: none;
+    border: none;
+    transition: all 0.3s;
+    z-index: 2;
+}
+.replyInput{
+    width: 100%;
+    height:17vh;
+    color:black;
+    padding: 14px 14px 30px 14px;
+    border-radius: 17px 17px 0 0;
+    transition: height .3s;
+    overflow: hidden;
+    resize: none;
+    position: relative;
+    outline: none;
+    border: none;
+}
+
+.cmntInputForm:hover .cmntInput{
+    height:17vh;
+    border-radius: 17px 17px 0 0;
+    overflow: auto;
+}
+.cmntInputForm:hover .submitBtnCont{
+    transform: none;
+}
+
+.cmntInputSubmit{
+display: block;
+width:90px;
+background-color: orange;
+margin:5px 0 5px 90%;
+border-radius: 17px;
+border-color: black;
+height: 30px;
+}
+.replyBtnCont{
+    border-radius: 0 0 17px 17px;
+    width: 100%;
+    background-color: rgb(230, 223, 223);
+    border-top : 1px solid rgb(199, 199, 199);
+}
+
+.submitBtnCont{
+    transition: all 0.3s;
+    transform: translateY(-100%);
+    border-radius: 0 0 17px 17px;
+    z-index: 0;
+    width: 100%;
+    background-color: rgb(230, 223, 223);
+    border-top : 1px solid rgb(199, 199, 199);
+}
+
+
+
+.CmntsArea{
+    width: 100%;
+    min-height: 40vh;
+}
+
+
+
+
+/* ========================================= */
+
+.titlesContainer{
+    display: flex;
+    align-items: top;
+    gap:3px;
+    width: 100%;
+}
+.CmntDivBtnsCont{
+    width: 30%;
+    position: relative;
+    right :5%;
+    display: flex;
+    align-items: center;    
+    margin: 0 0 2% 5%;
+}
+
+.CmntDivBtns{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin: 0 3% 0 10px;
+    display: flex;
+    align-items: center;
+    gap:4px;
+
+}
+
+.CmntDatePassed{
+    font-size: 0.7rem;
+    margin: 0 0 .2em 0;
+}
