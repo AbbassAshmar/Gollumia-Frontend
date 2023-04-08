@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { cookies, useCookies } from "react-cookie";
 import styles from "./Comments.module.css"
-import CmntInput from "./CommentSectionComponents/CommentInput"
-import Pfp from "./pfp";
+import CmntInput from "./CommentInput"
+import Pfp from "../pfp";
 import { Link } from "react-router-dom";
-import CmntDiv from "./CommentSectionComponents/CmntDiv";
+import CmntDiv from "./CmntDiv";
 import { useEffect } from "react";
-import CmntPfp from "./CommentSectionComponents/cmntPfp";
+import CmntPfp from "./cmntPfp";
 function Comment(props){
     const [cookies,setCookies] = useCookies(["token"])
     const [cmnts, setCmnts] = useState([])
@@ -23,7 +23,6 @@ function Comment(props){
                             cmnt.replies.map(
                                 (reply)=>{
                                     if (reply.id==interactions.replyId){
-                                        console.log('here')
                                         reply.likes = interactions.likes
                                         reply.dislikes = interactions.dislikes
                                     }
@@ -33,7 +32,6 @@ function Comment(props){
                         setCmnts([...cmnts])  // rerender the cmnts array with the new updated values of likes and dislikes
                         // after rerendering , the new values of likes and dislikes are passed to the LikeDislikeBtns again via props
                         // the initial value of the likes/dislikes state in LikeDislikeBtns is the values passed by props 
-                        
                     }
                 }
             )
@@ -45,9 +43,9 @@ function Comment(props){
             if (cmnts[i].id ==repdata.parent_comment) {
             desiredCmnt = cmnts[i].id
         }}
-        cmnts.map((cmnt)=>{ // to add a reply to the rendered list of cmnts, look for comment the this reply belong to, and then add the reply to the list
+        cmnts.map((cmnt)=>{ // to add a reply to the rendered list of cmnts, look for the comment this reply belongs to, and then add the reply to the list
             if(cmnt.id == desiredCmnt){
-                repdata.profile=cookies.token[4]
+                repdata.profile=repdata.profile
                 repdata.likes = 0
                 repdata.dislikes = 0
                 cmnt.replies.push(repdata)
@@ -56,36 +54,35 @@ function Comment(props){
             }
         })
     }
-    const resp = (res)=>{
-        setCmnts((cmnts)=>{return [{profile:cookies.token[4],id:res.id,likes:0,dislikes:0,text:res.text,user:cookies.token[2],date:res.dateAdded,replies:[]},...cmnts]});
-        setCount(res.comments_count) // a new cmnt is added so update the count 
+
+    // adds a new comment to the comments list 
+    const new_comment_data = (received_data)=>{
+        setCmnts((cmnts)=>{return [{profile:cookies.token[4],id:received_data.data.id,likes:0,dislikes:0,text:received_data.data.text,user:received_data.data.user,date:received_data.data.date,replies:[]},...cmnts]});
+        setCount(received_data.comments_count) // a new cmnt is added so update the count 
     }
     useEffect(()=>{
-        let page_id ={page_id : props.page_id}
+        let page_id = props.page_id
         const getComments = async function(){
-            const comntReq = await fetch("http://127.0.0.1:8000/allcomments/",{
-                method:"post",
+            const comntReq = await fetch(`http://127.0.0.1:8000/movie-comments-replies/${page_id}`,{
+                method:"get",
                 headers:{
                     "Content-type":"application/json",
                     "Authorization":"Token "+ cookies.token[0],
                 },
-                body:  JSON.stringify(page_id)
-
             })
             const comntRes = await comntReq.json()
             if (comntReq.status==204){
                 setCmnts([])
             }else{
-                setCmnts(comntRes["comments"])
+                setCmnts(comntRes["comments-replies"])
                 setCount(comntRes["comments_count"])
             }
         }
         getComments()
     },[props])
-    useEffect(()=>{
-        console.log("updated")
-    })
-    useEffect(()=>{console.log(cmnts)},[cmnts])
+
+
+  
     
     return(
         <div className={styles.Container}>
@@ -100,7 +97,7 @@ function Comment(props){
                 </div>
                 <div className={styles.cmntPfpInput}>
                     <Link to="#"><CmntPfp letter={cookies.token[4]?cookies.token[4]:cookies.token[2][0]}/></Link>
-                    <CmntInput setData={resp} page_id={props.page_id} reply={false}/>
+                    <CmntInput new_comment_data={new_comment_data} page_id={props.page_id} reply={false}/>
                 </div>
             </div>
             <div className={styles.CmntsArea}>
