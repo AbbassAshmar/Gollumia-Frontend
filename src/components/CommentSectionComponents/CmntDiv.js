@@ -47,20 +47,16 @@ function CmntDiv(props){
         // getRes transfers data from Comment Input component to Comments component, Comments Compnent is the container of comments where comments and replies are rendered,
         // CmntDiv component is the comment or the reply ,(the comment box that is going to be rendered in the Comments Component)
         // Comment Input is the Textarea (the form) where you type the comment , when you type and press submit (comment btn) a request is sent to the server to save the comment
-        // in the database , this request contains Isreply bool to differentiate between comments and replies.
+        
         const getRes = (result)=>{ // pass info from comment input to CmntDiv, then to Comments.js
             props.getData(result)
-            console.log(result)
             setRep(<CommentInput style={{display:"None"}} />);
             e.target.style.color = "white"
         } 
-        setRep(<CommentInput page_id={props.page_id}  username_replying_to={props.username} id={props.cmntId} setRes={getRes} reply={true} style={{marginLeft:"4rem"}} />);
-        console.log(props)
+        setRep(<CommentInput page_id={props.page_id}  username_replying_to={props.username} id={props.cmntId} new_reply_data={getRes} reply={true} style={{marginLeft:"4rem"}} />);
         e.target.style.color = "#Cb7900"
     }
-    useEffect(()=>{
-        console.log(props)
-    },[])
+  
     const InlineStyles = {
         reply :{
             display:"flex",

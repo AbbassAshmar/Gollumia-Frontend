@@ -24,9 +24,7 @@
 // a new reply.
 
 import { useEffect, useState } from "react";
-import { json, Link } from "react-router-dom";
 import styles from "../Comments.module.css"
-import Pfp from "../pfp";
 import React from "react";
 import { useCookies } from "react-cookie";
 function CmntInput(props){
@@ -34,15 +32,7 @@ function CmntInput(props){
     const [text , setText] = useState("")
     const getdate = ()=>{
         let date = new Date()
-        // console.log(date.toLocaleString())
-        // let month = date.getMonth() + 1
-        // let year = date.getFullYear()
-        // let day = date.getDate()
-        // let hours = date.getHours()
-        // let min = date.getMinutes()
-        // let sec = date.getSeconds()
-        // 2023-02-05T02:55:28.615Z
-        // let now = `${year}-${month <10?'0'+month:month}-${day}T${hours <10?'0'+hours:hours}:${min <10?'0'+min:min}:${sec <10?'0'+sec:sec}`
+
         return date.toISOString().replace(/\.\d*/,'');
     }
     
@@ -51,53 +41,91 @@ function CmntInput(props){
         if (text.length ==0){
             return 0
         }
-        
         let dateAdded = getdate()
-        console.log(dateAdded)
         let email = cookies.token[1]
-        let reply = props.reply
         let username_replying_to =props.username_replying_to 
         let id_replying_to =props.id
         let page_id = props.page_id
         let pfp = cookies.token[2][0]
         let data = {
-            text,email,reply,dateAdded,username_replying_to,id_replying_to,page_id,pfp
+            text,email,dateAdded,username_replying_to,id_replying_to,page_id,pfp
         }
-        async function fe(data){
-            const req = await fetch("http://127.0.0.1:8000/comment/",{
-            method:"POST",
-            body:JSON.stringify(data),
-            headers: {
-                "Content-Type":"application/json",
-                "Authorization":"Token "+cookies.token[0]
-            },
-        })
-        const res = await req.json()
-        if (req.status== 200 && req.ok ==true){
-            if (reply){
-                let user = cookies.token[2]
-                let user_replying_to =props.username_replying_to 
-                let parent_comment =props.id
-                let date = getdate()
-                let pfp =`${res.pfp?res.pfp:cookies.token[2][0]}`
-                let id = res['data'].id
-                let comments_count= res["comments_count"]
-                let newData = {
-                    text,user,dateAdded,user_replying_to,parent_comment,pfp,date,id,comments_count
-                }
-                props.setRes(newData)
-              
-            }else{
-                data.pfp =`${res.pfp?res.pfp:cookies.token[2][0]}`
-                data.id = res.data.id
-                data.comments_count = res.comments_count // send the new count of comments to update the count
-                props.setData(data)
+
+
+        async function Comment_Call(data){
+            const request = await fetch("http://127.0.0.1:8000/comments/",{
+                method:"POST",
+                body: JSON.stringify(data), 
+                headers :{ 
+                    "Content-type":"application/json",
+                    "Authorization":"Token "+cookies.token[0]
+                },
+            })
+            const response = await request.json()
+            if (response.status == 200 && response.ok ==true){
+                props.new_comment_data(response)
+>>>>>>> d88000d8369a1a0d99eb6c15c90f18eaf064f64d
             }
         }
-        
+
+        async function Reply_Call(data){
+            const request = await fetch("http://127.0.0.1:8000/replies/",{
+                method:"POST",
+                body:JSON.stringify(data),
+                headers:{
+                    "Content-type":"application/json",
+                    "Authorization":"Token "+cookies.token[0]
+                }
+            })
+            const response = await request.json()
+            if (response.status == 200 && response.ok == true){
+                props.new_reply_data(response)
+            }
         }
-        fe(data)
+
+        if(props.reply){
+            Reply_Call(data)
+        }else{
+            Comment_Call(data)
+        }
     }
+
+        // async function fe(data){
+        //     const req = await fetch("http://127.0.0.1:8000/comment/",{
+        //     method:"POST",
+        //     body:JSON.stringify(data),
+        //     headers: {
+        //         "Content-Type":"application/json",
+        //         "Authorization":"Token "+cookies.token[0]
+        //     },
+        // })
+        // const res = await req.json()
+        // if (req.status== 200 && req.ok ==true){
+        //     if (reply){
+        //         console.log(res)
+        //         let user = cookies.token[2]
+        //         let user_replying_to =props.username_replying_to 
+        //         let parent_comment =props.id
+        //         let date = getdate()
+        //         let pfp =`${res.pfp?res.pfp:cookies.token[2][0]}`
+        //         let id = res['data'].id
+        //         let comments_count= res["comments_count"]
+        //         let newData = {
+        //             text,user,dateAdded,user_replying_to,parent_comment,pfp,date,id,comments_count
+        //         }
+        //         props.setRes(newData)
+              
+        //     }else{
+        //         data.pfp =`${res.pfp?res.pfp:cookies.token[2][0]}`
+        //         data.id = res.data.id
+        //         data.comments_count = res.comments_count // send the new count of comments to update the count
+        //         props.setData(data)
+        //     }
+        // }
+        
+        // }
+        // fe(data)
+ 
     return(
         <form onSubmit={handleCmntSubmit} style={props.style}className={styles.cmntInputForm}>
             {props.reply == false?
