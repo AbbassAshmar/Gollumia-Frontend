@@ -75,7 +75,6 @@ function CmntInput(props){
         const res = await req.json()
         if (req.status== 200 && req.ok ==true){
             if (reply){
-                console.log(res)
                 let user = cookies.token[2]
                 let user_replying_to =props.username_replying_to 
                 let parent_comment =props.id
