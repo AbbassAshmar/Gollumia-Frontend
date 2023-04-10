@@ -13,28 +13,28 @@ function Comment(props){
     const [count , setCount] = useState(0)
 
     const getNewInteractions=(interactions)=>{ // receive the new values of likes and dislikes from LikeDislikeBtns by CmntDiv
-            cmnts.map( // update likes and dislikes of the cmnt or reply that the user interacted with in the cmnts state array
-                (cmnt)=>{
-                    if (cmnt.id == interactions.cmntId){
-                        if (!interactions.is_reply){
-                            cmnt.likes = interactions.likes
-                            cmnt.dislikes = interactions.dislikes
-                        }else{
-                            cmnt.replies.map(
-                                (reply)=>{
-                                    if (reply.id==interactions.replyId){
-                                        reply.likes = interactions.likes
-                                        reply.dislikes = interactions.dislikes
-                                    }
+        cmnts.map( // update likes and dislikes of the cmnt or reply that the user interacted with in the cmnts state array
+            (cmnt)=>{
+                if (cmnt.id == interactions.cmntId){
+                    if (!interactions.is_reply){
+                        cmnt.likes = interactions.likes
+                        cmnt.dislikes = interactions.dislikes
+                    }else{
+                        cmnt.replies.map(
+                            (reply)=>{
+                                if (reply.id==interactions.replyId){
+                                    reply.likes = interactions.likes
+                                    reply.dislikes = interactions.dislikes
                                 }
-                            )
-                        }
-                        setCmnts([...cmnts])  // rerender the cmnts array with the new updated values of likes and dislikes
-                        // after rerendering , the new values of likes and dislikes are passed to the LikeDislikeBtns again via props
-                        // the initial value of the likes/dislikes state in LikeDislikeBtns is the values passed by props 
+                            }
+                        )
                     }
+                    setCmnts([...cmnts])  // rerender the cmnts array with the new updated values of likes and dislikes
+                    // after rerendering , the new values of likes and dislikes are passed to the LikeDislikeBtns again via props
+                    // the initial value of the likes/dislikes state in LikeDislikeBtns is the values passed by props 
                 }
-            )
+            }
+        )
     }
 
     const replydata = (repdata)=>{
@@ -60,25 +60,26 @@ function Comment(props){
         setCmnts((cmnts)=>{return [{profile:cookies.token[4],id:received_data.data.id,likes:0,dislikes:0,text:received_data.data.text,user:received_data.data.user,date:received_data.data.date,replies:[]},...cmnts]});
         setCount(received_data.comments_count) // a new cmnt is added so update the count 
     }
+
     useEffect(()=>{
         let page_id = props.page_id
-        const getComments = async function(){
-            const comntReq = await fetch(`http://127.0.0.1:8000/movie-comments-replies/${page_id}`,{
+        const getAllCommentsReplies = async function(){
+            const request = await fetch(`http://127.0.0.1:8000/movie-comments-replies/${page_id}`,{
                 method:"get",
                 headers:{
                     "Content-type":"application/json",
                     "Authorization":"Token "+ cookies.token[0],
                 },
             })
-            const comntRes = await comntReq.json()
-            if (comntReq.status==204){
+            const response = await request.json()
+            if (request.status==204){ // if no comments/replies available , set the state to empty
                 setCmnts([])
             }else{
-                setCmnts(comntRes["comments-replies"])
-                setCount(comntRes["comments_count"])
+                setCmnts(response["comments-replies"])
+                setCount(response["comments_count"])
             }
         }
-        getComments()
+        getAllCommentsReplies()
     },[props])
 
 
