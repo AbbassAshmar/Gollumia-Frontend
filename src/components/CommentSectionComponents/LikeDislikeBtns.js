@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import {React} from "react";
-import styles from "../Comments.module.css"
+import styles from "./Comments.module.css"
 import { useCookies } from "react-cookie";
 function LikeDislikeBtns(props){
     const [count,setCount] =useState({likeCount:0,dislikeCount:0})

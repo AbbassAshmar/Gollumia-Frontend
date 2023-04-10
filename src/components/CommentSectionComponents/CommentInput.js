@@ -24,7 +24,7 @@
 // a new reply.
 
 import {useState } from "react";
-import styles from "../Comments.module.css"
+import styles from "./Comments.module.css"
 import React from "react";
 import { useCookies } from "react-cookie";
 function CmntInput(props){
@@ -63,7 +63,6 @@ function CmntInput(props){
             const response = await request.json()
             if (response.status == 200 && response.ok ==true){
                 props.new_comment_data(response)
->>>>>>> d88000d8369a1a0d99eb6c15c90f18eaf064f64d
             }
         }
 
