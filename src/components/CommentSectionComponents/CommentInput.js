@@ -50,6 +50,7 @@ function CmntInput(props){
             text,email,dateAdded,username_replying_to,id_replying_to,page_id,pfp
         }
 
+
         async function Comment_Call(data){
             const request = await fetch("http://127.0.0.1:8000/comments/",{
                 method:"POST",
@@ -62,6 +63,7 @@ function CmntInput(props){
             const response = await request.json()
             if (response.status == 200 && response.ok ==true){
                 props.new_comment_data(response)
+>>>>>>> d88000d8369a1a0d99eb6c15c90f18eaf064f64d
             }
         }
 
