@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom"
-import App from "../components/Footer";
-import MoviesNav from "../components/moviesNavbar";
+import App from "../components/Footer/Footer";
+import MoviesNav from "../components/MainNavbar/moviesNavbar";
 import styled from "styled-components";
-import Category from "../components/Category";
-import CtgMovies from "../components/ctgMovies"
+import Category from "../components/Category/Category";
+import CtgMovies from "../components/ctgMovies/ctgMovies"
 const Container = styled.div`
 background : black;
 width:100%;

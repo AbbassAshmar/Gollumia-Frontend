@@ -8,7 +8,7 @@ import imdb from "../photos/imdb.png";
 import meta from "../photos/meta.png";
 import Category from "../components/Category";
 import MovieCard from "../components/Moviecard";
-import Comment from '../components/CommentSectionComponents/Comments'
+import Comment from '../../components/CommentSectionComponents/Comments'
 import App from '../components/Footer'
 import SimilarMovies from '../components/Similar'
 import ReactPlayer from "react-player"
