@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { Container } from "./TrendingMovies";
-import MovieCard from "./Moviecard";
+import MovieCard from "../MovieCard/Moviecard";
 function UpcomingMovies(){
     const [movies, setMovies] = useState([])
     useEffect(()=>{

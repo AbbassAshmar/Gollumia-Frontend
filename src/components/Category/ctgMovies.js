@@ -1,9 +1,6 @@
-import { useEffect } from "react";
 
 function CtgMovies(props){
-    useEffect(()=>{
-        
-    },[])
+
     return(
         <>
             {props.id}
