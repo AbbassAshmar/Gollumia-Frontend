@@ -64,7 +64,6 @@ function CmntInput(props){
             const response = await request.json()
             if (response.status == 200 && response.ok ==true){
                 props.new_comment_data(response)
->>>>>>> d88000d8369a1a0d99eb6c15c90f18eaf064f64d
             }
         }
 
