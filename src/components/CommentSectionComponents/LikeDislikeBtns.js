@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import {React} from "react";
-import styles from "../Comments.module.css"
+import styles from "./Comments.module.css"
 import { useCookies } from "react-cookie";
 function LikeDislikeBtns(props){
     const [count,setCount] =useState({likeCount:0,dislikeCount:0})
@@ -10,10 +10,10 @@ function LikeDislikeBtns(props){
         // the initial value will be up to date with what's saved in the db, thus even after rerendering the component,the numbers wont change 
     },[props])
    
-    async function likeDislikeReq(rep,endpoint){
-        let id = (rep?props.reply_id :props.cmntId)
+    async function likeDislikeReq(is_reply,endpoint){
+        let id = (is_reply?props.reply_id :props.cmntId)
         let data={
-            reply:rep, id
+            reply:is_reply, id
         }
         const response = await fetch(`http://127.0.0.1:8000/${endpoint}/`,{
             method:"post",

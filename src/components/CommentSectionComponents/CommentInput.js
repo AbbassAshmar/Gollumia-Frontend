@@ -23,8 +23,8 @@
 // username_replying_to in a state in CmntDiv comp, is passed to commentInput and then back to the parent component along with other data to be used in rendering 
 // a new reply.
 
-import { useEffect, useState } from "react";
-import styles from "../Comments.module.css"
+import {useState } from "react";
+import styles from "./Comments.module.css"
 import React from "react";
 import { useCookies } from "react-cookie";
 function CmntInput(props){
@@ -32,13 +32,12 @@ function CmntInput(props){
     const [text , setText] = useState("")
     const getdate = ()=>{
         let date = new Date()
-
         return date.toISOString().replace(/\.\d*/,'');
     }
     
     function handleCmntSubmit(e){
         e.preventDefault();
-        if (text.length ==0){
+        if (text.length <= 0){
             return 0
         }
         let dateAdded = getdate()
@@ -82,7 +81,7 @@ function CmntInput(props){
             }
         }
 
-        if(props.reply){
+        if(props.reply){ // check whether the user's input is reply or a comment to call the suitable endpoint
             Reply_Call(data)
         }else{
             Comment_Call(data)
@@ -126,16 +125,17 @@ function CmntInput(props){
         // fe(data)
  
     return(
-        <form onSubmit={handleCmntSubmit} style={props.style}className={styles.cmntInputForm}>
+        <form onSubmit={handleCmntSubmit} style={props.style} className={styles.cmntInputForm}>
             {props.reply == false?
             <React.Fragment>
                 <textarea placeholder="Join the discussion!" type="text" id="CmntInput" value={text} onChange={(e)=>{setText(e.target.value)}} className={styles.cmntInput}></textarea>
                 <div className={styles.submitBtnCont}>
                     <input type="submit" className={styles.cmntInputSubmit} value="comment"></input>
                 </div>
-            </React.Fragment>:
+            </React.Fragment>
+            :
             <React.Fragment>
-                <textarea placeholder="Reply" tpe="text" id="CmntInput" value={text} onChange={(e)=>{setText(e.target.value)}} className={styles.replyInput}></textarea>
+                <textarea placeholder="Reply" type="text" id="CmntInput" value={text} onChange={(e)=>{setText(e.target.value)}} className={styles.replyInput}></textarea>
                 <div className={styles.replyBtnCont}>
                     <input type="submit" className={styles.cmntInputSubmit}  value="reply"></input>
                 </div>
