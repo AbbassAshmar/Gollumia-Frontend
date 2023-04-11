@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import Pfp from "../pfp";
 import styles from "./Comments.module.css"
 import { useEffect, useState } from "react";
 import CommentInput from './CommentInput';
 import CmntPfp from "./cmntPfp";
-import { useCookies } from "react-cookie";
 import LikeDislikeBtns from "./LikeDislikeBtns"
 const Div = styled.div`
     width: 100%;

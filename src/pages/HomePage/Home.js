@@ -1,12 +1,12 @@
 import React from "react";
-import  img1 from '../photos/img1.jpg';
-import  img2 from '../photos/img2.jpg';
+import  img1 from '../../photos/img1.jpg';
+import  img2 from '../../photos/img2.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
-import InputField from "../components/input";
-import Block from "../components/Blocks";
-import Footer from "../components/Footer";
-import Navbar from "../components/navbar"
+import InputField from "../../components/Input/input";
+import Block from "../../components/Blocks/Blocks";
+import Footer from "../../components/Footer/Footer";
+import Navbar from "../../components/Navbar/navbar"
 function Home(){
     
     return(
@@ -19,7 +19,7 @@ function Home(){
                         <h2>Get Into the paradise of movies</h2>
                         <h3>Where Filmers are born</h3>
                     </div>
-                            <InputField lab={true}/> 
+                        <InputField lab={true}/> 
                     </div>
             </div>
         </div>

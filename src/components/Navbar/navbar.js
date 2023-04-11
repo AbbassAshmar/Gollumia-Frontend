@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Link} from "react-router-dom";
-import btm from "../photos/1.png";
 import styled from "styled-components";
 
 const Logo = styled.h1`

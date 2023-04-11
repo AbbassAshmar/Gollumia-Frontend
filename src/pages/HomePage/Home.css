@@ -19,7 +19,7 @@ html, body, #root, .App{
 .page1{
     width: 100%;
     height: 100vh;
-    background-image: url('../photos/wp2.jpg');
+    background-image: url('../../photos/wp2.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

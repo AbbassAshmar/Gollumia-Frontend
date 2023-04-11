@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./login.css"
-import btm from "../photos/1.png"
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
-import SmBtn from "../components/SmBtn";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import FacebookLogin from "react-facebook-login"
-import Facebook from "../components/socialMedia/Facebook";
-import Twitter from "../components/socialMedia/Twitter";
-import Google from "../components/socialMedia/Google";
+import Facebook from "../../components/socialMedia/Facebook";
+import Twitter from "../../components/socialMedia/Twitter";
+import Google from "../../components/socialMedia/Google";
     const Logo = styled.h1`
     font-family: 'Kanit', sans-serif;
     font-family: 'Open Sans', sans-serif;

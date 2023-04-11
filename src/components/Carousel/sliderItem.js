@@ -26,7 +26,6 @@ const Plot = styled.p`
     font-size:1rem;
     margin:0 0 0 3px;
     align-self:start;
-    
     cursor:text;
 `
 const Dir =styled.p`
@@ -42,15 +41,12 @@ const Genre = styled.h3`
     position:relative;
     bottom:24%;
     cursor:text;
-
-
 `
 const Rating = styled.h5`
     color :orange;
     font-size:3rem;
     font-family: 'Bebas Neue', sans-serif;
     margin:0;
-
 `
 const Time = styled.p`
     margin-left:3px;
@@ -104,8 +100,7 @@ function SliderItem(props){
         carouselInfoContainer:{
             width:"100%",
             height:"73vh",
-            backgroundImage:`url(${require(`./carouselPhotos/${props.imgsrc}`)})`,
-
+            backgroundImage:`url(${require(`../Carousel/carouselPhotos/${props.imgsrc}`)})`,
             backgroundPosition:"top",
             backgroundSize:"cover",
             position:"relative",

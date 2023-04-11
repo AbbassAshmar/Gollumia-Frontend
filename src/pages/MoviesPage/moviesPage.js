@@ -1,17 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { json, useNavigate } from "react-router-dom";
-import MoviesNav from "../components/moviesNavbar";
+import { useNavigate } from "react-router-dom";
+import MoviesNav from "../../components/MainNavbar/moviesNavbar";
 import "./moviesPage.css"
-import Crousel from "../components/carousel";
-import SmBtn from "../components/SmBtn";
-import MovieCard from "../components/Moviecard";
-import Category from "../components/Category"
-import {TrendingMovies} from "../components/TrendingMovies"
-import LatestMovies from "../components/LatestMovies"
-import UpcomingMovies from "../components/UpcomingMovies";
-import App from "../components/Footer";
+import Crousel from "../../components/Carousel/carousel";
+import SmBtn from "../../components/Button/SmBtn";
+import Category from "../../components/Category/Category"
+import {TrendingMovies} from "../../components/TrendingMovies/TrendingMovies"
+import LatestMovies from "../../components/LatestMovies/LatestMovies"
+import UpcomingMovies from "../../components/UpcomingMovies/UpcomingMovies";
+import App from "../../components/Footer/Footer";
 function MoviesPage(){
     const [cookies , setCookies, removeCookie] = useCookies(["token"])
     const navigate = useNavigate()

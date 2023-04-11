@@ -1,7 +1,7 @@
 import {React, useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom';
-import App from '../components/Footer';
-import MoviesNav from '../components/moviesNavbar';
+import App from '../../components/Footer/Footer';
+import MoviesNav from '../../components/MainNavbar/moviesNavbar';
 import styles from  "./userPage.module.css"
 import styled from 'styled-components';
 import { Form,FormGroup,Input,Label,Col } from 'reactstrap';

@@ -1,5 +1,5 @@
 import React ,{useEffect,useState} from "react";
-import { Container } from "./TrendingMovies";
+import { Container } from "../TrendingMovies/TrendingMovies";
 import MovieCard from "../MovieCard/Moviecard";
 function LatestMovies(){
     const [latestMovies, SetLatestMovies] = useState([]);

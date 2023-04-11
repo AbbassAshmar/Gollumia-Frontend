@@ -1,7 +1,7 @@
-import styles from "../pages/movie.module.css"
+import styles from "../../pages/SingleMoviePage/movie.module.css"
 import { useEffect, useState} from "react";
 import {useCookies} from "react-cookie"
-import MovieCard from './Moviecard'
+import MovieCard from '../MovieCard/Moviecard'
 function SimilarMovies(props){
     const [cookies,setCookies] = useCookies(['token'])
     const [movies, setMovies] = useState([])

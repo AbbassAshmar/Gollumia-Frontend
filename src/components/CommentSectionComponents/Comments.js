@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { cookies, useCookies } from "react-cookie";
 import styles from "./Comments.module.css"
 import CmntInput from "./CommentInput"
-import Pfp from "../pfp";
 import { Link } from "react-router-dom";
 import CmntDiv from "./CmntDiv";
 import { useEffect } from "react";

@@ -1,6 +1,5 @@
 import React, { useEffect, useState }  from "react";
 import './input.css';
-import isEmail from 'validator/es/lib/isEmail'
 import {useNavigate} from 'react-router-dom'
 
 function InputField(props){

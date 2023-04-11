@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import MoviesNav from "../components/moviesNavbar";
+import MoviesNav from "../../components/MainNavbar/moviesNavbar";
 import styles from "./movie.module.css"
 import styled from "styled-components";
-import { Button } from "reactstrap";
-import imdb from "../photos/imdb.png";
-import meta from "../photos/meta.png";
-import Category from "../components/Category";
-import MovieCard from "../components/Moviecard";
+import imdb from "../../photos/imdb.png";
+import meta from "../../photos/meta.png";
 import Comment from '../../components/CommentSectionComponents/Comments'
-import App from '../components/Footer'
-import SimilarMovies from '../components/Similar'
+import App from '../../components/Footer/Footer'
+import SimilarMovies from '../../components/SimilarMovies/Similar'
 import ReactPlayer from "react-player"
 import { useCookies } from "react-cookie";
 function Movie(){

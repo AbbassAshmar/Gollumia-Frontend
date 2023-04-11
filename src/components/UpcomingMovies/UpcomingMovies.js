@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { Container } from "./TrendingMovies";
+import { Container } from "../TrendingMovies/TrendingMovies";
 import MovieCard from "../MovieCard/Moviecard";
 function UpcomingMovies(){
     const [movies, setMovies] = useState([])

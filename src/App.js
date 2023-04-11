@@ -1,14 +1,14 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 import './App.css';
-import LoginPage from "./pages/login";
-import Home from './pages/Home';
-import Register from "./pages/Register";
-import MoviesPage from './pages/moviesPage';
-import Movie from './pages/movie';
+import LoginPage from "./pages/LoginPage/login";
+import Home from './pages/HomePage/Home';
+import Register from "./pages/RegistrationPage/Register";
+import MoviesPage from './pages/MoviesPage/moviesPage';
+import Movie from './pages/SingleMoviePage/movie';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import UserPage from './pages/userPage';
-import CategorizedMovies from './pages/AllMoviesByCat';
+import UserPage from './pages/UserPage/userPage';
+import CategorizedMovies from './pages/CategoriesMoviePage/AllMoviesByCat';
 
 function App() {
   return (

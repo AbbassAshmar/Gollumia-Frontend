@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TwitterLogin from 'react-twitter-auth/lib/react-twitter-auth-component.js';
 import  {MDBIcon} from 'mdb-react-ui-kit';
 

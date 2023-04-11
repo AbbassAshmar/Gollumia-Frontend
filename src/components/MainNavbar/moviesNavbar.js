@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from 'styled-components'
 import { useCookies } from "react-cookie";
 import './moviesNavbar.css'
-import Pfp from "./pfp";
+import Pfp from "../ProfilePicture/pfp";
 import { useNavigate } from "react-router-dom";
 const Button = styled.button`
     transform:translateX(40px);

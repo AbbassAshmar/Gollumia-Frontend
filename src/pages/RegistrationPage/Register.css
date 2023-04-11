@@ -9,7 +9,7 @@
 .register-page{
     height: 100%;
     background-color: black;
-    background-image: url("../photos/peakpx.jpg");
+    background-image: url("../../photos/peakpx.jpg");
     z-index: 0;
     background-position: center;
     background-size: cover;

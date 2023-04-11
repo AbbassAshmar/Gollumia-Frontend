@@ -1,5 +1,4 @@
 import FacebookLogin from "react-facebook-login"
-import SmBtn from "../SmBtn"
 import "./Facebook.css"
 //861835401720160
 function Facebook(){

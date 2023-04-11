@@ -8,7 +8,7 @@ import {
     MDBBtn
 } from 'mdb-react-ui-kit';
 import './Footer.css'
-import SmBtn from './SmBtn';
+import SmBtn from '../Button/SmBtn';
 export default function App() {
   return (
     <MDBFooter bgColor='Black' className='text-left text-lg-left'>

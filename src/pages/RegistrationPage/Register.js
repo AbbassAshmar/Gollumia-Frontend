@@ -1,9 +1,9 @@
 import React, { useEffect,useState} from 'react';
 import { Button } from 'reactstrap';
 import "./Register.css"
-import formimg from "../photos/fi.jpg"
+import formimg from "../../photos/fi.jpg"
 import { Link, useLocation } from "react-router-dom";
-import Navbar from '../components/navbar';
+import Navbar from '../../components/Navbar/navbar';
 import { useNavigate } from 'react-router-dom';
 import {useCookies} from "react-cookie";
 
@@ -16,7 +16,6 @@ import {useCookies} from "react-cookie";
 function Register(){
     let navigate = useNavigate()
     const {state}= useLocation();
-
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

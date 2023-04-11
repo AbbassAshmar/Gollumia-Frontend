@@ -1,7 +1,5 @@
 import { useGoogleLogin } from '@react-oauth/google';
-import SmBtn from '../SmBtn';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
 import { useCookies } from "react-cookie";
 import {useNavigate } from "react-router-dom"
 
