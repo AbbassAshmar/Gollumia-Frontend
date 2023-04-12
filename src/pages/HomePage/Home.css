@@ -155,27 +155,48 @@ form label{
 }
 
 
+.section4{
+    height: 70%;
+    width: 100%;
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.section4-content-container{
+    width:70%;
+    height:80%;
+    background-color: wheat;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.section4-content-container .section4-block{
+  display: none;
 
+}
+#theincredibles{
 
+}
 .page3{
-    height: 100%;
+    
     background-color: black;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-
-.page3-content footer{
-    position: absolute;
-    bottom: 0;
-    left:0;
-    width: 100%;
-    background-color: #000000;
-}
+/* @media only screen and (max-width: 600px) {
+    body {
+      background-color: lightblue;
+    }
+  } */
 .page3-content input{
-    margin: 4.5rem 0 1rem 0;
+    margin-bottom: .7rem;
 }
 .page3-content p{
     color:white;
     font-size: 1.2em;
     text-align: center;
-    margin-bottom: 4.5rem;
+    margin-bottom: 1rem;
 }

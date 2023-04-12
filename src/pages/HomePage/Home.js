@@ -1,6 +1,7 @@
 import React from "react";
 import  img1 from '../../photos/img1.jpg';
 import  img2 from '../../photos/img2.jpg';
+import img3 from '../../photos/img3.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
 import InputField from "../../components/Input/input";
@@ -44,15 +45,30 @@ function Home(){
                 <Block place={img2} title="deadpool"/>
             </div>   
         </div>
-        <div className="emptyline"></div>
+        <div className="emptyline" ></div>
+        <div className="section4">
+            <div  className="section4-content-container">
+                <div>
+                    <h2>Amazing Movies</h2>
+                    <p>
+                        Intertaining movies from all genres for all ages 
+                        and at any time 
+                    </p>
+                </div>
+                <div className="section4-block"> 
+                    <Block place={img3} title="theincredibles"/>
+                </div>
+            </div>
+        </div>
+        <div className="emptyline" ></div>
+        <div style={{width:"100%",height:"5%", background:"black"}}></div>
         <div className="page3">
             <div className="page3-content">
                 <InputField lab={false}/>
-                <p>Enter Your email now and Join the best movie comunity in one click !</p>
-                <br></br>
-                <Footer className='bg-dark'/>
+                <p>Enter Your email now and Join the best movie comunity in one click !</p>   
             </div>
         </div>
+        <Footer className='bg-dark'/>
         <div className="emptyline"></div>
            
         </>

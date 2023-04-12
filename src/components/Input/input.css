@@ -2,12 +2,33 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 #em {
     height: 9vh;
     width: 33%;
     border:1px solid black;
     border-right: none;
+    border-radius: 4px 0px 0px 4px;
+    padding-left: 1rem;
+    padding-top: 1rem;
+
+}
+#Email-label,
+input:empty ~ label{ 
+    position: absolute;
+    z-index: 100;
+    color: grey;
+    top: 28%;
+    left: 28%;
+    transition: all .1s ease;
+}
+input:focus ~ label,
+input:valid ~ label,
+input:invalid ~ label{
+    font-size: 1em;
+    transform: translate(-10px,-10px);
+    bottom: 10px;
 }
 
 #sb{
@@ -17,4 +38,6 @@
     background-color: #ffa31a;
     border: 1px solid black;
     font-size: 2rem;
+    border-radius: 0px 4px 4px 0px;
 }
+
