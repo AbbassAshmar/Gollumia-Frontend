@@ -9,13 +9,14 @@ import {useNavigate } from "react-router-dom"
 
 const Button =styled.button`
 background-color:#dd4b39;
-height:38px;  
+height:40px;  
+min-height:40px;
 border-radius: 4px;
 color:white;
 border:0px transparent;  
 text-align: center;
-width: 130px;
-
+width: 190px;
+min-width:82px;
 &:hover{
     opacity:0.6;
 }
@@ -58,7 +59,7 @@ function Google(){
 
     return(
             <Button type='Button' onClick={() => login()}>
-                <i style={{marginRight:"7px"}} className="fa-brands fa-google"></i> Google
+                <i style={{margin:"0 1px 0 2px"}} className="fa-brands fa-google"></i> Google
             </Button>
         )
 }

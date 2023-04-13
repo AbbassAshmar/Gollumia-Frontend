@@ -27,7 +27,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 }
 
 .login-form-container{
@@ -44,6 +44,7 @@
     
 }
 .login-form-container h2{
+    font-size: 2rem;
     transform: translateY(-90%);
 }
 .login-form{
@@ -60,9 +61,10 @@
     justify-content: center;
 }
 
-.login-form div{
-    width: 100%;
+.login-form div input{
+    padding-left:.5rem;
 }
+
 
 #login-forgot-password-div{
 display: flex;
@@ -80,12 +82,66 @@ width: 80%;
 }
 .social-media-logos{
     width: 100%;
-    display: flex;
-    align-items: center;
     margin:  .3em 0  1.3em 0;
-    gap:30px;
 }
 .social-media-logos *{
-    margin: 0;
+    margin: 0 2px 0 2px;
+    
     padding: 0;
+}
+.social-media-logos button:last-child{
+    margin: 0 7px 0 17px;
+}
+@media screen and (min-width:480.1px) {
+    .login-page-container main{
+        height: 85%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .login-form-container{
+        height: 93%;
+        background-color: rgba(41, 39, 39, 0.5);   
+        box-shadow: 0 5px 30px black,0 5px 30px black;
+        width: 412px;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+@media screen and (max-width:480px) {
+    .login-form-container h2{
+        transform: translateY(-90%);
+        font-size:1.8rem;
+    }
+    .login-page-container main{
+        height: 85%;
+        width: 100%;
+        align-items: start;
+    }
+    
+    .login-form-container{
+        height: 93%;
+        background-color: rgba(41, 39, 39, 0.5);   
+        box-shadow: 0 5px 30px black,0 5px 30px black;
+        width: 86%;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .social-media-logos *{
+        transform: scale(.95);
+        margin-left: -4px;
+        margin-right: -4px;
+
+    }
+   
 }

@@ -17,7 +17,7 @@ function Facebook(){
             onClick={componentClicked}
             callback={responseFacebook}
             cssClass="btnFacebook"
-            icon={<i className="fa fa-facebook"> </i>}
+            icon={<i style={{marginRight:"2px"}} className="fa fa-facebook"> </i>}
             textButton = "&nbsp;Facebook" 
         />
     )

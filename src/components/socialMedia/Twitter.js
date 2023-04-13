@@ -15,11 +15,14 @@ function Twitter(){
     const twitter ={
         backgroundColor:"blue",
         borderRadius:"4px",
-        height:"38px",
+        height:"40px",
+        minHeight: "40px",
         color:"white",
         border:"0px transparent",
         textAlign:"center",
-        width:"130px",
+        width:"190px",
+        minWidth:"87px",
+
     }
     const handleMouseOver =(e)=>{
          e.target.style.opacity = '0.6';
@@ -38,7 +41,7 @@ function Twitter(){
             className="twitterLoginBtn"
             onMouseOver={handleMouseOver}
         >
-                <MDBIcon fab icon="twitter" style={{marginRight:"7px"}}/>
+        <MDBIcon fab icon="twitter" style={{marginRight:"7px"}}/>
                 Twitter
         </TwitterLogin>
     )

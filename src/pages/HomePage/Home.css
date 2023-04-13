@@ -199,7 +199,6 @@ left:60%;
 }
 
 
-
 @media screen and (max-width:530px) {
     .section4{
         height: 80%;
@@ -346,3 +345,78 @@ left:60%;
     left:45%;
     }
 }
+@media screen and (max-width:400px) {
+    .page2-content{
+        height: 100%;
+        width: 90%;
+        margin:auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    }
+    .page2-content .page2-blocks{
+        min-width: 200px;
+        width: 40%;
+        height:80%;
+        margin-top: 1rem;
+        left:13%;
+        top:-6%;
+        position: relative;
+        z-index: 1;
+    }
+    .page2-content .text p{
+        font-size: .8rem;
+        font-weight: 500;
+        color:white;
+    }
+    #deadpool{
+        position: absolute;
+        z-index: 5;
+    }
+    #momento{
+    position: absolute;
+    z-index: 4;
+    top: 55%;
+    left:45%;
+    }
+}
+
+@media screen and (max-width:380px) {
+    .page2-content{
+        height: 100%;
+        width: 90%;
+        margin:auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    }
+    .page2-content .page2-blocks{
+        min-width: 200px;
+        width: 40%;
+        height:80%;
+        margin-top: 1rem;
+        left:13%;
+        top:-6%;
+        position: relative;
+        z-index: 1;
+    }
+    .page2-content .text p{
+        font-size: .8rem;
+        font-weight: 500;
+        color:white;
+    }
+    #deadpool{
+        position: absolute;
+        z-index: 5;
+    }
+    #momento{
+    position: absolute;
+    z-index: 4;
+    top: 55%;
+    left:45%;
+    }
+}
+
+

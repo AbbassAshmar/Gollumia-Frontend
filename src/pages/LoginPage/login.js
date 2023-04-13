@@ -57,21 +57,18 @@ function LoginPage(){
         })
         .then((resp)=>{
             setResponse(resp.status)
-            return resp.json()})
-        .then(resp=>{
-            console.log(resp)
+            return resp.json()
+        })
+        .then((resp) =>{
+            if (resp.user && resp.token){
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate()+1);
             setCookies("token", [resp.token, resp.user.email,resp.user.username,resp.user.password,resp.pfp], {path :"/",expires:tomorrow})
-            return resp}).then((resp) =>{
-                if (resp.user && resp.token){
-                navigate('/movies')}
-                else{
-                    console.log("fuck")
-
-                }
+            navigate('/movies')}
+            else{
+                console.log("fuck")
             }
-            )
+        })
         .catch(error =>{ console.error(error)})
     }
  
@@ -103,11 +100,8 @@ function LoginPage(){
                             </div>
                             <p>Or login with</p>
                             <div className="social-media-logos">
-                                {/* <SmBtn small={false} color="blue" icon="facebook" media="facebook" /> */}
-                                <Facebook />
-                                {/* <SmBtn small={false} color="#1DA1F2" icon="twitter" media="twitter" /> */}
                                 <Twitter />
-                                {/* <SmBtn small={false} color="#ac2bac" icon="instagram" media="instagram" /> */}
+                                <Facebook />
                                 <Google />
                             </div>
                             <div>
