@@ -42,7 +42,6 @@ input:empty ~ label{
     border-radius: 0px 4px 4px 0px;
 }
 @media (max-width:1240px){
-    
     #elabel{
         text-align: center;
         font-size:1.2rem ;
@@ -202,7 +201,7 @@ input:empty ~ label{
         border-radius: 0px 4px 4px 0px;
     }
     #em {
-        height: 3.3vh;
+        height: 5vh;
         width: 60%;
         border:1px solid #000000;
         font-size: .6em;

@@ -28,12 +28,7 @@ function Home(){
         <div className="page2">
             <div className="page2-content">
                 <div className="text">
-                    <div>
-                    <h2>Watch,</h2>
-                    <h2>Download,</h2>
-                    <h3>And Enjoy Everywhere !</h3>
-                    <br></br>
-                    </div>
+                    <h2>Watch,<br></br>Download,<br></br>And Enjoy Everywhere!</h2>
                     <p>
                         Watch on all kind of devices thousands of movies
                         and have the ability to Download on your own device 
@@ -41,22 +36,24 @@ function Home(){
                         Nokia, Macos, Windows, Microwave, Toilet Papers and Sterling's butt.
                     </p>
                 </div>
-                <Block place={img1} title="momento"/>
-                <Block place={img2} title="deadpool"/>
+                <div className="page2-blocks">
+                    <Block place={img1} title="momento"/>
+                    <Block place={img2} title="deadpool"/>
+                </div>
             </div>   
         </div>
         <div className="emptyline" ></div>
         <div className="section4">
             <div  className="section4-content-container">
+                <div className="section4-content-block"> 
+                    <Block place={img3} title="theincredibles"/>
+                </div>
                 <div className="section4-content-text">
                     <h2>Amazing Movies</h2>
                     <p>
-                        Intertaining movies from all genres for all ages,especially for kids, <br></br>I want kids,
+                        Intertaining movies from all genres for all ages,especially for kids, I want kids,
                         and at any time 
                     </p>
-                </div>
-                <div className="section4-content-block"> 
-                    <Block place={img2} title="theincredibles"/>
                 </div>
             </div>
         </div>

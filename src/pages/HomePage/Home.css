@@ -66,11 +66,9 @@ nav #signin{
 .parg *{
     color: white;
     font-weight: 800;
-    /* text-shadow: 2px 2px black; */
 }
 .parg h2 ,.parg h3{
     font-size: 3rem;
-
 }
 
 form{
@@ -100,58 +98,46 @@ form label{
 
 .page2-content{
     height: 100%;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-template-rows: repeat(2,1fr);
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    justify-items: start;
-}
-.text{
-    
-    grid-row:1 / span 2;
-    height: 100%;
-    justify-self: start;
-    align-self: flex-end;
-    display: flex; 
-    flex-direction: column;
+    width: 90%;
+    display: flex;
     justify-content: space-around;
-
-
+    align-items: center;
+    flex-wrap: wrap;
 }
-.text p{
-    color:white;
-    font-size: 1.2em;
-    margin-left: 20px;
-    margin-bottom: 80px;
+.page2-content .text{
+    flex:.7;
 }
-.text div{
-    margin-top:60px;
-}
-.text h2, .text h3{
-    color: white;
-    font-size: 2.7rem;
-    margin-left: 20px;
-    font-weight: 600;
-    margin-top: 20px;
-}
-#momento{
-    grid-column-start: 2;
-    grid-row-start: 1;
-    justify-self: start;
-    right: 10rem;
-    align-self: end;
-    top:2rem;
-    
+.page2-content .page2-blocks{
+    flex-basis: 30%;
+    height:50%;
+    align-self: flex-start;
+    margin-top: 1rem;
+    right:5%;
+    top:7%;
+    position: relative;
+    z-index: 1;
 }
 #deadpool{
-    grid-column-start: 2;
-    grid-row-start: 2;
-    justify-self: center;
-    align-self:start;
-    bottom: 2rem;
+position: absolute;
+z-index: 5;
+}
+#momento{
+position: absolute;
+z-index: 4;
+top :70%;
+left:60%;
+}
+.page2-content .text p{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color:white;
+    margin-bottom: 2rem;
+}
+.page2-content .text h2{
+    font-weight: 900;
+    font-size: 3rem;
+    color:white;
+    margin-top:1.4rem;
 }
 
 
@@ -169,16 +155,19 @@ form label{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 1rem;
+    flex-wrap: wrap-reverse;
 }
 .section4-content-container .section4-content-text{
-    text-align: center;
-    width: 100%;
+    text-align: start;
+    flex: .8;
+    transform: translateY(1rem);
+
 }
 .section4-content-container .section4-content-text h2{
  font-weight: 900;
  font-size: 2rem;
- color:white
+ color:white;
 }
 .section4-content-container .section4-content-text p{
     font-size: 1rem;
@@ -190,7 +179,6 @@ form label{
   height: 60%;
 
 }
-
 
 .page3{
     background-color: black;
@@ -210,10 +198,51 @@ form label{
     margin-bottom: 1rem;
 }
 
-@media screen and (min-width:300px) {
-    
+
+
+@media screen and (max-width:530px) {
+    .section4{
+        height: 80%;
+        width: 100%;
+        display: flex;
+        background-color: #000000;
+        align-items: start;
+        justify-content: center;
+    }
+    .page2-content .page2-blocks{
+        width: 90%;
+        height:80%;
+        margin-top: 1rem;
+        left:20%;
+        top:-6%;
+        position: relative;
+        z-index: 1;
+    }
+    .section4-content-container .section4-content-text h2{
+        font-weight: 900;
+        font-size: 2rem;
+        color:white;
+       }
+    .page2-content .text{
+        flex:.7;
+        text-align: center;
+    }
+    .page2-content .text p{
+        font-size: .7rem;
+        font-weight: 500;
+        color:white;
+    }
+    .page2-content .text h2{
+        font-weight: 900;
+        font-size: 2rem;
+        color:white
+    }
+    .section4-content-container .section4-content-text{
+        text-align: center;
+        flex: .8;
+    }
     .parg h2, .parg h3{
-        font-size:1.2rem;
+        font-size:1.5rem;
     }
     .page3-content p{
         color:white;
@@ -221,11 +250,7 @@ form label{
         text-align: center;
         margin-bottom: 1rem;
     }
-    .section4-content-container .section4-content-text h2{
-        font-weight: 900;
-        font-size: 2rem;
-        color:white
-    }
+  
     .section4-content-container .section4-content-text p{
         font-size: 1rem;
         font-weight: 500;
@@ -234,11 +259,22 @@ form label{
 
 }
 @media screen and (min-width:530px){
+    .section4-content-container .section4-content-text{
+        text-align: center;
+        flex: .8;
+    
+    }
     .parg h2, .parg h3{
         font-size:1.9rem;
     }
 }
+
 @media screen and (min-width:690px){
+    .section4-content-container .section4-content-text{
+        text-align: center;
+        flex: .8;
+    
+    }
     .parg h2, .parg h3{
         font-size:2.5rem;
     }
@@ -256,6 +292,7 @@ form label{
         align-items: center;
         justify-content: center;
     }
+
     .section4-content-container .section4-content-block{
         width: 600px;
         height: 350px;
@@ -271,4 +308,41 @@ form label{
         color:white;
     }
     
+}
+
+@media screen and (max-width:1100px) {
+    .page2-content{
+        height: 100%;
+        width: 90%;
+        margin:auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    }
+    .page2-content .page2-blocks{
+        min-width: 200px;
+        width: 40%;
+        height:80%;
+        margin-top: 1rem;
+        left:20%;
+        top:-6%;
+        position: relative;
+        z-index: 1;
+    }
+    .page2-content .text p{
+        font-size: .8rem;
+        font-weight: 500;
+        color:white;
+    }
+    #deadpool{
+        position: absolute;
+        z-index: 5;
+    }
+    #momento{
+    position: absolute;
+    z-index: 4;
+    top: 55%;
+    left:45%;
+    }
 }
