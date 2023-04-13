@@ -10,7 +10,7 @@ function InputField(props){
         navigate("/register", {state: {text}})
     }
     return(
-       <form onSubmit={handleSubmit}>
+       <form onSubmit={handleSubmit} >
             { props.lab ==true ? <label id="elabel">Enter your email, and join the best comunity</label> : null}
             <div className="input-container">
                 <input type="email" id="em" value={text} onChange={(e)=>{setText(e.target.value)}} required ></input>

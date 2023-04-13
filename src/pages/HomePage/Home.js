@@ -20,8 +20,8 @@ function Home(){
                         <h2>Get Into the paradise of movies</h2>
                         <h3>Where Filmers are born</h3>
                     </div>
-                        <InputField lab={true}/> 
-                    </div>
+                    <InputField lab={true}/> 
+                </div>
             </div>
         </div>
         <div className="emptyline"></div>
@@ -48,15 +48,15 @@ function Home(){
         <div className="emptyline" ></div>
         <div className="section4">
             <div  className="section4-content-container">
-                <div>
+                <div className="section4-content-text">
                     <h2>Amazing Movies</h2>
                     <p>
-                        Intertaining movies from all genres for all ages 
+                        Intertaining movies from all genres for all ages,especially for kids, <br></br>I want kids,
                         and at any time 
                     </p>
                 </div>
-                <div className="section4-block"> 
-                    <Block place={img3} title="theincredibles"/>
+                <div className="section4-content-block"> 
+                    <Block place={img2} title="theincredibles"/>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@ function Home(){
         <div className="page3">
             <div className="page3-content">
                 <InputField lab={false}/>
-                <p>Enter Your email now and Join the best movie comunity in one click !</p>   
+                <p>Enter Your email now and Join the best movie community in one click !</p>   
             </div>
         </div>
         <Footer className='bg-dark'/>

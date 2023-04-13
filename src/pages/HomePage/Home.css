@@ -156,41 +156,50 @@ form label{
 
 
 .section4{
-    height: 70%;
+    height: 100%;
     width: 100%;
-    background-color: blue;
     display: flex;
+    background-color: #000000;
     align-items: center;
     justify-content: center;
 }
 .section4-content-container{
-    width:70%;
+    width:90%;
     height:80%;
-    background-color: wheat;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 }
-.section4-content-container .section4-block{
-  display: none;
+.section4-content-container .section4-content-text{
+    text-align: center;
+    width: 100%;
+}
+.section4-content-container .section4-content-text h2{
+ font-weight: 900;
+ font-size: 2rem;
+ color:white
+}
+.section4-content-container .section4-content-text p{
+    font-size: 1rem;
+    font-weight: 500;
+    color:white;
+}
+.section4-content-container .section4-content-block{
+  width: 95%;
+  height: 60%;
 
 }
-#theincredibles{
 
-}
+
 .page3{
-    
     background-color: black;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-/* @media only screen and (max-width: 600px) {
-    body {
-      background-color: lightblue;
-    }
-  } */
+
 .page3-content input{
     margin-bottom: .7rem;
 }
@@ -199,4 +208,67 @@ form label{
     font-size: 1.2em;
     text-align: center;
     margin-bottom: 1rem;
+}
+
+@media screen and (min-width:300px) {
+    
+    .parg h2, .parg h3{
+        font-size:1.2rem;
+    }
+    .page3-content p{
+        color:white;
+        font-size: .8em;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .section4-content-container .section4-content-text h2{
+        font-weight: 900;
+        font-size: 2rem;
+        color:white
+    }
+    .section4-content-container .section4-content-text p{
+        font-size: 1rem;
+        font-weight: 500;
+        color:white;
+    }
+
+}
+@media screen and (min-width:530px){
+    .parg h2, .parg h3{
+        font-size:1.9rem;
+    }
+}
+@media screen and (min-width:690px){
+    .parg h2, .parg h3{
+        font-size:2.5rem;
+    }
+    .page3-content p{
+        color:white;
+        font-size: 1.1em;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .section4{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        background-color: #000000;
+        align-items: center;
+        justify-content: center;
+    }
+    .section4-content-container .section4-content-block{
+        width: 600px;
+        height: 350px;
+    }
+    .section4-content-container .section4-content-text h2{
+        font-weight: 900;
+        font-size: 3rem;
+        color:white
+    }
+    .section4-content-container .section4-content-text p{
+        font-size: 1.3rem;
+        font-weight: 500;
+        color:white;
+    }
+    
 }

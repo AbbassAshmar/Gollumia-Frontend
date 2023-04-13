@@ -12,21 +12,22 @@
     border-radius: 4px 0px 0px 4px;
     padding-left: 1rem;
     padding-top: 1rem;
-
 }
+
 #Email-label,
 input:empty ~ label{ 
     position: absolute;
     z-index: 100;
     color: grey;
-    top: 28%;
+    top: 19%;
     left: 28%;
     transition: all .1s ease;
 }
-input:focus ~ label,
-input:valid ~ label,
-input:invalid ~ label{
+
+#em:focus ~ label,
+#em:valid ~ label{
     font-size: 1em;
+    left: 28.5%;
     transform: translate(-10px,-10px);
     bottom: 10px;
 }
@@ -40,4 +41,174 @@ input:invalid ~ label{
     font-size: 2rem;
     border-radius: 0px 4px 4px 0px;
 }
+@media (max-width:1240px){
+    
+    #elabel{
+        text-align: center;
+        font-size:1.2rem ;
+    }
+    #Email-label,
+    input:empty ~ label{ 
+        position: absolute;
+        z-index: 100;
+        color: grey;
+        top: 13%;
+        font-size: 1.2rem;
+        left: 20%;
+        transition: all .1s ease;
+    }
+    #em:focus ~ label,
+    #em:valid ~ label{
+        font-size: .8em;
+        left:21.5%;
+        top:19%;
+        /* transform: translate(-2px,-10px); */
+        bottom: 10px;
+    }
+    #sb{
+        width: 14%;
+        height: 8.4vh;
+        color: white;
+        background-color: #ffa31a;
+        border: 1px solid black;
+        font-size: 1.7rem;
+        border-radius: 0px 4px 4px 0px;
+    }
+    #em {
+        height: 8.4vh;
+        width: 50%;
+        border:1px solid black;
+        border-right: none;
+        border-radius: 4px 0px 0px 4px;
+        padding-left: 1rem;
+        padding-top: 1rem;
+    }
+}
 
+@media (max-width:710px){
+    #elabel{
+        text-align: center;
+        font-size:1.1rem ;
+    }
+    #Email-label,
+    input:empty ~ label{ 
+        position: absolute;
+        z-index: 100;
+        color: grey;
+        top: 16%;
+        left: 20%;
+        font-size: 1.3rem;
+        transition: all .1s ease;
+    }
+    #em:focus ~ label,
+    #em:valid ~ label{
+        font-size: .6em;
+        bottom: 10px;
+        top: 24%;
+        left: 23%;
+    }
+    #sb{
+        width: 14%;
+        height: 8vh;
+        color: white;
+        background-color: #ffa31a;
+        border: 1px solid black;
+        font-size: 1.1rem;
+        border-radius: 0px 4px 4px 0px;
+    }
+    #em {
+        height: 8vh;
+        width: 50%;
+        border:1px solid black;
+        border-right: none;
+        border-radius: 4px 0px 0px 4px;
+        padding: 1rem 0 .6rem 1rem;
+
+    }
+}
+@media (max-width:455px){
+    #elabel{
+        text-align: center;
+        font-size:.7rem ;
+    }
+    #Email-label,
+    input:empty ~ label{ 
+        position: absolute;
+        z-index: 100;
+        color: grey;
+        top: 16%;
+        left: 20%;
+        font-size: .8rem;
+        transition: all .1s ease;
+    }
+    #em:focus ~ label,
+    #em:valid ~ label{
+        font-size: .6rem;
+        left:19.3%;
+        top:30%;
+        bottom: 10px;
+    }
+    #sb{
+        width: 19%;
+        height: 5.5vh;
+        color: white;
+        background-color: #ffa31a;
+        border: 1px solid black;
+        font-size: .8rem;
+        border-radius: 0px 4px 4px 0px;
+    }
+    #em {
+        height: 5.5vh;
+        width: 54%;
+        padding: 1rem 0 .6rem 1rem;
+        font-size: .8em;
+        border:1px solid black;
+        border-right: none;
+        border-radius: 4px 0px 0px 4px;
+
+    }
+}
+
+
+@media (max-width:380px){
+    #elabel{
+        text-align: center;
+        font-size:.7rem ;
+    }
+    #Email-label,
+    input:empty ~ label{ 
+        position: absolute;
+        z-index: 100;
+        color: grey;
+        top: 16%;
+        left: 20%;
+        font-size: .8rem;
+        transition: all .1s ease;
+    }
+    #em:focus ~ label,
+    #em:valid ~ label{
+        font-size: .6rem;
+        left:17%;
+        top:32%;
+        bottom: 10px;
+    }
+    #sb{
+        height: 5vh;
+        width: 22%;
+        color: white;
+        background-color: #ffa31a;
+        border: 1px solid black;
+        font-size: .7rem;
+        border-radius: 0px 4px 4px 0px;
+    }
+    #em {
+        height: 3.3vh;
+        width: 60%;
+        border:1px solid #000000;
+        font-size: .6em;
+        border-right: none;
+        border-radius: 4px 0px 0px 4px;
+        padding-left: 1rem;
+        padding-top: 1rem;
+    }
+}
