@@ -1,7 +1,7 @@
 import React from "react";
 import  img1 from '../../photos/img1.jpg';
 import  img2 from '../../photos/img2.jpg';
-import img3 from '../../photos/img3.jpg';
+import img3 from "../../photos/img3.jpg";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
 import InputField from "../../components/Input/input";

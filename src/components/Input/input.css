@@ -15,7 +15,7 @@
 }
 
 #Email-label,
-input:empty ~ label{ 
+#em:empty ~ label{ 
     position: absolute;
     z-index: 100;
     color: grey;
@@ -47,7 +47,7 @@ input:empty ~ label{
         font-size:1.2rem ;
     }
     #Email-label,
-    input:empty ~ label{ 
+    #em:empty ~ label{ 
         position: absolute;
         z-index: 100;
         color: grey;
@@ -90,7 +90,7 @@ input:empty ~ label{
         font-size:1.1rem ;
     }
     #Email-label,
-    input:empty ~ label{ 
+    #em:empty ~ label{ 
         position: absolute;
         z-index: 100;
         color: grey;
@@ -131,7 +131,7 @@ input:empty ~ label{
         font-size:.7rem ;
     }
     #Email-label,
-    input:empty ~ label{ 
+    #em:empty ~ label{ 
         position: absolute;
         z-index: 100;
         color: grey;
@@ -175,7 +175,7 @@ input:empty ~ label{
         font-size:.7rem ;
     }
     #Email-label,
-    input:empty ~ label{ 
+    #em:empty ~ label{ 
         position: absolute;
         z-index: 100;
         color: grey;

@@ -98,47 +98,42 @@ function Register(){
             <header>
                 <Navbar />
             </header>
-            <main>
-                <div className='register-form-container'>
-                    <div className="register-form-image" style={{backgroundImage:`linear-gradient(to bottom, rgb(255, 153, 0,0.1),rgb(255, 153, 0,0.5)),url(${formimg})`}} >
+            <div className='register-form-container'>
+                <h2>Sign up</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className='register-form-div'>
+                        <input required type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}}></input>
+                        <label className='register-form-label'>Username</label>
                     </div>
-                    <div className='register-form-content'>
-                        <h2>Sign up</h2>
-                        <p>Create an account and enjoy what's left from your desperate life</p>
-                        <form onSubmit={handleSubmit}>
-                            <div className='register-form-div'>
-                                <label>Username</label>
-                                <input required type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}}></input>
-                            </div>
-                            <div className='register-form-div'>
-                                <label>Email</label>
-                                {state == null ? <input required type="email" value={email} onChange={(e)=>{setEmail(e.target.value)}}></input> : <input required style={inputNostate} readOnly={true} type="email" value ={state.text}></input>}
-                                <p style={passvalidation==2?{display:"block"}:null}>email already used !</p>
-                            </div>
-                            <div className='register-form-div'>
-                                <label>Password</label>
-                                <input style={passvalidation==1 || passvalidation==3?{borderBottom:"2px solid red"}:null}  type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required></input>
-                                <p style={passvalidation==3 ?{display:"block"}:null} >{errorMessage}</p>
-
-                            </div>
-                            <div className='register-form-div'>
-                                <label>Confirm Password</label>
-                                <input style={passvalidation==1 ?{borderBottom:"2px solid red"}:null} type="password"  value={repassword} onChange={(e)=>{setRepassword(e.target.value)}} required></input>
-                                <p style={passvalidation ==1 ?{display:"block"}:null} >{errorMessage}</p>
-                            </div>
-                            
-                            <div className='register-form-div checkbox'>
-                                <input type="checkbox"></input>
-                                <label>Remember me</label>
-                            </div>
-                            <div className='register-form-div buttons'>
-                                <Button style={{cursor: 'pointer',color:'white'}} type="submit"  id="signin" color="warning">Submit</Button>
-                                <div><Link to={'/login'}>Sign in<i id='arrow' className="fa-solid fa-arrow-right"></i></Link></div>
-                            </div>    
-                        </form>
+                    <div className='register-form-div'>
+                        {state == null ? <input required type="email" value={email} onChange={(e)=>{setEmail(e.target.value)}}></input> : <input required style={inputNostate} readOnly={true} type="email" value ={state.text}></input>}
+                        <label className='register-form-label'>Email</label>
+                        <p style={passvalidation==2?{display:"block",margin:"1rem 0 0 0"}:null}>email already used !</p>
                     </div>
-                </div>
-            </main>    
+                    <div className='register-form-div'>
+                        <input style={passvalidation==1 || passvalidation==3?{borderBottom:"2px solid red"}:null}  type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required></input>
+                        <label className='register-form-label'>Password</label>
+                        <p style={passvalidation==3 ?{display:"block"}:null} >{errorMessage}</p>
+                    </div>
+                    <div className='register-form-div'>
+                        <input style={passvalidation==1 ?{borderBottom:"2px solid red"}:null} type="password"  value={repassword} onChange={(e)=>{setRepassword(e.target.value)}} required></input>
+                        <label className='register-form-label'>Confirm Password</label>
+                        <p style={passvalidation ==1 ?{display:"block"}:null} >{errorMessage}</p>
+                    </div>
+                    
+                    <div className='register-form-div register-page-checkbox'>
+                        <input type="checkbox"></input>
+                        <label>Remember me</label>
+                    </div>
+                    <div className='register-form-div register-page-buttons'>
+                        <Button className='register-page-submit-button' style={{cursor: 'pointer',color:'white'}} type="submit"  id="signin" color="warning">Submit</Button>
+                        <div className='register-page-singIn'>
+                            <p style={{display:"block",color:'white'}}>already have an account ?</p>
+                            <Link to={'/login'}>Sign in<i id='arrow' className="fa-solid fa-arrow-right"></i></Link>
+                        </div>
+                    </div>    
+                </form>
+            </div>
         </div>
     )
 }
