@@ -24,6 +24,7 @@
     background-color: rgba(41, 39, 39, 0.5);   
     box-shadow: 0 5px 30px black,0 5px 30px black;
     width:30%;
+    min-width:412px ;
     height:75%;
     margin:auto;
     display:flex;
@@ -86,7 +87,6 @@
 top:-1.2rem;
 }
 
-
 .register-page-checkbox{
     display: flex;
     align-items: center;
@@ -106,13 +106,42 @@ top:-1.2rem;
     transform: translateY(-.2rem);
     margin-bottom: 0;
 }
-.register-page-submit-button{
-}
+
+
 .register-page-singIn {
     display: flex;
-    gap :1rem;
+    gap :5%;
 }
-
 .register-page-singIn p{
     margin:0;
 }
+.register-page-singIn .sign-in{
+    font-size: .9rem;
+}
+#arrow{
+    font-size: .7rem;
+    margin-left:2px;
+}
+
+
+@media screen and (max-width:560px){
+    .register-form-container{
+        min-width: 300px;
+    }
+    .register-form-container h2{
+        font-size:1.7rem ;
+    }
+}
+
+@media screen and (max-width:310px){
+    .register-form-container{
+        min-width: 220px;
+    }
+    .register-form-container h2{
+        font-size:1.3rem ;
+    }
+    .register-page-singIn {
+        display: flex;
+    }
+}
+

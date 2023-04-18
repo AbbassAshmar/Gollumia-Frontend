@@ -25,12 +25,14 @@
 .login-page-container main{
     height: 88.1%;
     width: 100%;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: start;
 }
 
 .login-form-container{
+    transform: translateY(-1rem);
     height: 88%;
     background-color: rgba(41, 39, 39, 0.5);   
     box-shadow: 0 5px 30px black,0 5px 30px black;

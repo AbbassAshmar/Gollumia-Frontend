@@ -126,10 +126,10 @@ function Register(){
                         <label>Remember me</label>
                     </div>
                     <div className='register-form-div register-page-buttons'>
-                        <Button className='register-page-submit-button' style={{cursor: 'pointer',color:'white'}} type="submit"  id="signin" color="warning">Submit</Button>
+                        <Button className='register-page-submit-button' style={{background:"orange",cursor: 'pointer',color:'white'}} type="submit"  id="signin" color="warning">Submit</Button>
                         <div className='register-page-singIn'>
                             <p style={{display:"block",color:'white'}}>already have an account ?</p>
-                            <Link to={'/login'}>Sign in<i id='arrow' className="fa-solid fa-arrow-right"></i></Link>
+                            <Link className="sign-in" to={'/login'}>Sign in<i id='arrow' className="fa-solid fa-arrow-right"></i></Link>
                         </div>
                     </div>    
                 </form>
