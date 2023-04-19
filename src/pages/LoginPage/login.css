@@ -92,8 +92,9 @@ width: 80%;
     padding: 0;
 }
 .social-media-logos button:last-child{
-    margin: 0 7px 0 17px;
+    margin: 0 7px 0 10px;
 }
+
 @media screen and (min-width:480.1px) {
     .login-page-container main{
         height: 85%;
@@ -109,6 +110,28 @@ width: 80%;
         box-shadow: 0 5px 30px black,0 5px 30px black;
         width: 412px;
 
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+@media screen and (min-width:1200px) {
+    .login-page-container main{
+        height: 85%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .login-form-container{
+        height: 75%;
+        background-color: rgba(41, 39, 39, 0.5);   
+        box-shadow: 0 5px 30px black,0 5px 30px black;
+        width: 30%;
+        min-width: 500px;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;

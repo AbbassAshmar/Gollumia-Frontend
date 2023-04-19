@@ -23,13 +23,29 @@ const Title = styled.div`
     padding:0;
     transition: opacity 0.3s;
     height:4vh;
-    width:14vw;
+    max-width:180px;
     font-size:1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     &:hover{
         opacity:0.5;
     }
+`
+const Card = styled.div`
+display:flex;
+flex-direction:column;
+gap:4px;
+
+@media screen and (max-width:481px){
+    transform :scale(.8);
+}
+@media screen and (max-width:404px){
+    transform :scale(.78);
+}
+@media screen and (max-width:376px){
+    transform :scale(.7);
+}
+
 `
 function MovieCard(props){
     let Cardcontainer= styled.div`
@@ -62,6 +78,12 @@ function MovieCard(props){
         &:hover #HoverDiv{
             opacity:1;
         }
+        @media screen and (max-width:843px){
+            width: 220px;
+            height: 290px;
+        }
+        
+       
     `
     const playButton = {
         fontSize:"3.5rem"
@@ -83,8 +105,9 @@ function MovieCard(props){
         thumbnail : props.thumbnail,
         trailer : props.trailer,
     }
+
     return(
-        <div style={{display:"flex",flexDirection:"column",gap:"4px"}}>
+        <Card>
             <Cardcontainer>
                 <Link style={{height:"100%",width:"100%"}} 
                 to={`/movies/${props.id}`} 
@@ -106,7 +129,7 @@ function MovieCard(props){
                                 }}>
                 <Title>{props.title}</Title>
             </Link>
-        </div>
+        </Card>
        
     )
 }

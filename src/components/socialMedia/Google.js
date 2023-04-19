@@ -15,7 +15,7 @@ border-radius: 4px;
 color:white;
 border:0px transparent;  
 text-align: center;
-width: 190px;
+width: 150px;
 min-width:82px;
 &:hover{
     opacity:0.6;

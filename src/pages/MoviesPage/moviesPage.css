@@ -5,18 +5,17 @@ html , body{
     min-height: 100vh;
     width: 100%;
     background-color: black;
-    overflow: visible;
+    overflow: hidden;
 }
 .moviesPageContainer header{
     width: 100%;
 }
 
 .moviesBackground{
-    height: 200%;
+    min-height: 200%;
     width: 87%;
     margin: auto;
-    overflow: auto;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .moviesBackground .crouselsection{
@@ -41,14 +40,21 @@ html , body{
     border-radius: 0px;
 }
 
-
 .moviesBackground .moviesSection{
-    height: 100%;
     width: 100%;
-
 }
 
 
+@media screen and (max-width:1400px){
+    .moviesBackground{
+        width: 95%;
+    }
+}
+
+
+@media screen and (max-width:1040px){
+    
+}
 
 
 

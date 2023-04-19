@@ -123,7 +123,17 @@ top:-1.2rem;
     margin-left:2px;
 }
 
-
+@media screen and (min-width:1500px){
+    .register-form-container{
+        height:70%;
+        top:4rem;
+    }
+    .register-page-buttons{
+        transform: translateY(-1.4rem);
+        
+    }
+   
+}
 @media screen and (max-width:560px){
     .register-form-container{
         min-width: 300px;

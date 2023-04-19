@@ -4,10 +4,22 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 display: grid;
-grid-template-columns:repeat(5 ,1fr);
-grid-template-rows: repeat(3, 1fr);
-justify-items: start;
-gap:3.3rem;
+grid-template-columns:repeat(auto-fit ,minmax(220px,1fr));
+overflow:hidden;
+justify-items: center;
+gap:10px;
+width:100%;
+padding:1%;
+
+@media screen and (max-width:487px){
+    padding-left:0;
+    grid-template-columns:repeat(2 ,50%);
+}
+@media screen and (max-width:390px){
+    padding-left:0;
+    grid-template-columns:repeat(2 ,50%);
+    gap:2px;
+}
 `
 
 export function TrendingMovies(){

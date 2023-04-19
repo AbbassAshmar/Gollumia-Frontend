@@ -138,3 +138,9 @@
     text-align: start;
     font-weight: 400;
 }
+
+@media screen and (max-width:1100px) {
+    .movies-navbar{
+        left:1rem;
+    }
+}

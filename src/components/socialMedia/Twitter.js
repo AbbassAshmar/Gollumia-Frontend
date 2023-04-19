@@ -20,7 +20,7 @@ function Twitter(){
         color:"white",
         border:"0px transparent",
         textAlign:"center",
-        width:"190px",
+        width:"150px",
         minWidth:"87px",
 
     }

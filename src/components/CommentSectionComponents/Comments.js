@@ -71,7 +71,7 @@ function Comment(props){
                 },
             })
             const response = await request.json()
-            if (request.status==204){ // if no comments/replies available , set the state to empty
+            if (request.status==404){ // if no comments/replies available , set the state to empty
                 setCmnts([])
             }else{
                 setCmnts(response["comments-replies"])

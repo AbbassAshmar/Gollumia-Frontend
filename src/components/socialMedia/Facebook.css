@@ -1,20 +1,29 @@
 .btnFacebook { 
     height:40px;  
     min-height: 40px;
-    width: 114px;
+    width: 150px;
     border-radius: 4px;
     background: #264791;
     color:white;
     border:0px transparent;  
     text-align: center;
-    transform: translate(6px, -1px);
-
+    transform: translate(3px, -1px);
+    min-width: 82px;
   }
   
   .btnFacebook:hover {
     background: #3b5998;
     opacity: 0.6;
   }
+
+    
+  @media screen and (max-width:1200px) {
+    .btnFacebook{
+      height: 41px;
+      width: 115px;
+    }
+  }
+
 
   @media screen and (max-width:520px) {
     .btnFacebook{
