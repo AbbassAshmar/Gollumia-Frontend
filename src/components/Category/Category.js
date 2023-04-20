@@ -7,7 +7,7 @@ function Category(props){
         container:{
             display : "flex",
             width:"100%",
-            margin:"5rem 0 1.6rem 0",
+            margin:"1.4rem 0 1.6rem 0",
             justifyContent:"space-between",
             color:"white",
             

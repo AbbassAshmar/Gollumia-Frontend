@@ -48,9 +48,9 @@ function MoviesPage(){
                             <SmBtn small={false} icon="facebook-f" color="blue" className="fb" text="facebook"></SmBtn>
                             <SmBtn small={false} icon="instagram" color="#ac2bac" className="fb" text="Instagram"></SmBtn>
                             <SmBtn small={false} icon="twitter" color="#1DA1F2" className="fb" text="twitter"></SmBtn>
-                            <SmBtn small={false} icon="github" color="black" className="fb" text="github"></SmBtn>
+                            <SmBtn small={false} icon="github" color="orange" className="fb" text="github"></SmBtn>
                         </div>
-                        <p style={{transform:"translateY(30%)"}}>
+                        <p style={{margin:"1rem 0 0 0",fontSize:".9rem",fontWeight:"100"}}>
                             Watch Movies Online Free<br></br>
                             Watch all kinds of popular movies and forget about handing your money to netflix. At <span style={{color:"orange"}}>AFLIX</span>, A stands for Aree (free) !<br></br>
                             When sankes are born with two heads, they fight each other food, that's why we offer you the best place to watch movies and have the best experience ! <br></br>
