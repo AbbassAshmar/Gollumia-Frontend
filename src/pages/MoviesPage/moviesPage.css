@@ -19,7 +19,7 @@ html , body{
 }
 
 .moviesBackground .crouselsection{
-    height: 100vh;
+    width:100%;
 }
 .crouselsection .socialMedia-MoviesPage{
     width: 100%;
