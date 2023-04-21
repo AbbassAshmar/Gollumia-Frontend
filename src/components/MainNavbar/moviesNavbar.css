@@ -37,6 +37,7 @@
 }
 .moviesPageNavTag{
     background-color: black;
+    position: relative;
 }
 .moviesPageNavTag ul{
     color:white;
@@ -61,8 +62,7 @@
 }
 
 .moviesPageNavTag ul li a:hover{
-    color: orange;
-    
+    color: orange; 
 }
 
 .drop-down-genres{
@@ -139,8 +139,63 @@
     font-weight: 400;
 }
 
+.navbar-elements-simplified{
+    display: none;
+    flex:4;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-elements-simplified i{
+    font-size: 1.2rem;
+    color:white;
+    align-items: center;
+}
+.navbar-elements-simplified h1{
+    font-size: 2rem;
+    margin-left: 2rem;
+}
+.movies-navbar .search-simplified{
+    display: none;
+}
+.search-box-simplified{
+    display: none;
+    position: absolute;
+    width:100%;
+    background-color: red;
+    top:100%;
+    z-index: 100;
+    height: 2rem;
+}
+.search-simplified i{
+    font-size: 1rem;
+    color:white;
+}
 @media screen and (max-width:1100px) {
     .movies-navbar{
         left:1rem;
+    }
+}
+
+@media screen and (max-width:900px){
+    .moviesPageNavTag ul{
+        display: none;
+    }
+    .navbar-elements-simplified{
+        display: flex;
+    }
+    .movies-navbar{
+        margin: 0;
+    }
+    .movies-navbar .search{
+        display: none;
+    }
+    .movies-navbar .search-simplified{
+        display: block;
+    }
+    .search-box-simplified{
+        display: flex;
+    }
+    #signedin{
+        margin:0;
     }
 }

@@ -65,9 +65,12 @@ function MoviesNav(props){
         .catch(error =>{console.log(error)})
     }
     return(
-       
     <nav className="moviesPageNavTag">
-        <ul>
+        <div className="navbar-elements-simplified">
+            <i class="fa-solid fa-bars"></i>
+            <Logo>AFLIX</Logo>
+        </div>
+        <ul className="navbar-elements-list">
             <li><Logo>AFLIX</Logo></li>
             <li><Link to={"/movies"}>Home</Link></li>
             <li>
@@ -109,11 +112,15 @@ function MoviesNav(props){
                 <input className="searchInput" type="text" placeholder="search"></input>
                 <i className="fa-solid fa-magnifying-glass"></i>        
             </div>
+            <div className="search-simplified">
+                <i className="fa-solid fa-magnifying-glass"></i>        
+            </div>
             <div>
                 {cookies.token ?
                 <div style={{position:'relative'}}>
                     <Button onClick={()=>{setshowInfo(!showInfo)}} id="signedin" color="warning">
                         <Pfp />
+                        {/* arrow icon up or down */}
                         {showInfo ?<i className="fa-solid fa-sort-up"></i>:<i className="fa-solid fa-sort-down"></i>}
                     </Button>
                     {showInfo?
@@ -134,8 +141,11 @@ function MoviesNav(props){
                     <Button style={{cursor: 'pointer',color:'white',borderRadius:"2px"}}  id="signin" color="warning">Sign In</Button>
                 </Link> 
                 }
-                
             </div>
+        </div>
+        <div className="search-box-simplified">
+            <input></input>
+            <i class="fa-solid fa-bars"></i>
         </div>   
     </nav>
     
