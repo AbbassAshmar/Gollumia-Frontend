@@ -6,11 +6,10 @@ import './moviesNavbar.css'
 import Pfp from "../ProfilePicture/pfp";
 import { useNavigate } from "react-router-dom";
 const Button = styled.button`
-    transform:translateX(40px);
     margin:0;
     align-items:center;
     display:flex;
-    max-width:7.2vw;
+    max-width:60px;
     cursor:pointer;
     color:white;
     overflow:hidden;
@@ -48,6 +47,14 @@ function MoviesNav(props){
     const navigate = useNavigate();
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
     const [showInfo, setshowInfo] = useState(null)
+    const [SearchIconColor ,setSearchIconColor] = useState("black")
+    const [displaySearchBar,setDisplaySearchBar] = useState('none')
+
+    const SearchBox = styled.div`
+    display:none;
+    @media screen and (max-width:900px){
+        display:${displaySearchBar};}
+    `
     function handleLogout(){
         fetch("http://127.0.0.1:8000/logout/",{
         method:"POST",
@@ -63,6 +70,16 @@ function MoviesNav(props){
             }
         })
         .catch(error =>{console.log(error)})
+    }
+    
+    const handleSearchIconClick = (e)=>{
+        if (SearchIconColor === "black"){
+            setSearchIconColor("rgba(255, 255, 255,.4)")
+            setDisplaySearchBar("flex")
+        }else{
+            setSearchIconColor("black")
+            setDisplaySearchBar("none")
+        }
     }
     return(
     <nav className="moviesPageNavTag">
@@ -113,13 +130,13 @@ function MoviesNav(props){
                 <i className="fa-solid fa-magnifying-glass"></i>        
             </div>
             <div className="search-simplified">
-                <i className="fa-solid fa-magnifying-glass"></i>        
+                <i style={{background:SearchIconColor}} className="fa-solid fa-magnifying-glass" onClick={handleSearchIconClick}></i>        
             </div>
             <div>
                 {cookies.token ?
                 <div style={{position:'relative'}}>
                     <Button onClick={()=>{setshowInfo(!showInfo)}} id="signedin" color="warning">
-                        <Pfp />
+                        <Pfp/>
                         {/* arrow icon up or down */}
                         {showInfo ?<i className="fa-solid fa-sort-up"></i>:<i className="fa-solid fa-sort-down"></i>}
                     </Button>
@@ -143,10 +160,15 @@ function MoviesNav(props){
                 }
             </div>
         </div>
-        <div className="search-box-simplified">
-            <input></input>
-            <i class="fa-solid fa-bars"></i>
-        </div>   
+        <SearchBox className="search-box-simplified-container">
+            <div className="search-box-simplified-content">
+                <input
+                    type="text"
+                    placeholder="Searching..."
+                />
+                <i className="fa-solid fa-magnifying-glass"></i> 
+            </div>
+        </SearchBox>   
     </nav>
     
 

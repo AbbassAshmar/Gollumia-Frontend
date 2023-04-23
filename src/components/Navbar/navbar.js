@@ -19,7 +19,6 @@ const navstyle = {
     return(
         <nav>
             <Logo>AFLIX</Logo>
-            
             <Link to="/login" style={navstyle}>
                 <Button style={{cursor: 'pointer',color:'white',borderRadius:"2px"}}  id="signin" color="warning">Sign in</Button>
             </Link> 

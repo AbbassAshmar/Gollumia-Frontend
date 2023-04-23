@@ -90,7 +90,8 @@ function Register(){
         cursor: "pointer",
         border:"none",
         outline: "none",
-        borderBottom : "none"
+        borderBottom : "none",
+        transform:"translateY(.8rem)",
     }
     return(
         
@@ -107,7 +108,7 @@ function Register(){
                     </div>
                     <div className='register-form-div'>
                         {state == null ? <input required type="email" value={email} onChange={(e)=>{setEmail(e.target.value)}}></input> : <input required style={inputNostate} readOnly={true} type="email" value ={state.text}></input>}
-                        <label className='register-form-label'>Email</label>
+                        {state== null ?<label className='register-form-label'>Email</label>:<label className='register-form-label-disabled'>Email</label>}
                         <p style={passvalidation==2?{display:"block",margin:"1rem 0 0 0"}:null}>email already used !</p>
                     </div>
                     <div className='register-form-div'>

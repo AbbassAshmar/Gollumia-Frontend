@@ -75,7 +75,12 @@
     top: -.5rem;
     transition: all 0.1s;
 }
-
+.register-form-label-disabled{
+    margin:0;
+    font-size: 1rem;
+    position: absolute;
+    top: -.5rem;
+}
 .register-form-div p{
     display: none;
     color:red;

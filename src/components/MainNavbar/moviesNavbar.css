@@ -6,14 +6,14 @@
     color:white
 }   
 .movies-navbar{
-    width:24%;
+
     display: flex;
     justify-content: start;
     align-items: center;
-    margin-right: 40px;
+    margin-right: 2rem;
     padding: 0;
-    position:relative;
-    left:2rem;
+    gap:7px;
+    
 }
 .movies-navbar .search i{
     cursor:pointer;
@@ -31,8 +31,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 1rem 0 0;
-    width: 60%;
     height: 35px;
 }
 .moviesPageNavTag{
@@ -152,39 +150,60 @@
 }
 .navbar-elements-simplified h1{
     font-size: 2rem;
-    margin-left: 2rem;
 }
-.movies-navbar .search-simplified{
+.search-simplified{
     display: none;
 }
-.search-box-simplified{
-    display: none;
+.search-simplified i{
+    font-size: 1.2rem;
+    color:white;
+    padding:.37rem;
+    border-radius: 4px;
+    
+}
+
+.search-box-simplified-container{
+
     position: absolute;
     width:100%;
     background-color: red;
     top:100%;
-    z-index: 100;
+    z-index: 2;
     height: 2rem;
+    align-items: center;
 }
-.search-simplified i{
-    font-size: 1rem;
-    color:white;
+.search-box-simplified-content{
+    position: relative;
+    width:100%;
+    z-index: 3;
+    
 }
-@media screen and (max-width:1100px) {
-    .movies-navbar{
-        left:1rem;
-    }
+.search-box-simplified-content i{
+    position: absolute;
+    top:20%;
+    right:1%;
+    font-size: .9rem;
+}
+.search-box-simplified-content input{
+    width: 100%;
+    padding:.2rem;
+    font-size: .9rem;
 }
 
+
 @media screen and (max-width:900px){
+
+
     .moviesPageNavTag ul{
         display: none;
     }
     .navbar-elements-simplified{
         display: flex;
+        width:61%;
+        flex:none;
     }
     .movies-navbar{
-        margin: 0;
+        margin: 0 .2rem 0 0;
     }
     .movies-navbar .search{
         display: none;
@@ -192,8 +211,8 @@
     .movies-navbar .search-simplified{
         display: block;
     }
-    .search-box-simplified{
-        display: flex;
+    .search-box-simplified-container{
+        
     }
     #signedin{
         margin:0;
