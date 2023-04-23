@@ -154,7 +154,7 @@ function MoviesNav(props){
                         </button>
                     </Settings>:null}
                 </div>
-                : <Link to="/login" style={navstyle}>
+                :<Link to="/login" style={navstyle}>
                     <Button style={{cursor: 'pointer',color:'white',borderRadius:"2px"}}  id="signin" color="warning">Sign In</Button>
                 </Link> 
                 }
