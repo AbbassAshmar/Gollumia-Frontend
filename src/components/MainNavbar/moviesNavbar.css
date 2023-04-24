@@ -196,10 +196,84 @@
     border: none;
 }
 
+.side-navbar-wrapper{
+    height:100vh;
+    overflow: hidden;
+    width: 100%;
+    top:0;
+    left:0;
+    position:absolute;
+    background:rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+.side-navbar-container{
+    height: 100%;
+    width: 80%;
+    max-width: 320px;
+    background-color: red;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.side-navbar-content{
+    width:86%;
+    color:white;
+    height:97%;
+    gap:1rem;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.side-navbar-genre-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    background-color: blue;
+}
+.side-navbar-genre{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+}
 
+.side-navbar-genre p:first-child{
+margin:0;
+}
+.side-navbar-genre div{
+margin:0;
+color:white;
+width:1rem;
+display: flex;
+align-items: center;
+justify-content: center;
+height:1rem;
+background-color: rgba(255, 255, 255, 0.7);
+border-radius: 2px;
+}
+
+.side-navbar-genres{
+    display: grid;  
+    text-decoration: none;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 2rem;
+    font-size: .8rem;
+    height: auto;
+    transition:max-height .2s;
+}
+.side-navbar-genres-hidden{
+    height: 0;
+    overflow: hidden;
+}
+.side-navbar-container a{
+    text-decoration: none;
+    color:white;
+}
 @media screen and (max-width:900px){
-
-
     .moviesPageNavTag ul{
         display: none;
     }

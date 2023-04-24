@@ -5,6 +5,8 @@ import { useCookies } from "react-cookie";
 import './moviesNavbar.css'
 import Pfp from "../ProfilePicture/pfp";
 import { useNavigate } from "react-router-dom";
+import NavButton from "./button";
+
 const Button = styled.button`
     margin:0;
     align-items:center;
@@ -49,6 +51,7 @@ function MoviesNav(props){
     const [showInfo, setshowInfo] = useState(null)
     const [SearchIconColor ,setSearchIconColor] = useState("black")
     const [displaySearchBar,setDisplaySearchBar] = useState('none')
+    const [displayGenres, setDisplayGenres] = useState(false)
 
     const SearchBox = styled.div`
     display:none;
@@ -83,10 +86,41 @@ function MoviesNav(props){
     }
     return(
     <nav className="moviesPageNavTag">
+        <div className="side-navbar-wrapper">
+            <div className="side-navbar-container">
+                <div className="side-navbar-content">
+                    <NavButton>FUCK</NavButton>
+                    <Link to={"/movies"}>Home</Link>
+                    <div className="side-navbar-genre-container">
+                        <div className="side-navbar-genre">
+                            <p>Genre</p>
+                            <div onClick={()=>{setDisplayGenres(!displayGenres)}}>{displayGenres?'-':'+'}</div>
+                        </div>
+                        <div style={{maxHeight:`${displayGenres?'20rem':'0'}`}} className="side-navbar-genres"> 
+                            <Link>Action</Link>
+                            <Link>Adventure</Link>
+                            <Link>Adventure</Link>
+                            <Link>Crime</Link>
+                            <Link>Adventure</Link>
+                            <Link>Crime</Link>
+                            <Link>Action</Link>
+                            <Link>Adventure</Link>
+                            <Link>Crime</Link>
+                            <Link>Adventure</Link>
+                            <Link>Crime</Link>
+                            <Link>Action</Link>
+                        </div>
+                    </div>
+                    <Link>Movies</Link>
+                    <Link>Top IMDB</Link>
+                </div>
+            </div>
+        </div>
         <div className="navbar-elements-simplified">
             <i class="fa-solid fa-bars"></i>
             <Logo>AFLIX</Logo>
         </div>
+        
         <ul className="navbar-elements-list">
             <li><Logo>AFLIX</Logo></li>
             <li><Link to={"/movies"}>Home</Link></li>
