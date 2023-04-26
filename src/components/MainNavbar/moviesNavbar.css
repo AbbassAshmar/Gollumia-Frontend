@@ -213,6 +213,7 @@
     background-color: red;
     display: flex;
     align-items: flex-end;
+    transition:all .1s;
     justify-content: center;
 }
 .side-navbar-content{

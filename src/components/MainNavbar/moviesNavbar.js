@@ -45,6 +45,12 @@ const navstyle = {
     color:"white",
     marginTop:"1rem"
 }
+const SideNavWrapper = styled.div`
+display: none;
+@media screen and (max-width:900px){
+    display:${props => props.display};
+}
+`   
 function MoviesNav(props){
     const navigate = useNavigate();
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
@@ -52,11 +58,16 @@ function MoviesNav(props){
     const [SearchIconColor ,setSearchIconColor] = useState("black")
     const [displaySearchBar,setDisplaySearchBar] = useState('none')
     const [displayGenres, setDisplayGenres] = useState(false)
+    const [displaySideNav, setDisplaySideNav] = useState('none')
+    const [displaySideNavContainer, setDisplaySideNavContainer] = useState('none')
+    const [displaySideNavContent, setDisplaySideNavContent] = useState('none')
 
+ 
     const SearchBox = styled.div`
     display:none;
     @media screen and (max-width:900px){
-        display:${displaySearchBar};}
+        display:${displaySearchBar};
+    }
     `
     function handleLogout(){
         fetch("http://127.0.0.1:8000/logout/",{
@@ -66,7 +77,6 @@ function MoviesNav(props){
             'Authorization': 'Token '+ cookies.token[0]
         },})
         .then(resp =>{
-            
             if (resp.ok == true){
                 removeCookie("token",{path:'/'})
                 navigate("/",{replace:true})
@@ -84,12 +94,17 @@ function MoviesNav(props){
             setDisplaySearchBar("none")
         }
     }
+
+    const handleDisplaySideNav = ()=>{
+        let display =(displaySideNav === "none")?"block":"none";
+        setDisplaySideNav(display)
+    }
     return(
     <nav className="moviesPageNavTag">
-        <div className="side-navbar-wrapper">
-            <div className="side-navbar-container">
+        <div style={{zIndex:`${(displaySideNav ==="none")?"-1":"1000"}`}} className="side-navbar-wrapper">
+            <div style={{transform:`translateX(${(displaySideNav==="none")?"-100%":"0"})`}} className="side-navbar-container">
                 <div className="side-navbar-content">
-                    <NavButton>FUCK</NavButton>
+                    <NavButton onClick={handleDisplaySideNav}></NavButton>
                     <Link to={"/movies"}>Home</Link>
                     <div className="side-navbar-genre-container">
                         <div className="side-navbar-genre">
@@ -117,7 +132,7 @@ function MoviesNav(props){
             </div>
         </div>
         <div className="navbar-elements-simplified">
-            <i class="fa-solid fa-bars"></i>
+            <i className="fa-solid fa-bars" style={{cursor:"pointer"}} onClick={handleDisplaySideNav}></i>
             <Logo>AFLIX</Logo>
         </div>
         

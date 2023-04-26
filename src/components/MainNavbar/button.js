@@ -35,9 +35,9 @@ const Btn = styled.button`
     }
 `
 
-function NavButton(){
+function NavButton(props){
     return(
-        <Btn>
+        <Btn onClick={props.onClick}>
             <i style={{fontSize:".8em",marginTop:"3px"}} className="fa-sharp fa-solid fa-angle-left"></i> 
             <p style={{display:"inline-block",margin:"0"}}>Close</p>
         </Btn>
