@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components'
 import { useCookies } from "react-cookie";
@@ -26,6 +26,7 @@ margin:0 0 0 0;
 `
 const Settings = styled.div`
 height :320%;
+max-height:400%;
 width:200%;
 background:black;
 position:absolute;
@@ -39,36 +40,36 @@ align-items:stretch;
 box-shadow: 0px 0px 6px orange;
 border-radius:10px;
 overflow:hidden;
+transition: max-height .5s;
+@media screen and (max-width:900px){
+    right:-0%;
+    width:300%;
+}
 
 `
 const navstyle = {
     color:"white",
     marginTop:"1rem"
 }
-const SideNavWrapper = styled.div`
-display: none;
-@media screen and (max-width:900px){
-    display:${props => props.display};
-}
-`   
+
 function MoviesNav(props){
     const navigate = useNavigate();
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
-    const [showInfo, setshowInfo] = useState(null)
+    const [showInfo, setshowInfo] = useState(false)
     const [SearchIconColor ,setSearchIconColor] = useState("black")
     const [displaySearchBar,setDisplaySearchBar] = useState('none')
     const [displayGenres, setDisplayGenres] = useState(false)
-    const [displaySideNav, setDisplaySideNav] = useState('none')
-    const [displaySideNavContainer, setDisplaySideNavContainer] = useState('none')
-    const [displaySideNavContent, setDisplaySideNavContent] = useState('none')
+    const [sideNavBackground, setSideNavBackground] = useState('hidden')
+    const [displaySideNav, setDisplaySideNav] = useState(false)
 
- 
+    
     const SearchBox = styled.div`
     display:none;
     @media screen and (max-width:900px){
         display:${displaySearchBar};
     }
     `
+    
     function handleLogout(){
         fetch("http://127.0.0.1:8000/logout/",{
         method:"POST",
@@ -95,14 +96,33 @@ function MoviesNav(props){
         }
     }
 
+
     const handleDisplaySideNav = ()=>{
-        let display =(displaySideNav === "none")?"block":"none";
-        setDisplaySideNav(display)
+        // make both background and side nav appear
+        if (sideNavBackground === "hidden"){
+            setSideNavBackground("visible")
+            setDisplaySideNav(true)
+        }else{
+            // make only side nav close, then invoke handleSideNavClose function when closed
+            setDisplaySideNav(false)
+        }
     }
+
+
+    const handleSideNavClose =(e)=>{
+        // prevent child elements to invoke the event
+        if(e.target == e.currentTarget){
+            // matrix(1, 0, 0, 1, 0, 0) is the value of transform : translateX(-100%)
+            if(getComputedStyle(e.target).getPropertyValue("transform")!="matrix(1, 0, 0, 1, 0, 0)"){
+                setSideNavBackground("hidden")
+            }
+        }
+    }
+    useEffect(()=>{console.log(showInfo)},[showInfo])
     return(
     <nav className="moviesPageNavTag">
-        <div style={{zIndex:`${(displaySideNav ==="none")?"-1":"1000"}`}} className="side-navbar-wrapper">
-            <div style={{transform:`translateX(${(displaySideNav==="none")?"-100%":"0"})`}} className="side-navbar-container">
+        <div style={{zIndex:`${(sideNavBackground ==="hidden")?"-1":"1000"}`}} onClick={handleSideNavClose} className="side-navbar-wrapper">
+            <div style={{transform:`translateX(${(displaySideNav===false)?"-100%":"0"})`}} onTransitionEnd={handleSideNavClose}  className="side-navbar-container">
                 <div className="side-navbar-content">
                     <NavButton onClick={handleDisplaySideNav}></NavButton>
                     <Link to={"/movies"}>Home</Link>
@@ -189,8 +209,8 @@ function MoviesNav(props){
                         {/* arrow icon up or down */}
                         {showInfo ?<i className="fa-solid fa-sort-up"></i>:<i className="fa-solid fa-sort-down"></i>}
                     </Button>
-                    {showInfo?
-                    <Settings className="settingsButton">
+                    
+                    <Settings className="settingsButton" style={{maxHeight:`${showInfo?"300%":"0"}`}}>
                         <div className="username">&nbsp;{cookies.token[2]}</div>
                         <Link to={`/movies/user/${cookies.token[2]}`} style={{position:"relative" ,top:".25rem"}}>
                             <div>&nbsp;View Profile</div>
@@ -201,7 +221,7 @@ function MoviesNav(props){
                         <button onClick={handleLogout} className="signOutButton">
                             <div>&nbsp;Sign Out</div>
                         </button>
-                    </Settings>:null}
+                    </Settings>
                 </div>
                 :<Link to="/login" style={navstyle}>
                     <Button style={{cursor: 'pointer',color:'white',borderRadius:"2px"}}  id="signin" color="warning">Sign In</Button>
