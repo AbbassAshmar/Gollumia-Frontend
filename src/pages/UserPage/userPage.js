@@ -19,37 +19,67 @@ width:80%;
 margin:auto;
 `
 const Content = styled.div`
+width:80%;
+display:flex;
+margin:auto;
+flex-direction:column;
+align-items:start;
 
 `
 const Div = styled.div`
-width:53%;
+width:100%;
+max-width:600px;
 display:flex;
 margin:auto;
 flex-wrap:wrap;
+@media screen and (max-width:900px){
+    flex-direction:column;
+}
 `
 const InputLabel = styled.label`
-display: inline-block;
-width:100%;
-height:24vh;
 border-radius:50%;
 cursor: pointer;
+background-size:100% 100%;
+background-repeat:no-repeat;
+background-position:center;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 140px;
+width: 140px;
+margin: auto;
+
+@media screen and (max-width:800px){
+    height: 100px;
+    width: 100px;
+}
 `
 const Img = styled.div`
 width:100%;
 height:100%;
 border-radius:50%;
 `
-
+const LabelLetter = styled.div`
+font-size:7rem;
+padding: 0 0 1rem 0;
+@media screen and (max-width:800px){
+    font-size:4.5rem;
+}
+`
 const H2 = styled.h2`
 display:block;
-margin-left:28.5%
+margin:2rem 0 0 20%;
+color:white;
+@media screen and (max-width:1075px){
+    margin:2rem 0 0 0;
+}
 `
 function UserPage(){
     const [display,setDisplay] = useState(false)
     const [cookie,setCookies] = useCookies("token")
     const [info, setInfo] = useState({email:cookie.token[1], username:cookie.token[2]})
     const [img, setImg] = useState({currentImg:(cookie.token[4]?cookie.token[4]:cookie.token[2][0]),newImg:""})
-    const {username} = useParams()
+
 
     function handleImage(e){
         let image= e.target.files[0] // get the file from the input
@@ -63,10 +93,13 @@ function UserPage(){
        display:"none"
     }
     const FormStyle = { 
-        width:"100%",        
+        overflow:"hidden",
+        width:"100%",
+        margin:"auto",     
     }
     let inputLabelStyle ={
         position:"relative",
+        margin:"none",
     }
     if (img.newImg!=""){
     inputLabelStyle.backgroundSize="100% 100% "
@@ -89,20 +122,17 @@ function UserPage(){
             <MoviesNav></MoviesNav>
             <Section>
                 <Content>
-                <H2>Edit Profile</H2>
-                <Container>
+                <H2><i className="fa-solid fa-person-praying"></i> Edit Profile</H2>
                     <Form style={FormStyle} row>
                         <Div>
-                            <div style={{flex:"1",marginLeft:".3rem"}}>
-                                <div style={{padding:"1rem"}}>
-                                <FormGroup>
-                                    <InputLabel className={styles.inputLabelStyleBg} style={inputLabelStyle} >
+                            <div style={{flex:"1",margin:"2rem 0 0 0"}}>
+                                <div>
+                                    <InputLabel style={inputLabelStyle} >
                                         {img.currentImg.length>2?null:
-                                        <div style={{fontSize:" clamp( 6rem, 9vw, 9vw)",position:"absolute",zIndex:"2",left:"25%",top:"-10%",}}>{cookie.token[2][0].toUpperCase()}</div>
+                                        <LabelLetter>{cookie.token[2][0].toUpperCase()}</LabelLetter>
                                         }
                                         <Input onChange={handleImage} type="file" accept="image/*" style={ImageStyle}></Input>
                                     </InputLabel>
-                                </FormGroup>
                                 </div>
                             </div>
                             <div style={{flex:"2"}}>
@@ -143,7 +173,7 @@ function UserPage(){
                             </div>
                         </Div>
                     </Form>
-                </Container>
+                
                 </Content>
             </Section>
             <div style={{background:"black"}}>

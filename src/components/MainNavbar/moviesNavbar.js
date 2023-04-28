@@ -125,7 +125,7 @@ function MoviesNav(props){
             <div style={{transform:`translateX(${(displaySideNav===false)?"-100%":"0"})`}} onTransitionEnd={handleSideNavClose}  className="side-navbar-container">
                 <div className="side-navbar-content">
                     <NavButton onClick={handleDisplaySideNav}></NavButton>
-                    <Link to={"/movies"}>Home</Link>
+                    <Link to={"/movies"} style={{textDecoration:"none"}}>Home</Link>
                     <div className="side-navbar-genre-container">
                         <div className="side-navbar-genre">
                             <p>Genre</p>
@@ -146,8 +146,8 @@ function MoviesNav(props){
                             <Link>Action</Link>
                         </div>
                     </div>
-                    <Link>Movies</Link>
-                    <Link>Top IMDB</Link>
+                    <Link style={{textDecoration:"none"}}>Movies</Link>
+                    <Link style={{textDecoration:"none"}}>Top IMDB</Link>
                 </div>
             </div>
         </div>
@@ -158,9 +158,9 @@ function MoviesNav(props){
         
         <ul className="navbar-elements-list">
             <li><Logo>AFLIX</Logo></li>
-            <li><Link to={"/movies"}>Home</Link></li>
+            <li><Link to={"/movies"} style={{textDecoration:"none"}}>Home</Link></li>
             <li>
-                <Link id="genre">Genre</Link>
+                <Link id="genre" style={{textDecoration:"none"}}>Genre</Link>
                 <div className="drop-down-genres">
                     <Link>Action</Link>
                     <Link>Adventure</Link>
@@ -190,8 +190,8 @@ function MoviesNav(props){
                     <div id="genre1"></div>
                 </div>
             </li>
-            <li><Link>Movies</Link></li>
-            <li><Link>Top IMDB</Link></li>
+            <li><Link style={{textDecoration:"none"}}>Movies</Link></li>
+            <li><Link style={{textDecoration:"none"}}>Top IMDB</Link></li>
         </ul>
         <div className="movies-navbar">
             <div className="search">
@@ -212,10 +212,10 @@ function MoviesNav(props){
                     
                     <Settings className="settingsButton" style={{maxHeight:`${showInfo?"300%":"0"}`}}>
                         <div className="username">&nbsp;{cookies.token[2]}</div>
-                        <Link to={`/movies/user/${cookies.token[2]}`} style={{position:"relative" ,top:".25rem"}}>
+                        <Link to={`/movies/user/${cookies.token[2]}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
                             <div>&nbsp;View Profile</div>
                         </Link>
-                        <Link>
+                        <Link style={{textDecoration:"none"}}>
                             <div>&nbsp;My Favourites</div>
                         </Link>
                         <button onClick={handleLogout} className="signOutButton">

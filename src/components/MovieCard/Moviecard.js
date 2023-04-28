@@ -109,7 +109,7 @@ function MovieCard(props){
     return(
         <Card>
             <Cardcontainer>
-                <Link style={{height:"100%",width:"100%"}} 
+                <Link style={{textDecoration:"none",height:"100%",width:"100%"}} 
                 to={`/movies/${props.id}`} 
                 state={movieObj}>
                     <HoverDiv id="HoverDiv">
@@ -125,7 +125,8 @@ function MovieCard(props){
                                 textOverflow: "ellipsis",
                                 display:"inline-block",
                                 width:"fit-content",
-                                height:"fit-content"
+                                height:"fit-content",
+                                textDecoration:"none"
                                 }}>
                 <Title>{props.title}</Title>
             </Link>
