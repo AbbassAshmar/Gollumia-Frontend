@@ -46,7 +46,7 @@ function CmntDiv(props){
         // CmntDiv component is the comment or the reply ,(the comment box that is going to be rendered in the Comments Component)
         // Comment Input is the Textarea (the form) where you type the comment , when you type and press submit (comment btn) a request is sent to the server to save the comment
         
-        const getRes = (result)=>{ // pass info from comment input to CmntDiv, then to Comments.js
+        const getRes = (result)=>{ // pass info to Comments.js
             props.getData(result)
             setRep(<CommentInput style={{display:"None"}} />);
             e.target.style.color = "white"

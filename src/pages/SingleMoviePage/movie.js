@@ -58,7 +58,7 @@ function Movie(){
     `
     async function favRequest(){ // request to add or remove a movie from favourites
         let data = {
-            email:cookies.token[1],
+            email:cookies.email,
             movie_id: id
         }
         const request = await fetch("http://127.0.0.1:8000/api/favourite",{
@@ -66,7 +66,7 @@ function Movie(){
             body:JSON.stringify(data),
             headers:{
                 "Content-type":"application/json",
-                "Authorization":"Token "+ cookies.token[0],
+                "Authorization":"Token "+ cookies.token,
             }
         })
         const resp= await request.json()
@@ -81,15 +81,14 @@ function Movie(){
     
     useEffect(()=>{ // check whether a movie is added to favourites or not to decide the color of the fav heart
         const fetchFav = async function(){
-            const req = await fetch(`http://127.0.0.1:8000/api/favourite/${cookies.token[2]}/${id}`,{
+            const req = await fetch(`http://127.0.0.1:8000/api/favourite/${cookies.id}/${id}`,{
                 method:"get",
                 headers:{
-                    "Authorization":"Token "+cookies.token[0],
+                    "Authorization":"Token "+cookies.token,
                     "Content-type":"application/json"
                 }
             })
             const resp = await req.json()
-            console.log(req)
             if (req.ok==true && resp.found==false){
                 setFav("white")
             }

@@ -11,7 +11,21 @@ import {TrendingMovies} from "../../components/TrendingMovies/TrendingMovies"
 import LatestMovies from "../../components/LatestMovies/LatestMovies"
 import UpcomingMovies from "../../components/UpcomingMovies/UpcomingMovies";
 import App from "../../components/Footer/Footer";
-function MoviesPage(){
+import styled from "styled-components";
+
+export const Movies_Container = styled.div`
+    min-height: 200%;
+    width: 87%;
+    margin: auto;
+    overflow: hidden;
+@media screen and (max-width:1400px){
+    .moviesBackground{
+        width: 95%;
+    }
+}
+
+`
+export function MoviesPage(){
     const [cookies , setCookies, removeCookie] = useCookies(["token"])
     const navigate = useNavigate()
     const[dataState, setData]= useState([])
@@ -40,7 +54,7 @@ function MoviesPage(){
             <div style={{backgroundColor:"black"}}>
                 <MoviesNav></MoviesNav>
             </div>    
-            <div className="moviesBackground">
+            <Movies_Container >
                 <section className="crouselsection">
                     <Crousel Moviesdata={dataState} />
                     <div className="socialMedia-MoviesPage">
@@ -66,7 +80,7 @@ function MoviesPage(){
                     <Category ctg="Upcoming" />
                     <UpcomingMovies />
                 </section>
-            </div>
+            </Movies_Container>
             <div style={{height:"3.5rem",width:"100%"}}></div>
             <div className="emptyline"></div>
             <div style={{height:"1rem",width:"100%"}}></div>
@@ -74,4 +88,3 @@ function MoviesPage(){
         </div>
     )
 }
-export default MoviesPage;

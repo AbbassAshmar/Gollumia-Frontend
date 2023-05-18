@@ -3,13 +3,12 @@ import { Container } from "../TrendingMovies/TrendingMovies";
 import MovieCard from "../MovieCard/Moviecard";
 function UpcomingMovies(){
     const [movies, setMovies] = useState([])
+    async function Fetch(){
+        const request = await fetch("http://127.0.0.1:8000/api/movies/upcoming/")
+        const movies_list = await request.json()
+        setMovies(movies_list.slice(0,15))
+    }
     useEffect(()=>{
-        async function Fetch(){
-            const res = await fetch("http://127.0.0.1:8000/api/upcoming/")
-            const data = await res.json()
-            setMovies(data)
-            return data
-        }
         Fetch()
     },[])
     

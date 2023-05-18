@@ -63,11 +63,12 @@ function LoginPage(){
             if (resp.user && resp.token){
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate()+1);
-            setCookies("token", [resp.token, resp.user.email,resp.user.username,resp.user.password,resp.pfp], {path :"/",expires:tomorrow})
+            setCookies("token", resp.token, {path :"/",expires:tomorrow})
+            setCookies("email", resp.user.email, {path :"/",expires:tomorrow})
+            setCookies("username", resp.user.username, {path :"/",expires:tomorrow})
+            setCookies("id", resp.user.id, {path :"/",expires:tomorrow})
+            setCookies("pfp", resp.user.pfp, {path :"/",expires:tomorrow})
             navigate('/movies')}
-            else{
-                console.log("fuck")
-            }
         })
         .catch(error =>{ console.error(error)})
     }

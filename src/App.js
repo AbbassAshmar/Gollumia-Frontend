@@ -4,7 +4,7 @@ import './App.css';
 import LoginPage from "./pages/LoginPage/login";
 import Home from './pages/HomePage/Home';
 import Register from "./pages/RegistrationPage/Register";
-import MoviesPage from './pages/MoviesPage/moviesPage';
+import {MoviesPage} from './pages/MoviesPage/moviesPage';
 import Movie from './pages/SingleMoviePage/movie';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import UserPage from './pages/UserPage/userPage';
@@ -21,7 +21,7 @@ function App() {
           <Route path="movies" element={<MoviesPage />}></Route>
           <Route path="movies/:id" element={<Movie />}></Route>
           <Route path="movies/user/:username" element={<UserPage />}></Route>
-          <Route path="movies/category/:category/:id" element={<CategorizedMovies/>}></Route>
+          <Route path="movies/category/:category" element={<CategorizedMovies/>}></Route>
         </Routes>
       </div>
     </GoogleOAuthProvider>

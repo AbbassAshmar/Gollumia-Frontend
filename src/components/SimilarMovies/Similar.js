@@ -1,27 +1,16 @@
 import styles from "../../pages/SingleMoviePage/movie.module.css"
 import { useEffect, useState} from "react";
-import {useCookies} from "react-cookie"
 import MovieCard from '../MovieCard/Moviecard'
+
 function SimilarMovies(props){
-    const [cookies,setCookies] = useCookies(['token'])
-    const [movies, setMovies] = useState([])
+
+    const [similarMovies, setSimilarMovies] = useState([])
     async function fetchMovies(){
-        const data = {
-            page_id : props.movie_id
-        }
-        const response = await fetch("http://127.0.0.1:8000/api/similarmovies/",{
-            method:"post",
-            body: JSON.stringify(data),
-            headers:{
-                "Content-type":"application/json",
-                "Authorization":"Token "+cookies.token[0]
-            }
-        })
-        const jsonResponse = await response.json();
-        setMovies(jsonResponse)
-        console.log(jsonResponse)
-        
-        return jsonResponse
+        console.log(props.movie_id)
+        const request_similar_movies = await fetch(`http://127.0.0.1:8000/api/movies/${props.movie_id}/similar/`)
+        const similar_movies_list = await request_similar_movies.json();
+        console.log(similar_movies_list)
+        setSimilarMovies(similar_movies_list["movies"])
     }
     useEffect(()=>{
         fetchMovies()
@@ -29,7 +18,7 @@ function SimilarMovies(props){
     
     return(
         <div className={styles.similarMovies}>
-            {movies.map((movie)=>{
+            {similarMovies.map((movie)=>{
             return(
             <MovieCard 
             page_id={movie.id} 

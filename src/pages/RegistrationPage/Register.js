@@ -1,7 +1,7 @@
 import React, { useEffect,useState} from 'react';
 import { Button } from 'reactstrap';
 import "./Register.css"
-import formimg from "../../photos/fi.jpg"
+
 import { Link, useLocation } from "react-router-dom";
 import Navbar from '../../components/Navbar/navbar';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,6 @@ function Register(){
         }
         if(state !=null){
             setEmail(state.text);
-            console.log("done")
         }},[])
 
     function verifyPass(pass, repass){
@@ -66,19 +65,21 @@ function Register(){
                 },
                 body: JSON.stringify(user)})
             .then((res)=>{
-                console.log(res) 
-                console.log(res.status , res.ok)
                 if(res.status== 403){
                 setPassvalidation(2)
             }
                 return (res.json())})
             .then(res =>{
-                console.log(res)
                 let token = res.token
-                let pass= res.user.password
+                let id= res.user.id
                 let name =  res.user.username
                 let email = res.user.email
-                setCookies("token",[token,email,name,pass,res.user.pfp], {path: '/'})
+                setCookies("token",token, {path: '/'})
+                setCookies("email",email, {path: '/'})
+                setCookies("username",name, {path: '/'})
+                setCookies("id",id, {path: '/'})
+                setCookies("pfp",res.user.pfp, {path: '/'})
+
                 navigate("/movies", { replace: true })
                 return res.user;
             })

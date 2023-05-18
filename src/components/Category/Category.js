@@ -10,8 +10,9 @@ function Category(props){
             margin:"1.4rem 0 1.6rem 0",
             justifyContent:"space-between",
             color:"white",
-            
+            background:"black",
             alignItems:"center",
+            padding:"3rem 0 0 2 "
         },
         h2:{
             color:"orange",

@@ -24,21 +24,14 @@ padding:1%;
 
 export function TrendingMovies(){
     const [trendingMovies , SetTrendingMovies] = useState([])
+    async function Fetch(){
+        const request = await fetch("http://127.0.0.1:8000/api/movies/trending/",{method:"GET"})
+        const movies_list = await request.json()
+        SetTrendingMovies(movies_list.slice(0.15))
+    }
     useEffect(()=>{
-        async function Fetch(){
-            const data = await fetch("http://127.0.0.1:8000/api/trending/",{
-                method:"GET",
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': ''
-                }})
-            const resp = await data.json()
-            SetTrendingMovies(resp)
-            return resp
-        }
         Fetch()
     },[])
-    useEffect(()=>{console.log(trendingMovies)},[trendingMovies])
     return(
         <Container>
             {

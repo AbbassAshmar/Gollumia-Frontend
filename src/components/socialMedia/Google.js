@@ -38,10 +38,10 @@ function Google(){
         console.log(res)
         if ((res.status==200  || res.status==201)&& res.ok == true){
             const token = resp.token ? resp.token : null
-            setCookies("token", [token,resp.user.email, resp.user.username,resp.user.password,resp.user.pfp], {path:"/"})
+            setCookies("token", [token,resp.user.email, resp.user.username,resp.user.id,resp.user.pfp], {path:"/"})
             navigate("/movies",{replace:true})
         }
-        console.log(resp)
+
     }
     const Success = (response)=>{
         console.log(response)

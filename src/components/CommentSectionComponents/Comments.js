@@ -39,15 +39,24 @@ function Comment(props){
     const replydata = (repdata)=>{
         let desiredCmnt =''
         for (let i=0;i<cmnts.length; i++){
-            if (cmnts[i].id ==repdata.parent_comment) {
+            if (cmnts[i].id ==repdata.data.parent_comment) {
             desiredCmnt = cmnts[i].id
         }}
         cmnts.map((cmnt)=>{ // to add a reply to the rendered list of cmnts, look for the comment this reply belongs to, and then add the reply to the list
             if(cmnt.id == desiredCmnt){
-                repdata.profile=repdata.profile
-                repdata.likes = 0
-                repdata.dislikes = 0
-                cmnt.replies.push(repdata)
+                let reply_to_be_added = {
+                    date:repdata.data.date,
+                    dislikes:0,
+                    likes:0,
+                    id:repdata.data.id,
+                    movie_page:repdata.data.movie_page,
+                    parent_comment:repdata.data.parent_comment,
+                    profile:repdata.pfp,
+                    text:repdata.data.text,
+                    user:repdata.data.user,
+                    user_replying_to:repdata.data.user_replying_to
+                }
+                cmnt.replies.push(reply_to_be_added)
                 setCmnts(cmnts=>{return[...cmnts]})
                 setCount(repdata.comments_count) // a new reply is added so update the count 
             }
@@ -56,7 +65,7 @@ function Comment(props){
 
     // adds a new comment to the comments list 
     const new_comment_data = (received_data)=>{
-        setCmnts((cmnts)=>{return [{profile:cookies.token[4],id:received_data.data.id,likes:0,dislikes:0,text:received_data.data.text,user:received_data.data.user,date:received_data.data.date,replies:[]},...cmnts]});
+        setCmnts((cmnts)=>{return [{profile:received_data.pfp,id:received_data.data.id,likes:0,dislikes:0,text:received_data.data.text,user:received_data.data.user,date:received_data.data.date,replies:[]},...cmnts]});
         setCount(received_data.comments_count) // a new cmnt is added so update the count 
     }
 
@@ -108,9 +117,7 @@ function Comment(props){
                         {   
                             comment.replies && comment.replies.length>0?
                             comment.replies.map((Reply)=>{
-                                console.log(Reply)
-                                return <CmntDiv getNewInteractions={getNewInteractions} date={Reply.date} page_id={props.page_id} likes={Reply.likes} dislikes={Reply.dislikes} letter={Reply.profile?Reply.profile:Reply.user[0].toUpperCase()} getData={replydata} key={Reply.id} reply_id={Reply.id}  cmntId={comment.id}  Isreply={true} username_replying_to={Reply.user_replying_to} username={Reply.user} text={Reply.text}/>
-                                
+                                return <CmntDiv getNewInteractions={getNewInteractions} date={Reply.date} page_id={props.page_id} likes={Reply.likes} dislikes={Reply.dislikes} letter={Reply.profile?Reply.profile:Reply.user[0].toUpperCase()} getData={replydata} key={Reply.id} reply_id={Reply.id}  cmntId={comment.id}  Isreply={true} username_replying_to={Reply.user_replying_to} username={Reply.user} text={Reply.text}/>        
                             }
                             ):null
                         }

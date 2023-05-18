@@ -18,8 +18,7 @@ const Container = styled.div`
 `
 function Pfp(props){
     const [cookies, setCookies] = useCookies(["token"])
-    console.log(cookies.token)
-   
+  
     const divStyle = {
         background:`url('http://127.0.0.1:8000${cookies.token[4]}')`,
         backgroundPosition:"center",
