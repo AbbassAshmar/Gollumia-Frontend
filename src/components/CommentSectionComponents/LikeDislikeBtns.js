@@ -4,7 +4,7 @@ import styles from "./Comments.module.css"
 import { useCookies } from "react-cookie";
 function LikeDislikeBtns(props){
     const [count,setCount] =useState({likeCount:0,dislikeCount:0})
-    const [cookies,setCookies] =useCookies(["token"])
+    const [cookies,setCookies] =useCookies([])
     useEffect(()=>{
         setCount({likeCount:props.likes,dislikeCount:props.dislikes})// initial value is props value, but the props value is alway being updated
         // the initial value will be up to date with what's saved in the db, thus even after rerendering the component,the numbers wont change 
@@ -20,7 +20,7 @@ function LikeDislikeBtns(props){
             body: JSON.stringify(data),
             headers:{
                 "Content-type":"application/json",
-                "Authorization":"Token "+cookies.token[0]
+                "Authorization":"Token "+cookies.token
             }
         })
         const jsonResponse = await response.json()

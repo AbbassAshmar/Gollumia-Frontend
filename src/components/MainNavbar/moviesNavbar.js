@@ -75,7 +75,7 @@ function MoviesNav(props){
         method:"POST",
         headers:{
             'Content-Type': 'application/json',
-            'Authorization': 'Token '+ cookies.token[0]
+            'Authorization': 'Token '+ cookies.token
         },})
         .then(resp =>{
             if (resp.ok == true){
@@ -211,8 +211,8 @@ function MoviesNav(props){
                     </Button>
                     
                     <Settings className="settingsButton" style={{maxHeight:`${showInfo?"300%":"0"}`}}>
-                        <div className="username">&nbsp;{cookies.token[2]}</div>
-                        <Link to={`/movies/user/${cookies.token[2]}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
+                        <div className="username">&nbsp;{cookies.username}</div>
+                        <Link to={`/movies/user/${cookies.username}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
                             <div>&nbsp;View Profile</div>
                         </Link>
                         <Link style={{textDecoration:"none"}}>

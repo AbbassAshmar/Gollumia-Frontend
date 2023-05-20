@@ -20,20 +20,23 @@ padding-top:1rem;
 function CategorizedMovies(){
     const {category} = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
-    const [pageNumber, setPageNumber] =useState(1)
+    const [pageNumber, setPageNumber] =useState(searchParams.get("page")?searchParams.get("page"):1)
     const location = useLocation()
+
+    // update the state of the page number (searchParam) on location change
     useEffect(()=>{
         if (searchParams.get("page") && searchParams.get("page") >=1){
         setPageNumber(parseInt(searchParams.get("page")))}
-    },[location])
+    },[location.search])
     return(
-        <div>
+        <div style={{background:"black"}}>
             <MoviesNav/>
             <Main>
                 <MoviesContainer>
                     <Category ctg={`All ${category} Movies`}/>
                     <Pagination category={category} page_number={pageNumber}/>
-                    <CtgMovies category={category} />
+                    <CtgMovies category={category} page_number={pageNumber} />
+                    <Pagination category={category} page_number={pageNumber}/>
                 </MoviesContainer>
            </Main>
            <div style={{background:"black"}}> 

@@ -42,6 +42,7 @@ export function MoviesPage(){
         
     useEffect(
         () => {
+            console.log(cookies)
             if (cookies.token==null){
                 navigate('/login', {replace:true})
             }

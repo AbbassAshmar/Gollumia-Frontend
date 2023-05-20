@@ -17,19 +17,17 @@ const Container = styled.div`
 }
 `
 function Pfp(props){
-    const [cookies, setCookies] = useCookies(["token"])
+    const [cookies, setCookies] = useCookies(["pfp"])
   
     const divStyle = {
-        background:`url('http://127.0.0.1:8000${cookies.token[4]}')`,
-        backgroundPosition:"center",
-        backgroundSize:"cover",
+        background:`url('${cookies.pfp}') center / cover`,
     }
     return (
     <Container style={props.style}>
-        {   cookies.token[4] ? 
+        {   cookies.pfp != "null" && cookies.pfp? 
             <Div style={divStyle}>
             </Div> :
-            <DefaultPfp letter={cookies.token[2][0]}/>
+            <DefaultPfp letter={cookies.username[0]}/>
         }
     </Container>
     )

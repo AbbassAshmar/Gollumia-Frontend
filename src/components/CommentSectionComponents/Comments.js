@@ -7,7 +7,7 @@ import CmntDiv from "./CmntDiv";
 import { useEffect } from "react";
 import CmntPfp from "./cmntPfp";
 function Comment(props){
-    const [cookies,setCookies] = useCookies(["token"])
+    const [cookies,setCookies] = useCookies([])
     const [cmnts, setCmnts] = useState([])
     const [count , setCount] = useState(0)
 
@@ -76,7 +76,7 @@ function Comment(props){
                 method:"get",
                 headers:{
                     "Content-type":"application/json",
-                    "Authorization":"Token "+ cookies.token[0],
+                    "Authorization":"Token "+ cookies.token,
                 },
             })
             const response = await request.json()
@@ -105,7 +105,7 @@ function Comment(props){
                     </div>
                 </div>
                 <div className={styles.cmntPfpInput}>
-                    <Link to="#"><CmntPfp letter={cookies.token[4]?cookies.token[4]:cookies.token[2][0]}/></Link>
+                    <Link to="#"><CmntPfp letter={cookies.pfp?cookies.pfp:cookies.username[0]}/></Link>
                     <CmntInput new_comment_data={new_comment_data} page_id={props.page_id} reply={false}/>
                 </div>
             </div>

@@ -41,11 +41,11 @@ function CmntInput(props){
             return 0
         }
         let dateAdded = getdate()
-        let email = cookies.token[1]
+        let email = cookies.email
         let username_replying_to =props.username_replying_to 
         let parent_comment_id =props.id
         let page_id = props.page_id
-        let pfp = cookies.token[2][0]
+        let pfp = cookies.username[0]
         let data = {
             text,email,dateAdded,username_replying_to,parent_comment_id,page_id,pfp
         }
@@ -56,7 +56,7 @@ function CmntInput(props){
                 body: JSON.stringify(data), 
                 headers :{ 
                     "Content-type":"application/json",
-                    "Authorization":"Token "+cookies.token[0]
+                    "Authorization":"Token "+cookies.token
                 },
             })
             const response = await request.json()
@@ -71,7 +71,7 @@ function CmntInput(props){
                 body:JSON.stringify(data),
                 headers:{
                     "Content-type":"application/json",
-                    "Authorization":"Token "+cookies.token[0]
+                    "Authorization":"Token "+cookies.token
                 }
             })
             const response = await request.json()

@@ -6,10 +6,8 @@ function SimilarMovies(props){
 
     const [similarMovies, setSimilarMovies] = useState([])
     async function fetchMovies(){
-        console.log(props.movie_id)
         const request_similar_movies = await fetch(`http://127.0.0.1:8000/api/movies/${props.movie_id}/similar/`)
         const similar_movies_list = await request_similar_movies.json();
-        console.log(similar_movies_list)
         setSimilarMovies(similar_movies_list["movies"])
     }
     useEffect(()=>{

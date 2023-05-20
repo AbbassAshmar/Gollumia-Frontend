@@ -35,16 +35,18 @@ function Google(){
         })
         
         const resp = await res.json()
-        console.log(res)
         if ((res.status==200  || res.status==201)&& res.ok == true){
             const token = resp.token ? resp.token : null
-            setCookies("token", [token,resp.user.email, resp.user.username,resp.user.id,resp.user.pfp], {path:"/"})
+            setCookies("token", token, {path :"/"})
+            setCookies("email", resp.user.email, {path :"/"})
+            setCookies("username", resp.user.username, {path :"/"})
+            setCookies("id", resp.user.id, {path :"/"})
+            setCookies("pfp", resp.user.pfp, {path :"/"})
             navigate("/movies",{replace:true})
         }
 
     }
     const Success = (response)=>{
-        console.log(response)
         send_token(response.access_token)
     }
 

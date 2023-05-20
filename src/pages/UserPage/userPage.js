@@ -76,18 +76,19 @@ color:white;
 `
 function UserPage(){
     const [display,setDisplay] = useState(false)
-    const [cookie,setCookies] = useCookies("token")
-    const [info, setInfo] = useState({email:cookie.token[1], username:cookie.token[2]})
+    const [cookie,setCookies] = useCookies(['token','pfp','username','email'])
+    const [info, setInfo] = useState({email:cookie.email, username:cookie.username})
     const [passwords,setPasswords] = useState({oldPass:"",newPass:"",confirmPass:""})
     const [passwordError , setPasswordError] = useState("")
-    const [img, setImg] = useState({currentImg:(cookie.token[4]?cookie.token[4]:cookie.token[2][0]),newImg:""})
-    useEffect(()=>{console.log(cookie)},[cookie])
+    const [img, setImg] = useState({currentImg:(cookie.pfp !="null" && cookie.pfp?
+    cookie.pfp:cookie.username[0]),newImg:""})
+
     function handlePasswordValidation(){
         if (passwords.newPass == "" && passwords.confirmPass==""){
             return null
         }
         if (passwords.newPass.length <8){
-            return "password is should not be less than 1 character !";
+            return "password should not be less than 8 character !";
         }
         if (!(passwords.newPass.match(".*\\d+.*"))){
             return "password should contain at least one digit !";
@@ -110,14 +111,13 @@ function UserPage(){
         })
         let response = await send_request.json()
         if (send_request.status == 200){
-            console.log(response)
+            setDisplay(false)
             for(let [key,value] of Object.entries(response)){
-                console.log(key)
-                console.log(value)
                 setCookies(key,value,{path:"/"})
-                
             }
-            console.log(cookie)
+        }else{
+            setPasswordError(response["error"])
+
         }
     }
     
@@ -167,7 +167,7 @@ function UserPage(){
         inputLabelStyle.backgroundImage=`url(${img.newImg})`
     }else{
         if(img.currentImg.length>2){
-            inputLabelStyle.backgroundImage=`url('http://127.0.0.1:8000/${img.currentImg}')`
+            inputLabelStyle.backgroundImage=`url('${img.currentImg}')`
         }else{
             inputLabelStyle.background='orange'
         }
@@ -185,9 +185,9 @@ function UserPage(){
                                 <div>
                                     <InputLabel style={inputLabelStyle} >
                                         {img.currentImg.length>2?null:
-                                        <LabelLetter>{cookie.token[2][0].toUpperCase()}</LabelLetter>
+                                        <LabelLetter>{cookie.username[0].toUpperCase()}</LabelLetter>
                                         }
-                                        <Input name="image" onChange={handleImage} type="file" accept="image/*" style={ImageStyle}></Input>
+                                        <Input name="pfp" onChange={handleImage} type="file" accept="image/*" style={ImageStyle}></Input>
                                     </InputLabel>
                                 </div>
                             </div>
