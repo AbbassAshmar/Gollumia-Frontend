@@ -18,9 +18,10 @@ function CtgMovies(props){
             setMovies(response['movies']);
         }
     }
+
+    // call the fetch function
     useEffect(()=>{  
         let limit  = 35;
-        console.log(props.page_number)
         let start= (parseInt(props.page_number) -1) * limit;
         get_limited_movies_by_category(props.category,start,limit);
     },[props])
@@ -28,7 +29,7 @@ function CtgMovies(props){
 
     return(
         <Container>
-        {   movies.length >1 ?
+        {   movies.length >=1 ?
             movies.map((movie)=>{
                 return <MovieCard 
                 page_id={movie.id} 

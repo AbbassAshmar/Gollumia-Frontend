@@ -43,6 +43,7 @@ function Google(){
             setCookies("id", resp.user.id, {path :"/"})
             setCookies("pfp", resp.user.pfp, {path :"/"})
             navigate("/movies",{replace:true})
+            console.log(cookies)
         }
 
     }

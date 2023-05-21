@@ -24,14 +24,16 @@ transition: background .2s;
 function Pagination(props){
     // get the number of movies of a specific category
     const [pagesNumber, setPagesNumber] = useState(1)
-    function request_movies_number(){
-
+    async function request_movies_number(){
+        let request_count_by_category = await fetch(`localhost:8000/api/movies/count/${props.category}/`);
+        let count_by_category = await request_count_by_category.json();
+        if( request_count_by_category.status == 200 ){
+            setPagesNumber(count_by_category['movies_count'] / 35)
+        }
     }
-    useEffect(()=>{request_movies_number()
-    
+    useEffect(()=>{
+        request_movies_number()
     },[])
-    let nb = 350;
-    let nb_pages = 8;
 
     return(
         <Container>
@@ -52,28 +54,28 @@ function Pagination(props){
             </div>
 
 
-            <StyledLink style={{display:`${props.page_number -1>=1 && props.page_number-1 <= nb_pages?"inline-block":"none"}`}} 
+            <StyledLink style={{display:`${props.page_number -1>=1 && props.page_number-1 <= pagesNumber?"inline-block":"none"}`}} 
             to={`/movies/category/${props.category}?page=${props.page_number-1}`}>
                 {props.page_number-1}
             </StyledLink>
-            <StyledLink style={{background:"orange",display:`${props.page_number >=1 && props.page_number <= nb_pages?"inline-block":"none"}`}}
+            <StyledLink style={{background:"orange",display:`${props.page_number >=1 && props.page_number <= pagesNumber?"inline-block":"none"}`}}
              to={`/movies/category/${props.category}?page=${props.page_number}`}>
                 {props.page_number}
             </StyledLink>
-            <StyledLink style={{display:`${props.page_number +1 >=1 && props.page_number + 1 <= nb_pages?"inline-block":"none"}`}} 
+            <StyledLink style={{display:`${props.page_number +1 >=1 && props.page_number + 1 <= pagesNumber?"inline-block":"none"}`}} 
             to={`/movies/category/${props.category}?page=${props.page_number+1}`}>
                 {props.page_number+1}
             </StyledLink>
        
-            <div style={{margin:"0 .3rem",color:"blue",display:`${props.page_number+1 >= nb_pages ?"none":"inline-block"}`}} >
+            <div style={{margin:"0 .3rem",color:"blue",display:`${props.page_number+1 >= pagesNumber ?"none":"inline-block"}`}} >
                 ...
             </div>
-            <StyledLink style={{display:`${props.page_number+1 >= nb_pages ?"none":"inline-block"}`}} 
-            to={`/movies/category/${props.category}?page=${nb_pages}`}>
-                {nb_pages}
+            <StyledLink style={{display:`${props.page_number+1 >= pagesNumber ?"none":"inline-block"}`}} 
+            to={`/movies/category/${props.category}?page=${pagesNumber}`}>
+                {pagesNumber}
             </StyledLink>
             
-            <StyledLink style={{display:`${props.page_number >= nb_pages ?"none":"inline-block"}`}} 
+            <StyledLink style={{display:`${props.page_number >= pagesNumber ?"none":"inline-block"}`}} 
             to={`/movies/category/${props.category}?page=${props.page_number+1}`} >
                 <i className="fa-solid fa-greater-than"></i>
             </StyledLink>

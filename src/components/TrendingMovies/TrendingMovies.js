@@ -27,7 +27,7 @@ export function TrendingMovies(){
     async function Fetch(){
         const request = await fetch("http://127.0.0.1:8000/api/movies/trending/",{method:"GET"})
         const movies_list = await request.json()
-        SetTrendingMovies(movies_list.slice(0.15))
+        SetTrendingMovies(movies_list["movies"].slice(0.15))
     }
     useEffect(()=>{
         Fetch()

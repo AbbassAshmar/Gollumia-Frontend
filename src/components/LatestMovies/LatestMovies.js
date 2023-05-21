@@ -6,7 +6,7 @@ function LatestMovies(){
     async function Fetch(){
         const data = await fetch("http://127.0.0.1:8000/api/movies/latest/",{method:"GET"})
         const movies_list = await data.json()
-        SetLatestMovies(movies_list.slice(0,17))
+        SetLatestMovies(movies_list['movies'].slice(0,17))
     }
     useEffect(()=>{
         Fetch()
