@@ -6,18 +6,18 @@ import Category from "../../components/Category/Category";
 import CtgMovies from "../../components/Category/ctgMovies"
 import Pagination  from "../../components/Pagination/pagination";
 import { useEffect, useState } from "react";
-const Main = styled.div`
+export const Main = styled.div`
 background : black;
 width:100%;
 `
-const MoviesContainer = styled.div`
+export const MoviesContainer = styled.div`
 width :97%;
 background:black;
 margin:auto;
 padding-top:1rem;
 
 `
-function CategorizedMovies(){
+export function CategorizedMovies(){
     const {category} = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
     const [pageNumber, setPageNumber] =useState(searchParams.get("page")?searchParams.get("page"):1)
@@ -33,7 +33,7 @@ function CategorizedMovies(){
             <MoviesNav/>
             <Main>
                 <MoviesContainer>
-                    <Category ctg={`All ${category} Movies`}/>
+                    <Category veiwall={false} ctg={`All ${category} Movies`}/>
                     <Pagination category={category} page_number={pageNumber}/>
                     <CtgMovies category={category} page_number={pageNumber} />
                     <Pagination category={category} page_number={pageNumber}/>
@@ -46,4 +46,3 @@ function CategorizedMovies(){
     )
 }
 
-export default CategorizedMovies;

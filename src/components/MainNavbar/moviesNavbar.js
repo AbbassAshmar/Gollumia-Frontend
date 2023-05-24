@@ -125,7 +125,7 @@ function MoviesNav(props){
             <div style={{transform:`translateX(${(displaySideNav===false)?"-100%":"0"})`}} onTransitionEnd={handleSideNavClose}  className="side-navbar-container">
                 <div className="side-navbar-content">
                     <NavButton onClick={handleDisplaySideNav}></NavButton>
-                    <Link to={"/movies"} style={{textDecoration:"none"}}>Home</Link>
+                    <Link to={"/home"} style={{textDecoration:"none"}}>Home</Link>
                     <div className="side-navbar-genre-container">
                         <div className="side-navbar-genre">
                             <p>Genre</p>
@@ -158,7 +158,7 @@ function MoviesNav(props){
         
         <ul className="navbar-elements-list">
             <li><Logo>AFLIX</Logo></li>
-            <li><Link to={"/movies"} style={{textDecoration:"none"}}>Home</Link></li>
+            <li><Link to={"/home"} style={{textDecoration:"none"}}>Home</Link></li>
             <li>
                 <Link id="genre" style={{textDecoration:"none"}}>Genre</Link>
                 <div className="drop-down-genres">
@@ -212,7 +212,7 @@ function MoviesNav(props){
                     
                     <Settings className="settingsButton" style={{maxHeight:`${showInfo?"300%":"0"}`}}>
                         <div className="username">&nbsp;{cookies.username}</div>
-                        <Link to={`/movies/user/${cookies.username}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
+                        <Link to={`/user/${cookies.username}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
                             <div>&nbsp;View Profile</div>
                         </Link>
                         <Link style={{textDecoration:"none"}}>

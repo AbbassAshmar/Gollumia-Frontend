@@ -25,8 +25,8 @@ function Category(props){
     return (
         <div style={styles.container}>
             <h2 style={styles.h2}>{props.ctg}</h2>
-            {props.viewall?null :
-            <Link>View all <i className="fa-solid fa-circle-arrow-right"></i></Link>
+            {!props.viewall?null :
+            <Link to={`/movies/category/${props.ctg.toLowerCase()}/`} >View all <i className="fa-solid fa-circle-arrow-right"></i></Link>
             }
         </div>
     )

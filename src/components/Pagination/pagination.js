@@ -25,10 +25,10 @@ function Pagination(props){
     // get the number of movies of a specific category
     const [pagesNumber, setPagesNumber] = useState(1)
     async function request_movies_number(){
-        let request_count_by_category = await fetch(`localhost:8000/api/movies/count/${props.category}/`);
+        let request_count_by_category = await fetch(`http://localhost:8000/api/movies/count/?category=${props.category}`);
         let count_by_category = await request_count_by_category.json();
         if( request_count_by_category.status == 200 ){
-            setPagesNumber(count_by_category['movies_count'] / 35)
+            setPagesNumber(Math.ceil(count_by_category['movies_count'] / 35))
         }
     }
     useEffect(()=>{

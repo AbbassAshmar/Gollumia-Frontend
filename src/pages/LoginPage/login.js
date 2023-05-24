@@ -41,7 +41,7 @@ function LoginPage(){
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
     useEffect(()=>{
         if(cookies.token){
-            navigate('/movies',{replace:true})
+            navigate('/home',{replace:true})
         }
     },[])
     function handleSubmit(e){

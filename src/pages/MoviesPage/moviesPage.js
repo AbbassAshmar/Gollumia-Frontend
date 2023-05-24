@@ -74,11 +74,11 @@ export function MoviesPage(){
                     </div>
                 </section>
                 <section className="moviesSection">
-                    <Category ctg="Trending" />
+                    <Category viewall={true} ctg="Trending" />
                     <TrendingMovies />
-                    <Category ctg="Latest" />
+                    <Category viewall={true}  ctg="Latest" />
                     <LatestMovies />
-                    <Category ctg="Upcoming" />
+                    <Category viewall={true}  ctg="Upcoming" />
                     <UpcomingMovies />
                 </section>
             </Movies_Container>

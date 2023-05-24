@@ -8,7 +8,8 @@ import {MoviesPage} from './pages/MoviesPage/moviesPage';
 import Movie from './pages/SingleMoviePage/movie';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import UserPage from './pages/UserPage/userPage';
-import CategorizedMovies from './pages/CategoriesMoviePage/AllMoviesByCat';
+import {CategorizedMovies} from './pages/CategoriesMoviePage/AllMoviesByCat';
+import MoviesCollection from './pages/MoviesCollectionPage/MoviesCollection.js/moviesCollection';
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='register' element={<Register />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
-          <Route path="movies" element={<MoviesPage />}></Route>
+          <Route path="home" element={<MoviesPage />}></Route>
           <Route path="movies/:id" element={<Movie />}></Route>
-          <Route path="movies/user/:username" element={<UserPage />}></Route>
+          <Route path="user/:username" element={<UserPage />}></Route>
           <Route path="movies/category/:category" element={<CategorizedMovies/>}></Route>
+          <Route path="movies" element={<MoviesCollection/>}></Route>
         </Routes>
       </div>
     </GoogleOAuthProvider>

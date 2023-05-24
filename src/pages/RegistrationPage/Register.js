@@ -80,7 +80,7 @@ function Register(){
                 setCookies("id",id, {path: '/'})
                 setCookies("pfp",res.user.pfp, {path: '/'})
 
-                navigate("/movies", { replace: true })
+                navigate("/home", { replace: true })
                 return res.user;
             })
             .catch((error)=>{console.log(error)})

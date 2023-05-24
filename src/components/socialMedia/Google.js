@@ -42,7 +42,7 @@ function Google(){
             setCookies("username", resp.user.username, {path :"/"})
             setCookies("id", resp.user.id, {path :"/"})
             setCookies("pfp", resp.user.pfp, {path :"/"})
-            navigate("/movies",{replace:true})
+            navigate("/home",{replace:true})
             console.log(cookies)
         }
 
