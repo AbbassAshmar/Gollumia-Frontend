@@ -2,6 +2,22 @@ import React from "react";
 import TwitterLogin from 'react-twitter-auth/lib/react-twitter-auth-component.js';
 import  {MDBIcon} from 'mdb-react-ui-kit';
 
+const customHeader = {
+    backgroundColor:"black",
+}
+const twitter ={
+    backgroundColor:"blue",
+    borderRadius:"4px",
+    height:"40px",
+    minHeight: "40px",
+    color:"white",
+    border:"0px transparent",
+    textAlign:"center",
+    width:"150px",
+    minWidth:"87px",
+
+}
+
 function Twitter(){
     const onFailed  =()=>{
         console.log("Failed")
@@ -9,21 +25,7 @@ function Twitter(){
     const onSuccess  =()=>{
         console.log("Success")
     }
-    const customHeader = {
-        backgroundColor:"black",
-    }
-    const twitter ={
-        backgroundColor:"blue",
-        borderRadius:"4px",
-        height:"40px",
-        minHeight: "40px",
-        color:"white",
-        border:"0px transparent",
-        textAlign:"center",
-        width:"150px",
-        minWidth:"87px",
-
-    }
+    
     const handleMouseOver =(e)=>{
          e.target.style.opacity = '0.6';
     }

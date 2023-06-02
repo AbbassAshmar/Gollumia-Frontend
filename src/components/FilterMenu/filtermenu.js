@@ -66,7 +66,7 @@ function FilterMenu(props){
         if (send_request.status == 200){
             console.log(movies_list)
             props.setMovies(movies_list.movies?movies_list.movies:[])
-            
+            props.setCount(Math.ceil(movies_list['count']/35))
         }
     }
     

@@ -47,12 +47,13 @@ gap:4px;
 }
 
 `
-function MovieCard(props){
-    let Cardcontainer= styled.div`
+
+
+let Cardcontainer= styled.div`
         box-sizing: border-box;
         width: 190px;
         height: 254px;
-        background: url(${props.poster});
+        background: url(${({poster})=>poster});
         background-position:center;
         background-size:cover;
         border: 1px solid white;
@@ -70,10 +71,10 @@ function MovieCard(props){
         overflow:hidden;
         &:hover{
             border: 1px solid orange;
-            transform: ${props.hoverScale==true?"scale(1)":"scale(1.05)"};
+            transform: ${({hoverScale}) => hoverScale ? "None" : "scale(0.95) rotateZ(6deg)"}
         }
         &:active {
-            transform: ${props.hoverScale==true?"None":"scale(0.95) rotateZ(6deg)"};
+            transform: ${({hoverScale}) => hoverScale ? "None" : "scale(0.95) rotateZ(6deg)"};
           }
         &:hover #HoverDiv{
             opacity:1;
@@ -82,13 +83,13 @@ function MovieCard(props){
             width: 220px;
             height: 290px;
         }
-        
        
     `
+
+function MovieCard(props){
     const playButton = {
         fontSize:"3.5rem"
     }
-
     const movieObj = {
         title:props.title,
         poster:props.poster,
@@ -105,10 +106,12 @@ function MovieCard(props){
         thumbnail : props.thumbnail,
         trailer : props.trailer,
     }
+    
+
 
     return(
         <Card>
-            <Cardcontainer>
+            <Cardcontainer poster = {props.poster} hoverScale={props.hoverScale}>
                 <Link style={{textDecoration:"none",height:"100%",width:"100%"}} 
                 to={`/movies/${props.id}`} 
                 state={movieObj}>

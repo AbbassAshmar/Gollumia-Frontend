@@ -10,6 +10,28 @@ import App from '../../components/Footer/Footer'
 import SimilarMovies from '../../components/SimilarMovies/Similar'
 import ReactPlayer from "react-player"
 import { useCookies } from "react-cookie";
+
+const Cont  = styled.div`
+min-height:100%;
+display:"flex";
+`
+const FirstChild = styled.div`
+    &:before{
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+        color:white;
+        background:linear-gradient(to top,rgba(0,0,0,0.9) ,rgba(0,0,0,0.5));
+        border-bottom:10px solid black;
+    }
+    `
+    const SecondPageContainer =styled.div`
+    width:100%;
+    background:black;
+    min-height:100%;
+    `
 function Movie(){
     const [cookies,setCookies] = useCookies('token')
     const [fav, setFav] = useState("white")
@@ -17,10 +39,7 @@ function Movie(){
     // using this approach , any movie's page can't be accessed unless the movie's link is clicked.
     // another approach : get the movie's id from the url using useParams(), then send a request to the server including id;
     const {id} = useParams();
-    const Cont  = styled.div`
-        min-height:100%;
-        display:"flex";
-    `
+   
     const FirstPageContainer = styled.div`
     height: 91.05vh;
     width: 100%;
@@ -39,23 +58,7 @@ function Movie(){
         transform: scale(1.1);
     }
     `
-    const FirstChild = styled.div`
-    &:before{
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: -1;
-        color:white;
-        background:linear-gradient(to top,rgba(0,0,0,0.9) ,rgba(0,0,0,0.5));
-        border-bottom:10px solid black;
-    }
-    `
-    const SecondPageContainer =styled.div`
-    width:100%;
-    background:black;
-    min-height:100%;
-    `
+    
     async function favRequest(){ // request to add or remove a movie from favourites
         let data = {
             email:cookies.email,

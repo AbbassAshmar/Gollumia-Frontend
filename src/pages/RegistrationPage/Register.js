@@ -11,6 +11,13 @@ import {useCookies} from "react-cookie";
 //2 --> email already used
 //3 --> Your password must be at least 8 characters
 
+const inputNostate = {
+    cursor: "pointer",
+    border:"none",
+    outline: "none",
+    borderBottom : "none",
+    transform:"translateY(.8rem)",
+}
 
 
 function Register(){
@@ -87,13 +94,7 @@ function Register(){
         }
     }
 
-    const inputNostate = {
-        cursor: "pointer",
-        border:"none",
-        outline: "none",
-        borderBottom : "none",
-        transform:"translateY(.8rem)",
-    }
+  
     return(
         
         <div className='register-page'>

@@ -7,7 +7,7 @@ import MoviesCollectionComp from "../../../components/MoviesCollectionComponent/
 import FilterHeader from "../../../components/FilterHeader/filterheader";
 import FilterContainer from "../../../components/FilterContainer/filtercontainer";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams ,useLocation} from "react-router-dom";
 
 
 function MoviesCollection(){
@@ -15,21 +15,45 @@ function MoviesCollection(){
     const [pagesCount , setPagesCount] = useState(0)
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
-    useEffect(()=>{
-        setCurrentPageNumber(searchParams.get('page'))
-    },[searchParams])
+
+    const location = useLocation()
+    
+
+    // useEffect(()=>{
+    //     setCurrentPageNumber(searchParams.get('page'))
+    //     requestMoviesOnLoad()
+    // },[searchParams])
+
+
     async function requestMoviesOnLoad(){
-        console.log(currentPageNumber)
-        const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${currentPageNumber*35}`);
+        const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);
         const moviesList = await request.json()
         if (request.status == 200){
             setMovies(moviesList['movies'])
-            setPagesCount(Math.ceil(moviesList['count']/35))
+        }
+    }
+    async function requestMoviesCountOnLoad(){
+        const request = await fetch(`http://localhost:8000/api/movies/count/`);
+        const moviesCountResponse = await request.json()
+        if (request.status == 200){
+            setPagesCount(Math.ceil(moviesCountResponse['movies_count']/35))
         }
     }
     useEffect(()=>{
-        requestMoviesOnLoad();
+        requestMoviesCountOnLoad();
     },[])
+
+    useEffect(()=>{
+        if (searchParams.get("page") && searchParams.get("page") >=1){
+            setCurrentPageNumber(searchParams.get('page'))
+            requestMoviesOnLoad()
+        }
+    },[searchParams.get("page")])
+    // useEffect(()=>{
+    //     console.log(pagesCount)},
+    // [pagesCount])
+
+
     function getUrl(page_number){
         return `/movies/?page=${page_number}`
     }
@@ -39,17 +63,15 @@ function MoviesCollection(){
             <Main>
                 <MoviesContainer>
                     {/* request should cantain start?limit?filters? */}
-                    <FilterContainer setMovies={setMovies} />
-                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
+                    <FilterContainer setCount={setPagesCount} setMovies={setMovies} />
+                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                     <MoviesCollectionComp movies={movies}/>
-                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
+                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                 </MoviesContainer>
             </Main>
             <div>
                 <App/>
             </div>
-
-
         </div>
     )
 }

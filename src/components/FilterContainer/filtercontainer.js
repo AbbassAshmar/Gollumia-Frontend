@@ -8,7 +8,7 @@ function FilterContainer(props){
     return(
         <div>
             <FilterHeader  setIsActive={(isActive)=>{setIsActive(isActive)}} isActive={isActive}></FilterHeader>
-            <FilterMenu setMovies={props.setMovies} setIsActive={(isActive)=>{setIsActive(isActive)}} isActive={isActive}></FilterMenu>
+            <FilterMenu setCount={props.setCount} setMovies={props.setMovies} setIsActive={(isActive)=>{setIsActive(isActive)}} isActive={isActive}></FilterMenu>
         </div>
     )
 }
