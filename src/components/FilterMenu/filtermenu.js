@@ -6,12 +6,10 @@ display:flex;
 flex-direction:column;
 width:80%;
 margin:auto;
-
 `
 const Buttons = styled.div`
 display:flex;
 gap:5px;
-
 align-self:flex-start;
 width:20%;
 margin:1rem 0;
@@ -60,26 +58,28 @@ function FilterMenu(props){
     const Ratings= [
         "All","G","PG","PG-13","R","R+","Rx"
     ]
+    
 
     async function requestFilteredMovies(url){
         const send_request = await fetch(url);
         const movies_list = await send_request.json();
-        
+        if (send_request.status == 200){
+            console.log(movies_list)
+            props.setMovies(movies_list.movies?movies_list.movies:[])
+            
+        }
     }
     
     function handleFilterSubmit(e){
         e.preventDefault();
         let url = "http://localhost:8000/api/movies/?"
         let formData = new FormData(e.currentTarget);
-        console.log(formData);
-        console.log(formData.values())
-        console.log(formData.entries())
-
         for (const value of formData.entries()) {
             url += `${value[0]}=${value[1]}&`
         }
         //remove the last character (? or &)
         url = url.slice(0,-1)
+        requestFilteredMovies(url)
         
     }
     return(

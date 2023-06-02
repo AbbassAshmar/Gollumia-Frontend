@@ -32,13 +32,19 @@ function CtgMovies(props){
         {   movies.length >=1 ?
             movies.map((movie)=>{
                 return <MovieCard 
-                page_id={movie.id} 
-                key={movie.id} 
-                id={movie.id} 
-                title={movie.title} 
-                imdb={movie.imdb} 
-                poster={movie.poster} 
-                image = {movie.image}
+                    page_id={movie.id} 
+                    duration={movie.duration}
+                    genres={movie.genre}
+                    key={movie.id} 
+                    id={movie.id} 
+                    rated={movie.contentRate} 
+                    title={movie.title} 
+                    imdb={movie.ratings.imdb}
+                    meta={movie.ratings.meta} 
+                    plot={movie.plot} 
+                    director={movie.director} 
+                    poster={movie.poster} 
+                    released={movie.released}
                 />
             }) :
             <div style={{height:"12.4vh"}}></div>
