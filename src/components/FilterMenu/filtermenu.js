@@ -1,18 +1,20 @@
+import { useEffect } from "react";
 import FilterElementWrapper from "../FilterElementWrapper/filterelementwrapper";
 import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
 
 const Form = styled.form`
-display:flex;
-flex-direction:column;
-width:80%;
-margin:auto;
+    display:flex;
+    flex-direction:column;
+    width:80%;
+    margin:auto;
 `
 const Buttons = styled.div`
-display:flex;
-gap:5px;
-align-self:flex-start;
-width:20%;
-margin:1rem 0;
+    display:flex;
+    gap:5px;
+    align-self:flex-start;
+    width:20%;
+    margin:1rem 0;
 `
 const Submit= styled.button`
     background : orange;
@@ -23,10 +25,11 @@ const Submit= styled.button`
     color:white;
 `
 const CloseBtn = styled(Submit)`
-background:white;
-color:black;
+    background:white;
+    color:black;
 `
 function FilterMenu(props){
+    const [searchParams, setSearchParams] = useSearchParams()
     const Genres = [
         "All",
         "Action",
@@ -64,24 +67,39 @@ function FilterMenu(props){
         const send_request = await fetch(url);
         const movies_list = await send_request.json();
         if (send_request.status == 200){
-            console.log(movies_list)
             props.setMovies(movies_list.movies?movies_list.movies:[])
-            props.setCount(Math.ceil(movies_list['count']/35))
+            props.setCount(Math.ceil(movies_list['total_count']/35))
         }
     }
     
     function handleFilterSubmit(e){
         e.preventDefault();
-        let url = "http://localhost:8000/api/movies/?"
+        let url = `http://localhost:8000/api/movies/?limit=35&start=0&`
         let formData = new FormData(e.currentTarget);
+        let params = {}
         for (const value of formData.entries()) {
             url += `${value[0]}=${value[1]}&`
+            params[value[0]] = value[1]
         }
         //remove the last character (? or &)
         url = url.slice(0,-1)
         requestFilteredMovies(url)
-        
+        setSearchParams(params)  
+        // reset page number to page 1 when filter is clicked 
+        props.setCurrentPageNumber(1)
     }
+
+    // used for requesting movies (only if filtered) depending on pagination
+    useEffect(()=>{
+        if (searchParams.get('genre') || searchParams.get('contentRate') || searchParams.get('released') ) {
+            let url =`http://localhost:8000/api/movies/?limit=35&start=${props.start}&`
+            for (const value of searchParams.entries()){
+                url += `${value[0]}=${value[1]}&`
+            }
+            requestFilteredMovies(url)
+            
+        }
+    },[props.start])
     return(
         <div style={{transition:"all 0.3s",maxHeight:`${props.isActive?"100vh":"0"}`,overflow:"hidden"}}>
             <div>

@@ -47,10 +47,14 @@ transition: max-height .5s;
 }
 
 `
-const navstyle = {
-    color:"white",
-    marginTop:"1rem"
+
+
+const SearchBox = styled.div`
+display:none;
+@media screen and (max-width:900px){
+    display:${(displaySearchBar)=>displaySearchBar};
 }
+`
 
 function MoviesNav(props){
     const navigate = useNavigate();
@@ -61,14 +65,22 @@ function MoviesNav(props){
     const [displayGenres, setDisplayGenres] = useState(false)
     const [sideNavBackground, setSideNavBackground] = useState('hidden')
     const [displaySideNav, setDisplaySideNav] = useState(false)
-
+    const [genres, setGenres] = useState([])
     
-    const SearchBox = styled.div`
-    display:none;
-    @media screen and (max-width:900px){
-        display:${displaySearchBar};
+    async function requestGenres(){
+        const request = await fetch('http://127.0.0.1:8000/api/genres/');
+        const genre_list = await request.json();
+        if (request.status == 200){
+            setGenres(genre_list)
+        }
     }
-    `
+    useEffect(()=>{
+        requestGenres()
+    },[])
+    const navstyle = {
+        color:"white",
+        marginTop:"1rem"
+    }
     
     function handleLogout(){
         fetch("http://127.0.0.1:8000/logout/",{
@@ -118,7 +130,7 @@ function MoviesNav(props){
             }
         }
     }
-    useEffect(()=>{console.log(showInfo)},[showInfo])
+
     return(
     <nav className="moviesPageNavTag">
         <div style={{zIndex:`${(sideNavBackground ==="hidden")?"-1":"1000"}`}} onClick={handleSideNavClose} className="side-navbar-wrapper">
@@ -132,18 +144,9 @@ function MoviesNav(props){
                             <div onClick={()=>{setDisplayGenres(!displayGenres)}}>{displayGenres?'-':'+'}</div>
                         </div>
                         <div style={{maxHeight:`${displayGenres?'20rem':'0'}`}} className="side-navbar-genres"> 
-                            <Link>Action</Link>
-                            <Link>Adventure</Link>
-                            <Link>Adventure</Link>
-                            <Link>Crime</Link>
-                            <Link>Adventure</Link>
-                            <Link>Crime</Link>
-                            <Link>Action</Link>
-                            <Link>Adventure</Link>
-                            <Link>Crime</Link>
-                            <Link>Adventure</Link>
-                            <Link>Crime</Link>
-                            <Link>Action</Link>
+                            {genres.map((genre)=>{
+                                return <Link key={genre.id} to={`/movies/?genre=${genre.name}`}>{genre.name}</Link>
+                            })}
                         </div>
                     </div>
                     <Link style={{textDecoration:"none"}}>Movies</Link>
@@ -162,32 +165,9 @@ function MoviesNav(props){
             <li>
                 <Link id="genre" style={{textDecoration:"none"}}>Genre</Link>
                 <div className="drop-down-genres">
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <Link>Action</Link>
-                    <Link>Adventure</Link>
-                    <Link>Crime</Link>
-                    <div id="genre1"></div>
+                    {genres.map((genre)=>{
+                        return <Link key={genre.id} to={`/movies/?genre=${genre.name}`}>{genre.name}</Link>
+                    })}
                 </div>
             </li>
             <li><Link style={{textDecoration:"none"}}>Movies</Link></li>
@@ -229,7 +209,7 @@ function MoviesNav(props){
                 }
             </div>
         </div>
-        <SearchBox className="search-box-simplified-container">
+        <SearchBox displaySearchBar={displaySearchBar} className="search-box-simplified-container">
             <div className="search-box-simplified-content">
                 <input
                     type="text"

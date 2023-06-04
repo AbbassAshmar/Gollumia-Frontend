@@ -15,55 +15,57 @@ function MoviesCollection(){
     const [pagesCount , setPagesCount] = useState(0)
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
+    const [checkfilter , setCheckFilter] = useState(false)
 
-    const location = useLocation()
-    
-
-    // useEffect(()=>{
-    //     setCurrentPageNumber(searchParams.get('page'))
-    //     requestMoviesOnLoad()
-    // },[searchParams])
-
-
-    async function requestMoviesOnLoad(){
+    // request movies with no filters , but with limits (pagination)
+    async function requestMovies(){
         const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);
         const moviesList = await request.json()
         if (request.status == 200){
+            console.log(moviesList)
             setMovies(moviesList['movies'])
+            setPagesCount(Math.ceil(moviesList['total_count']/35))
         }
     }
-    async function requestMoviesCountOnLoad(){
-        const request = await fetch(`http://localhost:8000/api/movies/count/`);
-        const moviesCountResponse = await request.json()
-        if (request.status == 200){
-            setPagesCount(Math.ceil(moviesCountResponse['movies_count']/35))
-        }
-    }
-    useEffect(()=>{
-        requestMoviesCountOnLoad();
-    },[])
 
+    // change currentPageNumber state when page query string changes (by pagination or manual)
     useEffect(()=>{
         if (searchParams.get("page") && searchParams.get("page") >=1){
             setCurrentPageNumber(searchParams.get('page'))
-            requestMoviesOnLoad()
         }
     },[searchParams.get("page")])
-    // useEffect(()=>{
-    //     console.log(pagesCount)},
-    // [pagesCount])
 
+    // used for requesting movies (only not filtered), depending on pagination 
+    useEffect(()=>{
+        if (!searchParams.get('genre') && !searchParams.get('contentRate') && !searchParams.get('released') ) {
+            requestMovies()
+        }
+    },[currentPageNumber])
 
+    // url used for links in pagination components, if filters are present, add them to pagination 
+    // this way , pagination can be used for filtered movies too 
     function getUrl(page_number){
-        return `/movies/?page=${page_number}`
+        let url = `/movies/?page=${page_number}&`;
+        let params_list = ['contentRating','genre','released']
+        for (const value of searchParams.entries()){
+            for(const param of params_list){
+                if (param ==value[0]){
+                    url += `${value[0]}=${value[1]}&`
+                }
+            }
+        }
+        url = url.slice(0,-1)
+        return url;
     }
+
     return(
         <div style={{background:"black"}}>
             <MoviesNav/>
             <Main>
                 <MoviesContainer>
                     {/* request should cantain start?limit?filters? */}
-                    <FilterContainer setCount={setPagesCount} setMovies={setMovies} />
+                    <FilterContainer setCheckFilter={setCheckFilter} setCurrentPageNumber={setCurrentPageNumber} 
+                    setCount={setPagesCount} setMovies={setMovies} start={(currentPageNumber -1)*35}/>
                     <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                     <MoviesCollectionComp movies={movies}/>
                     <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>

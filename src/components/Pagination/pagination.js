@@ -21,12 +21,9 @@ transition: background .2s;
 }
 `
 function Pagination(props){
-    useEffect(()=>{
-        console.log(props)
-    },[props])
+
     return(
         <Container>
-            
             <StyledLink style={{display:`${props.page_number <= 1 ?"none":"inline-block"}`}}  
             to={props.url(props.page_number -1)} >
                 <i style={{transform:'rotate(180deg)'}} className="fa-solid fa-greater-than"></i>
@@ -39,7 +36,6 @@ function Pagination(props){
              <div style={{margin:"0 .3rem", color:"blue",display:`${props.page_number-1 <= 1 ?"none":"inline-block"}`}} >
                 ...
             </div>
-
 
             <StyledLink style={{display:`${props.page_number -1>=1 && props.page_number-1 <= props.pagesCount?"inline-block":"none"}`}} 
             to={props.url(props.page_number -1)}>

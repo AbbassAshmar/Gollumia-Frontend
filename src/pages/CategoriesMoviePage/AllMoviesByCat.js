@@ -6,6 +6,7 @@ import Category from "../../components/Category/Category";
 import CtgMovies from "../../components/Category/ctgMovies"
 import Pagination  from "../../components/Pagination/pagination";
 import { useEffect, useState } from "react";
+
 export const Main = styled.div`
 background : black;
 width:100%;
@@ -15,7 +16,6 @@ width :97%;
 background:black;
 margin:auto;
 padding-top:1rem;
-
 `
 export function CategorizedMovies(){
     const {category} = useParams()
@@ -27,6 +27,7 @@ export function CategorizedMovies(){
     function getUrl(pageNumber){
         return `/movies/category/${category}?page=${pageNumber}`
     }
+
     async function request_movies_number(){
         let request_count_by_category = await fetch(`http://localhost:8000/api/movies/count/?category=${category}`);
         let count_by_category = await request_count_by_category.json();
@@ -36,6 +37,7 @@ export function CategorizedMovies(){
             }
         }
     }
+
     useEffect(()=>{
         request_movies_number()
     },[])
@@ -46,6 +48,8 @@ export function CategorizedMovies(){
         if (searchParams.get("page") && searchParams.get("page") >=1){
         setPageNumber(parseInt(searchParams.get("page")))}
     },[location.search])
+
+
     return(
         <div style={{background:"black"}}>
             <MoviesNav/>
