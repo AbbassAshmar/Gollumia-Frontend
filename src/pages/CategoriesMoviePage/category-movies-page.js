@@ -1,22 +1,11 @@
 import { useParams,useSearchParams,useLocation } from "react-router-dom"
-import App from "../../components/Footer/footer";
-import MoviesNav from "../../components/MainNavbar/movies-navbar";
-import styled from "styled-components";
 import Title from "../../components/Category/title";
 import CtgMovies from "../../components/Category/movies-by-category"
 import Pagination  from "../../components/Pagination/pagination";
 import { useEffect, useState } from "react";
+import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
 
-export const Main = styled.div`
-    background : black;
-    width:100%;
-`
-export const MoviesContainer = styled.div`
-    width :97%;
-    background:black;
-    margin:auto;
-    padding-top:1rem;
-`
+
 export function CategorizedMovies(){
     const {category} = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
@@ -51,20 +40,14 @@ export function CategorizedMovies(){
 
 
     return(
-        <div style={{background:"black"}}>
-            <MoviesNav/>
-            <Main>
-                <MoviesContainer>
-                    <Title veiwall={false} ctg={`All ${category} Movies`}/>
-                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={pageNumber}/>
-                    <CtgMovies category={category} page_number={pageNumber} />
-                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={pageNumber}/>
-                </MoviesContainer>
-           </Main>
-           <div style={{background:"black"}}> 
-            <App></App>
-           </div>
-        </div>
+        <MoviesPagesContainers children={
+            < >
+                <Title veiwall={false} ctg={`All ${category} Movies`}/>
+                <Pagination url={getUrl} pagesCount={pagesCount} page_number={pageNumber}/>
+                <CtgMovies category={category} page_number={pageNumber} />
+                <Pagination url={getUrl} pagesCount={pagesCount} page_number={pageNumber}/>
+            </>
+        }/>
     )
 }
 

@@ -1,11 +1,9 @@
-import App from "../../components/Footer/footer";
-import MoviesNav from "../../components/MainNavbar/movies-navbar";
-import { MoviesContainer,Main } from "../CategoriesMoviePage/category-movies-page";
 import Pagination from "../../components/Pagination/pagination";
 import FilterContainer from "../../components/FilterContainer/filter-container";
 import { useEffect, useState } from "react";
 import { useSearchParams ,useLocation} from "react-router-dom";
 import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";
+import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
 
 
 function MoviesCollection(){
@@ -56,22 +54,16 @@ function MoviesCollection(){
     }
 
     return(
-        <div style={{background:"black"}}>
-            <MoviesNav/>
-            <Main>
-                <MoviesContainer>
-                    {/* request should cantain start?limit?filters? */}
-                    <FilterContainer setCurrentPageNumber={setCurrentPageNumber} setCount={setPagesCount} 
-                    setMovies={setMovies} start={(currentPageNumber -1)*35}/>
-                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
-                    <MoviesGridContainer movies={movies}/>
-                    <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
-                </MoviesContainer>
-            </Main>
-            <div>
-                <App/>
-            </div>
-        </div>
+        <MoviesPagesContainers children={
+            <>
+                <FilterContainer setCurrentPageNumber={setCurrentPageNumber} setCount={setPagesCount} 
+                setMovies={setMovies} start={(currentPageNumber -1)*35}/>
+                <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
+                <MoviesGridContainer movies={movies}/>
+                <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
+            </>
+        }
+        />
     )
 }
 

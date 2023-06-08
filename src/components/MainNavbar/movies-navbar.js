@@ -195,7 +195,7 @@ function MoviesNav(props){
                         <Link to={`/user/${cookies.username}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
                             <div>&nbsp;View Profile</div>
                         </Link>
-                        <Link style={{textDecoration:"none"}}>
+                        <Link to={`/movies/${cookies.id}/favorites`} style={{textDecoration:"none"}}>
                             <div>&nbsp;My Favourites</div>
                         </Link>
                         <button onClick={handleLogout} className="signOutButton">

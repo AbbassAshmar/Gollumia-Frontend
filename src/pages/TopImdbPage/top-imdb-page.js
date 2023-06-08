@@ -7,7 +7,7 @@ import MoviesGridContainer from "../../components/MoviesGridContainer/movies-gri
 import Title from "../../components/Category/title";
 import Pagination from "../../components/Pagination/pagination";
 import { useLocation, useSearchParams } from "react-router-dom";
-
+import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
 const Main = styled.div`
     background:black;
     margin:0 0 0 1.3rem;
@@ -15,13 +15,14 @@ const Main = styled.div`
 function TopImdbPage(){
     const [movies, setMovies] = useState([])
     const [searchParams, setSearchParams] = useSearchParams()
-    const [currentPageNumber,setCurrentPageNumber] = useState(1)
+    const [currentPageNumber,setCurrentPageNumber] = useState(searchParams.get("page")?searchParams.get("page"):1)
     const [pagesCount, setPagesCount] = useState(1)
     const location = useLocation()
 
     async function request_top_imdb_movies(){
-        let start =(currentPageNumber -1)*35
-        const request = await fetch(`http://127.0.0.1:8000/api/movies/top-imdb/?limit=${35}&start=${start}`)
+        let limit  = 35
+        let start =(currentPageNumber -1)*limit
+        const request = await fetch(`http://127.0.0.1:8000/api/movies/top-imdb/?limit=${limit}&start=${start}`)
         const top_imdb_movies = await request.json()
         if (request.status === 200){
             setMovies(top_imdb_movies['movies'])
@@ -43,19 +44,14 @@ function TopImdbPage(){
     function getUrl(pageNumber){
         return `/movies/top-imdb/?page=${pageNumber}`
     }
+    
     return (
-        <div style={{background:"black"}}>
-            <MoviesNav />
-            <Main>
+        <MoviesPagesContainers>
                 <Title ctg={"Top Imdb Movies"} />
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
                 <MoviesGridContainer movies={movies}/>
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
-            </Main>
-            <div>
-                <App />
-            </div>
-        </div>
+        </MoviesPagesContainers>
     )
 }
 
