@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { cookies, useCookies } from "react-cookie";
 import styles from "./Comments.module.css"
-import CmntInput from "./CommentInput"
+import CmntInput from "./comment-input-form"
 import { Link } from "react-router-dom";
-import CmntDiv from "./CmntDiv";
+import CmntDiv from "./comment-container";
 import { useEffect } from "react";
-import CmntPfp from "./cmntPfp";
+import CmntPfp from "./comment-pfp";
 function Comment(props){
     const [cookies,setCookies] = useCookies([])
     const [cmnts, setCmnts] = useState([])
@@ -101,7 +101,7 @@ function Comment(props){
                         <h3>{count} Comments</h3> {/*comments and replies total count, updated whenever a new reply or cmnt is added + when the page refreshes*/}
                     </div>
                     <div>
-                        <h3 style={{fontSize:"1.3rem"}}> { cookies.token[2] }</h3>
+                        <h3 style={{fontSize:"1.3rem"}}> { cookies.username }</h3>
                     </div>
                 </div>
                 <div className={styles.cmntPfpInput}>
@@ -111,13 +111,26 @@ function Comment(props){
             </div>
             <div className={styles.CmntsArea}>
                 {cmnts.length >0 ?cmnts.map((comment)=>{
+                    console.log(comment.profile)
                     return (
                     <React.Fragment>
-                        <CmntDiv getNewInteractions={getNewInteractions} date={comment.date} page_id={props.page_id} getData={replydata} likes={comment.likes} dislikes={comment.dislikes}  letter={comment.profile?comment.profile:comment.user[0].toUpperCase()} key={comment.id} cmntId={comment.id} Isreply={false} username={comment.user} text={comment.text}/>
+                        <CmntDiv getNewInteractions={getNewInteractions} date={comment.date} page_id={props.page_id} 
+                            getData={replydata} likes={comment.likes} 
+                            dislikes={comment.dislikes}  
+                            letter={comment.profile?'http://127.0.0.1:8000'+comment.profile:comment.user[0].toUpperCase()} 
+                            key={comment.id} cmntId={comment.id} Isreply={false} username={comment.user} text={comment.text}
+                        />
                         {   
                             comment.replies && comment.replies.length>0?
                             comment.replies.map((Reply)=>{
-                                return <CmntDiv getNewInteractions={getNewInteractions} date={Reply.date} page_id={props.page_id} likes={Reply.likes} dislikes={Reply.dislikes} letter={Reply.profile?Reply.profile:Reply.user[0].toUpperCase()} getData={replydata} key={Reply.id} reply_id={Reply.id}  cmntId={comment.id}  Isreply={true} username_replying_to={Reply.user_replying_to} username={Reply.user} text={Reply.text}/>        
+                                return <CmntDiv getNewInteractions={getNewInteractions} 
+                                date={Reply.date} page_id={props.page_id} likes={Reply.likes} 
+                                dislikes={Reply.dislikes} 
+                                letter={Reply.profile?'http://127.0.0.1:8000'+Reply.profile:Reply.user[0].toUpperCase()} 
+                                getData={replydata} key={Reply.id} reply_id={Reply.id}  cmntId={comment.id}  
+                                Isreply={true} username_replying_to={Reply.user_replying_to} username={Reply.user} 
+                                text={Reply.text
+                                }/>        
                             }
                             ):null
                         }

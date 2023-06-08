@@ -5,11 +5,11 @@ import img3 from "../../photos/img3.jpg";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
 import InputField from "../../components/Input/input";
-import Block from "../../components/Blocks/Blocks";
-import Footer from "../../components/Footer/Footer";
+import Block from "../../components/Blocks/image-block";
+import Footer from "../../components/Footer/footer";
 import Navbar from "../../components/Navbar/navbar"
+
 function Home(){
-    
     return(
         <>
         <div className="page1">

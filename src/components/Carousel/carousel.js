@@ -2,7 +2,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./carousel.css"
 import Slider from "react-slick"
-import SliderItem from "./sliderItem";
+import SliderItem from "./slider-element";
 import {useEffect, useState} from "react"
 
 // function clearTitle(title){

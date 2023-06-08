@@ -1,78 +1,67 @@
 import {React, useEffect, useState} from 'react'
-import { json, useParams } from 'react-router-dom';
-import App from '../../components/Footer/Footer';
-import MoviesNav from '../../components/MainNavbar/moviesNavbar';
-import styles from  "./userPage.module.css"
+import App from '../../components/Footer/footer';
+import MoviesNav from '../../components/MainNavbar/movies-navbar';
 import styled from 'styled-components';
 import { Form,FormGroup,Input,Label,Col } from 'reactstrap';
 import { Cookies, useCookies } from 'react-cookie';
 
 const Section = styled.div`
-margin:0;
-padding:0;
-font-weight:400;
-background:black;
+    margin:0;
+    padding:0;
+    font-weight:400;
+    background:black;
 `
-const Container = styled.div`
-overflow:hidden;
-width:80%;
-margin:auto;
-`
+
 const Content = styled.div`
-width:80%;
-display:flex;
-margin:auto;
-flex-direction:column;
-align-items:start;
+    width:80%;
+    display:flex;
+    margin:auto;
+    flex-direction:column;
+    align-items:start;
 
 `
 const Div = styled.div`
-width:100%;
-max-width:600px;
-display:flex;
-margin:auto;
-flex-wrap:wrap;
-@media screen and (max-width:900px){
-    flex-direction:column;
-}
+    width:100%;
+    max-width:600px;
+    display:flex;
+    margin:auto;
+    flex-wrap:wrap;
+    @media screen and (max-width:900px){
+        flex-direction:column;
+    }
 `
 const InputLabel = styled.label`
-border-radius:50%;
-cursor: pointer;
-background-size:100% 100%;
-background-repeat:no-repeat;
-background-position:center;
-display: flex;
-align-items: center;
-justify-content: center;
-height: 140px;
-width: 140px;
-margin: auto;
+    border-radius:50%;
+    cursor: pointer;
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 140px;
+    width: 140px;
+    margin: auto;
 
-@media screen and (max-width:800px){
-    height: 100px;
-    width: 100px;
-}
-`
-const Img = styled.div`
-width:100%;
-height:100%;
-border-radius:50%;
+    @media screen and (max-width:800px){
+        height: 100px;
+        width: 100px;
+    }
 `
 const LabelLetter = styled.div`
-font-size:7rem;
-padding: 0 0 1rem 0;
-@media screen and (max-width:800px){
-    font-size:4.5rem;
-}
+    font-size:7rem;
+    padding: 0 0 1rem 0;
+    @media screen and (max-width:800px){
+        font-size:4.5rem;
+    }
 `
 const H2 = styled.h2`
-display:block;
-margin:2rem 0 0 20%;
-color:white;
-@media screen and (max-width:1075px){
-    margin:2rem 0 0 0;
-}
+    display:block;
+    margin:2rem 0 0 20%;
+    color:white;
+    @media screen and (max-width:1075px){
+        margin:2rem 0 0 0;
+    }
 `
 function UserPage(){
     const [display,setDisplay] = useState(false)
@@ -131,13 +120,6 @@ function UserPage(){
         }
         setPasswordError("")
         request_update(formData)
-        // let response = send_request.json()
-        // if (send_request.status == 400){
-        //     setPasswordError("old password is not correct")
-        // }
-        // if (send_request.status == 200){
-        //     setCookies("token", [cookie.token,response.email,response.username,response.user.id,response.user.pfp], {path :"/",expires:tomorrow})
-        // }
     }
     function handleImage(e){
         let image= e.target.files[0] // get the file from the input

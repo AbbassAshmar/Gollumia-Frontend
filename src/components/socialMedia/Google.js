@@ -8,18 +8,18 @@ import {useNavigate } from "react-router-dom"
 
 
 const Button =styled.button`
-background-color:#dd4b39;
-height:40px;  
-min-height:40px;
-border-radius: 4px;
-color:white;
-border:0px transparent;  
-text-align: center;
-width: 150px;
-min-width:82px;
-&:hover{
-    opacity:0.6;
-}
+    background-color:#dd4b39;
+    height:40px;  
+    min-height:40px;
+    border-radius: 4px;
+    color:white;
+    border:0px transparent;  
+    text-align: center;
+    width: 150px;
+    min-width:82px;
+    &:hover{
+        opacity:0.6;
+    }
 `
 function Google(){
     const [cookies, setCookies] = useCookies(["token"])
@@ -36,14 +36,14 @@ function Google(){
         
         const resp = await res.json()
         if ((res.status==200  || res.status==201)&& res.ok == true){
+            console.log(resp.user)
             const token = resp.token ? resp.token : null
             setCookies("token", token, {path :"/"})
             setCookies("email", resp.user.email, {path :"/"})
             setCookies("username", resp.user.username, {path :"/"})
             setCookies("id", resp.user.id, {path :"/"})
-            setCookies("pfp", resp.user.pfp, {path :"/"})
+            setCookies("pfp", 'http://127.0.0.1:8000' + resp.user.pfp, {path :"/"})
             navigate("/home",{replace:true})
-            console.log(cookies)
         }
 
     }

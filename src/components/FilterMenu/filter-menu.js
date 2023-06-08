@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import FilterElementWrapper from "../FilterElementWrapper/filterelementwrapper";
+import FilterElementWrapper from "../FilterElementWrapper/filter-element-wrapper";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 
@@ -99,7 +99,7 @@ function FilterMenu(props){
             requestFilteredMovies(url)
             
         }
-    },[props.start])
+    },[props.start,searchParams])
     return(
         <div style={{transition:"all 0.3s",maxHeight:`${props.isActive?"100vh":"0"}`,overflow:"hidden"}}>
             <div>

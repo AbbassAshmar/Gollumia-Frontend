@@ -1,13 +1,11 @@
-import App from "../../../components/Footer/Footer";
-import MoviesNav from "../../../components/MainNavbar/moviesNavbar";
-import styled from "styled-components";
-import { MoviesContainer,Main } from "../../CategoriesMoviePage/AllMoviesByCat";
-import Pagination from "../../../components/Pagination/pagination";
-import MoviesCollectionComp from "../../../components/MoviesCollectionComponent/MoviesCollectionComponent";
-import FilterHeader from "../../../components/FilterHeader/filterheader";
-import FilterContainer from "../../../components/FilterContainer/filtercontainer";
+import App from "../../components/Footer/footer";
+import MoviesNav from "../../components/MainNavbar/movies-navbar";
+import { MoviesContainer,Main } from "../CategoriesMoviePage/category-movies-page";
+import Pagination from "../../components/Pagination/pagination";
+import FilterContainer from "../../components/FilterContainer/filter-container";
 import { useEffect, useState } from "react";
 import { useSearchParams ,useLocation} from "react-router-dom";
+import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";
 
 
 function MoviesCollection(){
@@ -15,14 +13,13 @@ function MoviesCollection(){
     const [pagesCount , setPagesCount] = useState(0)
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
-    const [checkfilter , setCheckFilter] = useState(false)
+    
 
     // request movies with no filters , but with limits (pagination)
     async function requestMovies(){
         const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);
         const moviesList = await request.json()
         if (request.status == 200){
-            console.log(moviesList)
             setMovies(moviesList['movies'])
             setPagesCount(Math.ceil(moviesList['total_count']/35))
         }
@@ -64,10 +61,10 @@ function MoviesCollection(){
             <Main>
                 <MoviesContainer>
                     {/* request should cantain start?limit?filters? */}
-                    <FilterContainer setCheckFilter={setCheckFilter} setCurrentPageNumber={setCurrentPageNumber} 
-                    setCount={setPagesCount} setMovies={setMovies} start={(currentPageNumber -1)*35}/>
+                    <FilterContainer setCurrentPageNumber={setCurrentPageNumber} setCount={setPagesCount} 
+                    setMovies={setMovies} start={(currentPageNumber -1)*35}/>
                     <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
-                    <MoviesCollectionComp movies={movies}/>
+                    <MoviesGridContainer movies={movies}/>
                     <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                 </MoviesContainer>
             </Main>

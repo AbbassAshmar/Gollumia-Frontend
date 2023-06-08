@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-function Category(props){
+function Title(props){
 
     const styles ={
         container:{
@@ -32,4 +32,4 @@ function Category(props){
     )
 }
 
-export default Category;
+export default Title;

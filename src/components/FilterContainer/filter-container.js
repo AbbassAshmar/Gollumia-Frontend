@@ -1,6 +1,6 @@
 import { useState } from "react";
-import FilterHeader from "../FilterHeader/filterheader";
-import FilterMenu from "../FilterMenu/filtermenu";
+import FilterHeader from "../FilterHeader/filter-header";
+import FilterMenu from "../FilterMenu/filter-menu";
 
 
 function FilterContainer(props){

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from "react-router-dom"
-import SmBtn from "../../components/Button/SmBtn"
+import SmBtn from "../Button/social-media-button"
 
 
 const Container = styled.div`
@@ -43,22 +43,22 @@ const SocialButtons = styled.div`
   
 `
 const Ulcontainer = styled.div`
-margin-left:0;
+  margin-left:0;
 `
 
 const Ul=styled.ul`
-display:flex;
-flex-direction:column;
-align-items:start;
-margin:.1rem;
-margin-left:0;
-padding:0;
+  display:flex;
+  flex-direction:column;
+  align-items:start;
+  margin:.1rem;
+  margin-left:0;
+  padding:0;
 `
 const Li = styled.li`
-list-style:none;
-margin:.3rem;
-margin-left:0;
-color:white;
+  list-style:none;
+  margin:.3rem;
+  margin-left:0;
+  color:white;
 `
 export default function App(){
 

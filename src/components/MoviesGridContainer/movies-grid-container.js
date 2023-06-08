@@ -1,14 +1,31 @@
-import { useEffect } from "react";
-import MovieCard from "../MovieCard/Moviecard";
-import { Container } from "../TrendingMovies/TrendingMovies";
+import MovieCard from "../MovieCard/movie-card";
+import styled from "styled-components";
 
-
-function MoviesCollectionComp(props){
-
+const Container = styled.div`
+    display: grid;
+    grid-template-columns:repeat(auto-fit ,minmax(220px,1fr));
+    overflow:hidden;
+    justify-items: center;
+    gap:10px;
+    width:100%;
+    padding:1%;
+    background:black;
+    @media screen and (max-width:487px){
+        padding-left:0;
+        grid-template-columns:repeat(2 ,50%);
+    }
+    @media screen and (max-width:390px){
+        padding-left:0;
+        grid-template-columns:repeat(2 ,50%);
+        gap:2px;
+    }
+`
+function MoviesGridContainer(props){
     return (
         <Container>
             {props.movies && props.movies.length >= 1?props.movies.map((movie)=>{
                 return <MovieCard 
+                    hoverScale={true}
                     page_id={movie.id} 
                     duration={movie.duration}
                     genres={movie.genre}
@@ -27,4 +44,4 @@ function MoviesCollectionComp(props){
         </Container>
     )
 }
-export default MoviesCollectionComp;
+export default MoviesGridContainer;

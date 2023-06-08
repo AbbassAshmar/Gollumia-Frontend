@@ -1,5 +1,4 @@
-import { useState } from "react";
-import Category from "../Category/Category";
+import Category from "../Category/title";
 import styled from "styled-components";
 
 const Filter = styled.button`
@@ -12,9 +11,9 @@ const Filter = styled.button`
 
 `
 const Container = styled.div`
-display:flex;
-justify-content:space-between;
-align-items:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 `
 function FilterHeader(props){
     function handleFilterClick(){

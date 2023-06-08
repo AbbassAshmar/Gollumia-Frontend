@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import styles from "./Comments.module.css"
 import { useEffect, useState } from "react";
-import CommentInput from './CommentInput';
-import CmntPfp from "./cmntPfp";
-import LikeDislikeBtns from "./LikeDislikeBtns"
+import CommentInput from './comment-input-form';
+import CmntPfp from "./comment-pfp";
+import LikeDislikeBtns from "./like-dislike-buttons"
 const Div = styled.div`
     width: 100%;
     display:flex;

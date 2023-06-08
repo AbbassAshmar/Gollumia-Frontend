@@ -1,16 +1,17 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 import './App.css';
-import LoginPage from "./pages/LoginPage/login";
-import Home from './pages/HomePage/Home';
-import Register from "./pages/RegistrationPage/Register";
-import {MoviesPage} from './pages/MoviesPage/moviesPage';
+import LoginPage from "./pages/LoginPage/login-page";
+import Home from './pages/HomePage/home-page';
+import Register from "./pages/RegistrationPage/register-page";
+import {MoviesPage} from './pages/MoviesPage/movies-page';
 import Movie from './pages/SingleMoviePage/movie';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import UserPage from './pages/UserPage/userPage';
-import {CategorizedMovies} from './pages/CategoriesMoviePage/AllMoviesByCat';
-import MoviesCollection from './pages/MoviesCollectionPage/MoviesCollection.js/moviesCollection';
-
+import UserPage from './pages/UserPage/user-page';
+import {CategorizedMovies} from './pages/CategoriesMoviePage/category-movies-page';
+import MoviesCollection from './pages/MoviesCollectionPage/movies-collection-page';
+import FavoritesPage from './pages/FavouritesPage/favorite-movies-page';
+import TopImdbPage from './pages/TopImdbPage/top-imdb-page';
 function App() {
   return (
     <GoogleOAuthProvider clientId="798671795051-c95amd54jght2rvvkbnqog71ilut2kch.apps.googleusercontent.com">
@@ -24,6 +25,8 @@ function App() {
           <Route path="user/:username" element={<UserPage />}></Route>
           <Route path="movies/category/:category" element={<CategorizedMovies/>}></Route>
           <Route path="movies" element={<MoviesCollection/>}></Route>
+          <Route path='movies/:id/favorites/' element={<FavoritesPage/>}> </Route>
+          <Route path="movies/top-imdb/" element={<TopImdbPage/>}> </Route>
         </Routes>
       </div>
     </GoogleOAuthProvider>

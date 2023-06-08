@@ -1,6 +1,6 @@
 import {useCookies} from "react-cookie"
 import styled from "styled-components"
-import DefaultPfp from "./defaultPfp"
+import DefaultPfp from "./default-pfp"
 
 const Div = styled.div`
     border-radius:50%;
@@ -8,13 +8,11 @@ const Div = styled.div`
     margin-right:1px;
     width:37px;
     border:none;
-
 `
-
 const Container = styled.div`
-@media screen and (max-width:900px){
-    transform:scale(.85);
-}
+    @media screen and (max-width:900px){
+        transform:scale(.85);
+    }
 `
 function Pfp(props){
     const [cookies, setCookies] = useCookies(["pfp"])

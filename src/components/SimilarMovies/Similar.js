@@ -1,6 +1,6 @@
 import styles from "../../pages/SingleMoviePage/movie.module.css"
 import { useEffect, useState} from "react";
-import MovieCard from '../MovieCard/Moviecard'
+import MovieCard from '../MovieCard/movie-card'
 
 function SimilarMovies(props){
 

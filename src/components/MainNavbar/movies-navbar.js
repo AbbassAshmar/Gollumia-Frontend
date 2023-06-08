@@ -18,32 +18,32 @@ const Button = styled.button`
     gap:5px;
 `
 const Logo = styled.h1`
-font-family: 'Kanit', sans-serif;
-color:orange;
-font-weight:700;
-font-size:2.3rem;
-margin:0 0 0 0;
+    font-family: 'Kanit', sans-serif;
+    color:orange;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 0 0;
 `
 const Settings = styled.div`
-height :320%;
-max-height:400%;
-width:200%;
-background:black;
-position:absolute;
-z-index:2;
-right:-25%;
-top:130%;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-align-items:stretch;
-box-shadow: 0px 0px 6px orange;
-border-radius:10px;
-overflow:hidden;
-transition: max-height .5s;
-@media screen and (max-width:900px){
-    right:-0%;
-    width:300%;
+    height :320%;
+    max-height:400%;
+    width:200%;
+    background:black;
+    position:absolute;
+    z-index:2;
+    right:-25%;
+    top:130%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:stretch;
+    box-shadow: 0px 0px 6px orange;
+    border-radius:10px;
+    overflow:hidden;
+    transition: max-height .5s;
+    @media screen and (max-width:900px){
+        right:-0%;
+        width:300%;
 }
 
 `
@@ -149,8 +149,8 @@ function MoviesNav(props){
                             })}
                         </div>
                     </div>
-                    <Link style={{textDecoration:"none"}}>Movies</Link>
-                    <Link style={{textDecoration:"none"}}>Top IMDB</Link>
+                    <Link to={'/movies'} style={{textDecoration:"none"}}>Movies</Link>
+                    <Link to={'/movies/top-imdb/'} style={{textDecoration:"none"}}>Top IMDB</Link>
                 </div>
             </div>
         </div>
@@ -170,8 +170,8 @@ function MoviesNav(props){
                     })}
                 </div>
             </li>
-            <li><Link style={{textDecoration:"none"}}>Movies</Link></li>
-            <li><Link style={{textDecoration:"none"}}>Top IMDB</Link></li>
+            <li><Link  to={'/movies'} style={{textDecoration:"none"}}>Movies</Link></li>
+            <li><Link to={'/movies/top-imdb/'} style={{textDecoration:"none"}}>Top IMDB</Link></li>
         </ul>
         <div className="movies-navbar">
             <div className="search">

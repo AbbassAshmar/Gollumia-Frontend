@@ -10,7 +10,7 @@ function Facebook(){
     }
     return(
         <FacebookLogin 
-        type="button"
+            type="button"
             appId="861835401720160"
             autoLoad={false}
             fields="name,email,picture"

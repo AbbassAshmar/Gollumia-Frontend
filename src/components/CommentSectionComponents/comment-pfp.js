@@ -30,7 +30,7 @@ function CmntPfp(props){
         <Div>
             {
             (props.letter && props.letter.length > 1 )?
-            <Img src={`http://127.0.0.1:8000/${props.letter}`}/>:
+            <Img src={props.letter}/>:
             <SquareDiv>
                 {props.letter}
             </SquareDiv>    

@@ -85,7 +85,7 @@ function Register(){
                 setCookies("email",email, {path: '/'})
                 setCookies("username",name, {path: '/'})
                 setCookies("id",id, {path: '/'})
-                setCookies("pfp",res.user.pfp, {path: '/'})
+                setCookies("pfp",'http://127.0.0.1:8000' +res.user.pfp, {path: '/'})
 
                 navigate("/home", { replace: true })
                 return res.user;

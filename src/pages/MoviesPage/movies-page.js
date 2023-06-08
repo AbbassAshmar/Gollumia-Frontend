@@ -2,15 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import MoviesNav from "../../components/MainNavbar/moviesNavbar";
+import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import "./moviesPage.css"
 import Crousel from "../../components/Carousel/carousel";
-import SmBtn from "../../components/Button/SmBtn";
-import Category from "../../components/Category/Category"
-import {TrendingMovies} from "../../components/TrendingMovies/TrendingMovies"
-import LatestMovies from "../../components/LatestMovies/LatestMovies"
-import UpcomingMovies from "../../components/UpcomingMovies/UpcomingMovies";
-import App from "../../components/Footer/Footer";
+import SmBtn from "../../components/Button/social-media-button";
+import Title from "../../components/Category/title"
+import {TrendingMovies} from "../../components/TrendingMovies/trending-movies"
+import LatestMovies from "../../components/LatestMovies/latest-movies"
+import UpcomingMovies from "../../components/UpcomingMovies/upcoming-movies";
+import App from "../../components/Footer/footer";
 import styled from "styled-components";
 
 export const Movies_Container = styled.div`
@@ -18,12 +18,11 @@ export const Movies_Container = styled.div`
     width: 87%;
     margin: auto;
     overflow: hidden;
-@media screen and (max-width:1400px){
-    .moviesBackground{
-        width: 95%;
+    @media screen and (max-width:1400px){
+        .moviesBackground{
+            width: 95%;
+        }
     }
-}
-
 `
 export function MoviesPage(){
     const [cookies , setCookies, removeCookie] = useCookies(["token"])
@@ -42,7 +41,6 @@ export function MoviesPage(){
         
     useEffect(
         () => {
-            console.log(cookies)
             if (cookies.token==null){
                 navigate('/login', {replace:true})
             }
@@ -74,11 +72,11 @@ export function MoviesPage(){
                     </div>
                 </section>
                 <section className="moviesSection">
-                    <Category viewall={true} ctg="Trending" />
+                    <Title viewall={true} ctg="Trending" />
                     <TrendingMovies />
-                    <Category viewall={true}  ctg="Latest" />
+                    <Title viewall={true}  ctg="Latest" />
                     <LatestMovies />
-                    <Category viewall={true}  ctg="Upcoming" />
+                    <Title viewall={true}  ctg="Upcoming" />
                     <UpcomingMovies />
                 </section>
             </Movies_Container>

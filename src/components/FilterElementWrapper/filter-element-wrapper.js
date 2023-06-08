@@ -1,4 +1,4 @@
-import FilterElement from "../FilterElements/filterelements";
+import FilterElement from "../FilterElements/filter-elements";
 import styled from "styled-components";
 
 const Container  = styled.div`

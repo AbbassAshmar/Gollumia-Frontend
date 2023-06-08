@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import Facebook from "../../components/socialMedia/Facebook";
-import Twitter from "../../components/socialMedia/Twitter";
-import Google from "../../components/socialMedia/Google";
+import Facebook from "../../components/socialMedia/facebook";
+import Twitter from "../../components/socialMedia/twitter";
+import Google from "../../components/socialMedia/google";
     const Logo = styled.h1`
     font-family: 'Kanit', sans-serif;
     font-family: 'Open Sans', sans-serif;
@@ -67,7 +67,7 @@ function LoginPage(){
             setCookies("email", resp.user.email, {path :"/",expires:tomorrow})
             setCookies("username", resp.user.username, {path :"/",expires:tomorrow})
             setCookies("id", resp.user.id, {path :"/",expires:tomorrow})
-            setCookies("pfp", resp.user.pfp, {path :"/",expires:tomorrow})
+            setCookies("pfp", 'http://127.0.0.1:8000' +resp.user.pfp, {path :"/",expires:tomorrow})
             navigate('/movies')}
         })
         .catch(error =>{ console.error(error)})

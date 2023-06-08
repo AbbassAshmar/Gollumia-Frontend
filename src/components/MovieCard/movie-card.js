@@ -50,32 +50,32 @@ gap:4px;
 
 
 let Cardcontainer= styled.div`
-        box-sizing: border-box;
-        width: 190px;
-        height: 254px;
-        background: url(${({poster})=>poster});
-        background-position:center;
-        background-size:cover;
-        border: 1px solid white;
-        box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
-        backdrop-filter: blur(6px);
-        border-radius: 17px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        user-select: none;
-        font-weight: bolder;
-        overflow:hidden;
+    box-sizing: border-box;
+    width: 190px;
+    height: 254px;
+    background: url(${({poster})=>poster});
+    background-position:center;
+    background-size:cover;
+    border: 1px solid white;
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    font-weight: bolder;
+    overflow:hidden;
         &:hover{
             border: 1px solid orange;
             transform: ${({hoverScale}) => hoverScale ? "None" : "scale(0.95) rotateZ(6deg)"}
         }
         &:active {
             transform: ${({hoverScale}) => hoverScale ? "None" : "scale(0.95) rotateZ(6deg)"};
-          }
+            }
         &:hover #HoverDiv{
             opacity:1;
         }
@@ -83,8 +83,7 @@ let Cardcontainer= styled.div`
             width: 220px;
             height: 290px;
         }
-       
-    `
+`
 
 function MovieCard(props){
     const playButton = {

@@ -1,19 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import MoviesNav from "../../components/MainNavbar/moviesNavbar";
+import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import styles from "./movie.module.css"
 import styled from "styled-components";
 import imdb from "../../photos/imdb.png";
 import meta from "../../photos/meta.png";
-import Comment from '../../components/CommentSectionComponents/Comments'
-import App from '../../components/Footer/Footer'
-import SimilarMovies from '../../components/SimilarMovies/Similar'
+import Comment from '../../components/CommentSectionComponents/comments-wrapper'
+import App from '../../components/Footer/footer'
+import SimilarMovies from '../../components/SimilarMovies/similar'
 import ReactPlayer from "react-player"
 import { useCookies } from "react-cookie";
 
 const Cont  = styled.div`
-min-height:100%;
-display:"flex";
+    min-height:100%;
+    display:"flex";
+`
+
+const FirstPageContainer = styled.div`
+    height: 91.05vh;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    overflow:hidden;
+    &:before{
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+        background:url(${({background})=>background});
+        background-size:cover;
+        filter:blur(2px);
+        transform: scale(1.1);
+    }
 `
 const FirstChild = styled.div`
     &:before{
@@ -26,12 +45,12 @@ const FirstChild = styled.div`
         background:linear-gradient(to top,rgba(0,0,0,0.9) ,rgba(0,0,0,0.5));
         border-bottom:10px solid black;
     }
-    `
-    const SecondPageContainer =styled.div`
+`
+const SecondPageContainer =styled.div`
     width:100%;
     background:black;
     min-height:100%;
-    `
+`
 function Movie(){
     const [cookies,setCookies] = useCookies('token')
     const [fav, setFav] = useState("white")
@@ -40,31 +59,13 @@ function Movie(){
     // another approach : get the movie's id from the url using useParams(), then send a request to the server including id;
     const {id} = useParams();
    
-    const FirstPageContainer = styled.div`
-    height: 91.05vh;
-    width: 100%;
-    position: relative;
-    z-index: 0;
-    overflow:hidden;
-    &:before{
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: -1;
-        background:url(${state.image?state.image:state.poster});
-        background-size:cover;
-        filter:blur(2px);
-        transform: scale(1.1);
-    }
-    `
     
     async function favRequest(){ // request to add or remove a movie from favourites
         let data = {
             email:cookies.email,
             movie_id: id
         }
-        const request = await fetch("http://127.0.0.1:8000/api/favourite",{
+        const request = await fetch("http://127.0.0.1:8000/api/movies/favorites",{
             method:"post",
             body:JSON.stringify(data),
             headers:{
@@ -82,9 +83,10 @@ function Movie(){
         return request
     }
     
-    useEffect(()=>{ // check whether a movie is added to favourites or not to decide the color of the fav heart
+    // check whether a movie is added to favourites or not to decide the color of the fav heart
+    useEffect(()=>{ 
         const fetchFav = async function(){
-            const req = await fetch(`http://127.0.0.1:8000/api/favourite/${cookies.id}/${id}`,{
+            const req = await fetch(`http://127.0.0.1:8000/api/movies/favorites/${cookies.id}/${id}`,{
                 method:"get",
                 headers:{
                     "Authorization":"Token "+cookies.token,
@@ -92,6 +94,8 @@ function Movie(){
                 }
             })
             const resp = await req.json()
+            console.log(resp)
+            console.log(req)
             if (req.ok==true && resp.found==false){
                 setFav("white")
             }
@@ -105,7 +109,7 @@ function Movie(){
     return(
         <Cont>
             <MoviesNav />
-            <FirstPageContainer>
+            <FirstPageContainer background={state.image?state.image:state.poster}>
                 <FirstChild></FirstChild>
                 <div className={styles.infoContainer}>
                     <img className={styles.MoviePoster} alt={state.title} src={state.poster}></img>

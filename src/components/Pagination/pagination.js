@@ -1,24 +1,23 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-const Container = styled.div`
-width:40%;
-display:flex;
-align-items:center;
-margin:2rem auto 2rem auto;
-justify-content:center;
-background:black;
 
+const Container = styled.div`
+    width:40%;
+    display:flex;
+    align-items:center;
+    margin:2rem auto 2rem auto;
+    justify-content:center;
+    background:black;
 `
 const StyledLink = styled(Link)`
-padding:.5rem 1.2rem .5rem 1.2rem;
-border-radius:4px;
-text-decoration:none;
-font-size:1.2rem;
-transition: background .2s;
-&:hover{
-    background:rgba(255,255,255,.3);
-}
+    padding:.5rem 1.2rem .5rem 1.2rem;
+    border-radius:4px;
+    text-decoration:none;
+    font-size:1.2rem;
+    transition: background .2s;
+    &:hover{
+        background:rgba(255,255,255,.3);
+    }
 `
 function Pagination(props){
 

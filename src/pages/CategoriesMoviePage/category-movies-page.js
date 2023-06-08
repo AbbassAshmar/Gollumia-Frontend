@@ -1,21 +1,21 @@
 import { useParams,useSearchParams,useLocation } from "react-router-dom"
-import App from "../../components/Footer/Footer";
-import MoviesNav from "../../components/MainNavbar/moviesNavbar";
+import App from "../../components/Footer/footer";
+import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import styled from "styled-components";
-import Category from "../../components/Category/Category";
-import CtgMovies from "../../components/Category/ctgMovies"
+import Title from "../../components/Category/title";
+import CtgMovies from "../../components/Category/movies-by-category"
 import Pagination  from "../../components/Pagination/pagination";
 import { useEffect, useState } from "react";
 
 export const Main = styled.div`
-background : black;
-width:100%;
+    background : black;
+    width:100%;
 `
 export const MoviesContainer = styled.div`
-width :97%;
-background:black;
-margin:auto;
-padding-top:1rem;
+    width :97%;
+    background:black;
+    margin:auto;
+    padding-top:1rem;
 `
 export function CategorizedMovies(){
     const {category} = useParams()
@@ -55,7 +55,7 @@ export function CategorizedMovies(){
             <MoviesNav/>
             <Main>
                 <MoviesContainer>
-                    <Category veiwall={false} ctg={`All ${category} Movies`}/>
+                    <Title veiwall={false} ctg={`All ${category} Movies`}/>
                     <Pagination url={getUrl} pagesCount={pagesCount} page_number={pageNumber}/>
                     <CtgMovies category={category} page_number={pageNumber} />
                     <Pagination url={getUrl} pagesCount={pagesCount} page_number={pageNumber}/>
