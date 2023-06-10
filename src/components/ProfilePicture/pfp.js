@@ -1,6 +1,7 @@
 import {useCookies} from "react-cookie"
 import styled from "styled-components"
 import DefaultPfp from "./default-pfp"
+import { useEffect } from "react"
 
 const Div = styled.div`
     border-radius:50%;

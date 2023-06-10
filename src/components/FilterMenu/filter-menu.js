@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FilterElementWrapper from "../FilterElementWrapper/filter-element-wrapper";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
@@ -29,7 +29,6 @@ const CloseBtn = styled(Submit)`
     color:black;
 `
 function FilterMenu(props){
-    const [searchParams, setSearchParams] = useSearchParams()
     const Genres = [
         "All",
         "Action",
@@ -62,7 +61,6 @@ function FilterMenu(props){
         "All","G","PG","PG-13","R","R+","Rx"
     ]
     
-
     async function requestFilteredMovies(url){
         const send_request = await fetch(url);
         const movies_list = await send_request.json();
@@ -84,22 +82,24 @@ function FilterMenu(props){
         //remove the last character (? or &)
         url = url.slice(0,-1)
         requestFilteredMovies(url)
-        setSearchParams(params)  
+        props.setSearchParamsIfAltered(params)  
         // reset page number to page 1 when filter is clicked 
         props.setCurrentPageNumber(1)
     }
 
     // used for requesting movies (only if filtered) depending on pagination
     useEffect(()=>{
-        if (searchParams.get('genre') || searchParams.get('contentRate') || searchParams.get('released') ) {
+        if (props.searchParams && (props.searchParams.get('genre') || props.searchParams.get('contentRate') || props.searchParams.get('released'))) {
             let url =`http://localhost:8000/api/movies/?limit=35&start=${props.start}&`
-            for (const value of searchParams.entries()){
+            // console.log(oldStart)
+            // console.log(props.start)
+            for (const value of props.searchParams.entries()){
                 url += `${value[0]}=${value[1]}&`
             }
             requestFilteredMovies(url)
-            
         }
-    },[props.start,searchParams])
+    },[props.searchProps])
+   
     return(
         <div style={{transition:"all 0.3s",maxHeight:`${props.isActive?"100vh":"0"}`,overflow:"hidden"}}>
             <div>

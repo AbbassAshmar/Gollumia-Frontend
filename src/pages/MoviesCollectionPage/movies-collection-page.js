@@ -8,10 +8,10 @@ import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies
 
 function MoviesCollection(){
     const [movies,setMovies] = useState([])
-    const [pagesCount , setPagesCount] = useState(0)
+    const [pagesCount , setPagesCount] = useState(1)
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
-    
+    const [searchProps, setSearchProps] = useState({params : searchParams,page: 0})
 
     // request movies with no filters , but with limits (pagination)
     async function requestMovies(){
@@ -25,8 +25,10 @@ function MoviesCollection(){
 
     // change currentPageNumber state when page query string changes (by pagination or manual)
     useEffect(()=>{
-        if (searchParams.get("page") && searchParams.get("page") >=1){
-            setCurrentPageNumber(searchParams.get('page'))
+        if (!searchParams.get('page')){
+            setCurrentPageNumber(1)
+        }else if (parseInt(searchParams.get("page")) >=1){
+            setCurrentPageNumber(parseInt(searchParams.get('page')))
         }
     },[searchParams.get("page")])
 
@@ -35,7 +37,7 @@ function MoviesCollection(){
         if (!searchParams.get('genre') && !searchParams.get('contentRate') && !searchParams.get('released') ) {
             requestMovies()
         }
-    },[currentPageNumber])
+    },[searchProps])
 
     // url used for links in pagination components, if filters are present, add them to pagination 
     // this way , pagination can be used for filtered movies too 
@@ -53,11 +55,28 @@ function MoviesCollection(){
         return url;
     }
 
+    function setSearchParamsIfAltered(GetSearchParams){
+        if (GetSearchParams != searchParams){
+            setSearchParams(GetSearchParams)
+        }
+    }
+
+    useEffect(()=>{
+        setSearchProps({params:searchParams,page:searchParams.get("page")})
+    },[searchParams])
+    
     return(
         <MoviesPagesContainers children={
             <>
-                <FilterContainer setCurrentPageNumber={setCurrentPageNumber} setCount={setPagesCount} 
-                setMovies={setMovies} start={(currentPageNumber -1)*35}/>
+                <FilterContainer 
+                    setCurrentPageNumber={setCurrentPageNumber} 
+                    setCount={setPagesCount} 
+                    setMovies={setMovies} 
+                    start={Math.ceil((currentPageNumber-1)*35)}
+                    setSearchParamsIfAltered={setSearchParamsIfAltered}
+                    searchParams={searchParams}
+                    searchProps={searchProps}
+                />
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                 <MoviesGridContainer movies={movies}/>
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>

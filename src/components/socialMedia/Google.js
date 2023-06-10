@@ -36,13 +36,16 @@ function Google(){
         
         const resp = await res.json()
         if ((res.status==200  || res.status==201)&& res.ok == true){
-            console.log(resp.user)
-            const token = resp.token ? resp.token : null
+            console.log(resp)
+            let user = resp.user
+            const token =( resp.token ? resp.token : null)
+            const pfp =( user.pfp && user.pfp != "null" ? 'http://127.0.0.1:8000'+user.pfp : null )
+            console.log(pfp)
             setCookies("token", token, {path :"/"})
             setCookies("email", resp.user.email, {path :"/"})
             setCookies("username", resp.user.username, {path :"/"})
             setCookies("id", resp.user.id, {path :"/"})
-            setCookies("pfp", 'http://127.0.0.1:8000' + resp.user.pfp, {path :"/"})
+            setCookies("pfp",  pfp, {path :"/"})
             navigate("/home",{replace:true})
         }
 

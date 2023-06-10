@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Container = styled.div`
     width:40%;
@@ -20,7 +21,7 @@ const StyledLink = styled(Link)`
     }
 `
 function Pagination(props){
-
+    // useEffect(()=>{console.log(props)},[props])
     return(
         <Container>
             <StyledLink style={{display:`${props.page_number <= 1 ?"none":"inline-block"}`}}  

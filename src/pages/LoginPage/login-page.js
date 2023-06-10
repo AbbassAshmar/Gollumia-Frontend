@@ -61,13 +61,15 @@ function LoginPage(){
         })
         .then((resp) =>{
             if (resp.user && resp.token){
+            const pfp = resp.user.pfp && resp.user.pfp != "null" ? 'http://127.0.0.1:8000'+resp.user.pfp : null 
+
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate()+1);
             setCookies("token", resp.token, {path :"/",expires:tomorrow})
             setCookies("email", resp.user.email, {path :"/",expires:tomorrow})
             setCookies("username", resp.user.username, {path :"/",expires:tomorrow})
             setCookies("id", resp.user.id, {path :"/",expires:tomorrow})
-            setCookies("pfp", 'http://127.0.0.1:8000' +resp.user.pfp, {path :"/",expires:tomorrow})
+            setCookies("pfp", pfp, {path :"/",expires:tomorrow})
             navigate('/movies')}
         })
         .catch(error =>{ console.error(error)})

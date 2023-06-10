@@ -81,11 +81,12 @@ function Register(){
                 let id= res.user.id
                 let name =  res.user.username
                 let email = res.user.email
+                const pfp = res.pfp && res.pfp != "null" ? 'http://127.0.0.1:8000'+res.pfp : null 
                 setCookies("token",token, {path: '/'})
                 setCookies("email",email, {path: '/'})
                 setCookies("username",name, {path: '/'})
                 setCookies("id",id, {path: '/'})
-                setCookies("pfp",'http://127.0.0.1:8000' +res.user.pfp, {path: '/'})
+                setCookies("pfp",pfp, {path: '/'})
 
                 navigate("/home", { replace: true })
                 return res.user;

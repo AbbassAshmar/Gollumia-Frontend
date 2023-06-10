@@ -21,12 +21,17 @@ font-weight:800;
 
 `
 function FilterElementWrapper(props){
+    let id =0;
     return(
         <Container>
             <Title>{props.title}</Title>
             <Elements>
                 {props.list.map((element)=>{
-                    return <FilterElement label={element} name={props.name} value={element}/>
+                    return <FilterElement 
+                    key={id++}
+                    label={element} 
+                    name={props.name} 
+                    value={element}/>
                 })}
             </Elements>
         </Container>
