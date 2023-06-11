@@ -89,10 +89,9 @@ function FilterMenu(props){
 
     // used for requesting movies (only if filtered) depending on pagination
     useEffect(()=>{
-        if (props.searchParams && (props.searchParams.get('genre') || props.searchParams.get('contentRate') || props.searchParams.get('released'))) {
+        if (props.searchParams && (props.searchParams.get('title') || props.searchParams.get('genre') || props.searchParams.get('contentRate') || props.searchParams.get('released'))) {
             let url =`http://localhost:8000/api/movies/?limit=35&start=${props.start}&`
-            // console.log(oldStart)
-            // console.log(props.start)
+
             for (const value of props.searchParams.entries()){
                 url += `${value[0]}=${value[1]}&`
             }

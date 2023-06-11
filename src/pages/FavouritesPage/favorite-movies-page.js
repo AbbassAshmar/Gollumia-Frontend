@@ -30,8 +30,7 @@ function FavoritesPage(){
     }
 
     return(
-        <MoviesPagesContainers children={
-            <>
+        <MoviesPagesContainers>
                 <Title ctg="Favourites" />
                 <PaginationBlock 
                     children={<MoviesGridContainer movies={favoriteMovies}/>}
@@ -39,8 +38,7 @@ function FavoritesPage(){
                     request_movies={request_favorite_movies}
                     pagesCount={pagesCount}
                 />
-            </>
-        }/>
+        </MoviesPagesContainers>
     )
 }
 

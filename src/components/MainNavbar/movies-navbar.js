@@ -6,6 +6,9 @@ import './moviesNavbar.css'
 import Pfp from "../ProfilePicture/pfp";
 import { useNavigate } from "react-router-dom";
 import NavButton from "./button";
+import SearchMoviesNav from "../SearchMoviesNav/search-movies-nav";
+
+
 
 const Button = styled.button`
     margin:0;
@@ -66,7 +69,40 @@ function MoviesNav(props){
     const [sideNavBackground, setSideNavBackground] = useState('hidden')
     const [displaySideNav, setDisplaySideNav] = useState(false)
     const [genres, setGenres] = useState([])
+    const [searchedMovies, setSearchedMovies] = useState([])
+    const [searchInputValue, setSearchInputValue] = useState(0)
+    useEffect(()=>{
+
+    },[searchedMovies])
+
+    async function requestMoviesOnSeachInputChange(title){
+        console.log("change")
+        const request = await fetch(`http://127.0.0.1:8000/api/movies/?title=${title}&start=0&limit=5`);
+        const response = await request.json();
+        if (request.status == 200){
+            setSearchedMovies(response['movies'])
+            console.log(response.movies)
+        }
+    }
     
+    function handleSearchChange(e){
+        e.preventDefault()
+        let search_input = e.currentTarget.value
+        setSearchInputValue(search_input.length)
+        if(search_input.length>=1){
+            requestMoviesOnSeachInputChange(search_input)
+        }
+    }
+
+
+    function handleSearchSubmit(e){
+        e.preventDefault()
+        let data = new FormData(e.currentTarget);
+        let value= data.get('search-input');
+        navigate(`/movies/?title=${value}`)
+    }
+
+
     async function requestGenres(){
         const request = await fetch('http://127.0.0.1:8000/api/genres/');
         const genre_list = await request.json();
@@ -74,9 +110,11 @@ function MoviesNav(props){
             setGenres(genre_list)
         }
     }
+
     useEffect(()=>{
         requestGenres()
     },[])
+
     const navstyle = {
         color:"white",
         marginTop:"1rem"
@@ -174,10 +212,19 @@ function MoviesNav(props){
             <li><Link to={'/movies/top-imdb/'} style={{textDecoration:"none"}}>Top IMDB</Link></li>
         </ul>
         <div className="movies-navbar">
-            <div className="search">
-                <input className="searchInput" type="text" placeholder="search"></input>
-                <i className="fa-solid fa-magnifying-glass"></i>        
-            </div>
+            <form onSubmit={handleSearchSubmit}>
+                <div className="search">
+                    <input  
+                        onChange={handleSearchChange}
+                        className="searchInput" 
+                        name="search-input" 
+                        type="text" 
+                        placeholder="search"
+                    />
+                    <i className="fa-solid fa-magnifying-glass"></i>        
+                </div>  
+            </form>
+            
             <div className="search-simplified">
                 <i style={{background:SearchIconColor}} className="fa-solid fa-magnifying-glass" onClick={handleSearchIconClick}></i>        
             </div>
@@ -208,15 +255,20 @@ function MoviesNav(props){
                 </Link> 
                 }
             </div>
+            <SearchMoviesNav inputLength={searchInputValue} movies={searchedMovies}/>
         </div>
         <SearchBox displaySearchBar={displaySearchBar} className="search-box-simplified-container">
-            <div className="search-box-simplified-content">
-                <input
-                    type="text"
-                    placeholder="Searching..."
-                />
-                <i className="fa-solid fa-magnifying-glass"></i> 
-            </div>
+            <form onSubmit={handleSearchSubmit}>
+                <div className="search-box-simplified-content">
+                    <input
+                        onChange={handleSearchChange}
+                        name="search-input"
+                        type="text"
+                        placeholder="Searching..."
+                    />
+                    <i className="fa-solid fa-magnifying-glass"></i> 
+                </div>
+            </form>     
         </SearchBox>   
     </nav>
     

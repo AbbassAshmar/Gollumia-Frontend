@@ -34,7 +34,11 @@ function MoviesCollection(){
 
     // used for requesting movies (only not filtered), depending on pagination 
     useEffect(()=>{
-        if (!searchParams.get('genre') && !searchParams.get('contentRate') && !searchParams.get('released') ) {
+        if (!searchParams.get('title') && 
+            !searchParams.get('genre') && 
+            !searchParams.get('contentRate') && 
+            !searchParams.get('released')) {
+                
             requestMovies()
         }
     },[searchProps])
@@ -43,7 +47,7 @@ function MoviesCollection(){
     // this way , pagination can be used for filtered movies too 
     function getUrl(page_number){
         let url = `/movies/?page=${page_number}&`;
-        let params_list = ['contentRating','genre','released']
+        let params_list = ['title','contentRating','genre','released']
         for (const value of searchParams.entries()){
             for(const param of params_list){
                 if (param ==value[0]){
@@ -66,8 +70,7 @@ function MoviesCollection(){
     },[searchParams])
     
     return(
-        <MoviesPagesContainers children={
-            <>
+        <MoviesPagesContainers>
                 <FilterContainer 
                     setCurrentPageNumber={setCurrentPageNumber} 
                     setCount={setPagesCount} 
@@ -80,9 +83,8 @@ function MoviesCollection(){
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                 <MoviesGridContainer movies={movies}/>
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
-            </>
-        }
-        />
+        </MoviesPagesContainers>
+        
     )
 }
 

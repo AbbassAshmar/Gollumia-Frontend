@@ -12,6 +12,7 @@ import {CategorizedMovies} from './pages/CategoriesMoviePage/category-movies-pag
 import MoviesCollection from './pages/MoviesCollectionPage/movies-collection-page';
 import FavoritesPage from './pages/FavouritesPage/favorite-movies-page';
 import TopImdbPage from './pages/TopImdbPage/top-imdb-page';
+import SearchPage from './pages/SearchPage/search-page';
 function App() {
   return (
     <GoogleOAuthProvider clientId="798671795051-c95amd54jght2rvvkbnqog71ilut2kch.apps.googleusercontent.com">
@@ -27,6 +28,7 @@ function App() {
           <Route path="movies" element={<MoviesCollection/>}></Route>
           <Route path='movies/:id/favorites/' element={<FavoritesPage/>}> </Route>
           <Route path="movies/top-imdb/" element={<TopImdbPage/>}> </Route>
+          {/* <Route path="movies/search/:searchedKeyWord" element={<SearchPage/>}></Route> */}
         </Routes>
       </div>
     </GoogleOAuthProvider>
