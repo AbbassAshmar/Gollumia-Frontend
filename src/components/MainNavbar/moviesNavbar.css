@@ -162,39 +162,7 @@
     
 }
 
-.search-box-simplified-container{
-    position: absolute;
-    width:95%;
-    background-color: black;
-    top:100%;
-    z-index: 2;
-    left:2.2%;
-    overflow: hidden;
-    height: 2.6rem;
-    align-items: center;
-}
-.search-box-simplified-content{
-    position: relative;
-    width:100%;
-    height: 100%;
-    z-index: 3;
-}
-.search-box-simplified-content i{
-    position: absolute;
-    top:25%;
-    right:1%;
-    font-size: .9rem;
-}
-.search-box-simplified-content input{
-    width: 100%;
-    padding: 0 1.5rem 0 .2rem;
-    height: 90%;
-    font-size: .9rem;
-}
-.search-box-simplified-content input:focus{
-    outline: none;
-    border: none;
-}
+
 
 .side-navbar-wrapper{
     height:100vh;

@@ -9,8 +9,8 @@ const StyledLink = styled(Link)`
     text-decoration:none;
     overflow:hidden;
     cursor:pointer;
-    & :hover{
-
+    &:hover{
+        background: rgba(0,0,0,0.6);
     }
 `
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import {useParams } from "react-router-dom";
 import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import styles from "./movie.module.css"
 import styled from "styled-components";
@@ -9,7 +9,8 @@ import Comment from '../../components/CommentSectionComponents/comments-wrapper'
 import App from '../../components/Footer/footer'
 import SimilarMovies from '../../components/SimilarMovies/similar'
 import ReactPlayer from "react-player"
-import { useCookies } from "react-cookie";
+import  FavouriteButton  from "./FavouriteButton/favourite-button";
+import GenresList from "./GenresList/genres-list";
 
 const Cont  = styled.div`
     min-height:100%;
@@ -52,89 +53,68 @@ const SecondPageContainer =styled.div`
     min-height:100%;
 `
 function Movie(){
-    const [cookies,setCookies] = useCookies('token')
-    const [fav, setFav] = useState("white")
-    const {state} = useLocation(); // getting movie data from the state passed from the movie link,
-    // using this approach , any movie's page can't be accessed unless the movie's link is clicked.
-    // another approach : get the movie's id from the url using useParams(), then send a request to the server including id;
     const {id} = useParams();
-   
-    
-    async function favRequest(){ // request to add or remove a movie from favourites
-        let data = {
-            email:cookies.email,
-            movie_id: id
+    const [movieData, setMovieData ] = useState({})
+
+    async function fetchMovieData (id){
+        console.log("here")
+        const request = await fetch(`http://127.0.0.1:8000/api/movies/${id}/`);
+        const movie_data = await request.json();
+        if (request.status == 200){
+            console.log(movie_data)
+            console.log(movie_data['genre'])
+            setMovieData(movie_data)
         }
-        const request = await fetch("http://127.0.0.1:8000/api/movies/favorites",{
-            method:"post",
-            body:JSON.stringify(data),
-            headers:{
-                "Content-type":"application/json",
-                "Authorization":"Token "+ cookies.token,
-            }
-        })
-        const resp= await request.json()
-        console.log(resp)
-        if(request.ok ==true && request.status ==200){
-            if (resp['deleted/created'] == 'created'){
-                setFav('red')
-            }else(setFav("white"))
-        }
-        return request
     }
-    
-    // check whether a movie is added to favourites or not to decide the color of the fav heart
-    useEffect(()=>{ 
-        const fetchFav = async function(){
-            const req = await fetch(`http://127.0.0.1:8000/api/movies/favorites/${cookies.id}/${id}`,{
-                method:"get",
-                headers:{
-                    "Authorization":"Token "+cookies.token,
-                    "Content-type":"application/json"
-                }
-            })
-            const resp = await req.json()
-            console.log(resp)
-            console.log(req)
-            if (req.ok==true && resp.found==false){
-                setFav("white")
-            }
-            else if(req.ok==true && resp.found == true){
-                setFav("red")
-            }
-            return resp
-        }
-        fetchFav()
+
+    useEffect(()=>{
+        fetchMovieData(id)
     },[])
+    
     return(
         <Cont>
             <MoviesNav />
-            <FirstPageContainer background={state.image?state.image:state.poster}>
+            <FirstPageContainer background={movieData.image?movieData.image:movieData.poster}>
                 <FirstChild></FirstChild>
                 <div className={styles.infoContainer}>
-                    <img className={styles.MoviePoster} alt={state.title} src={state.poster}></img>
+                    <img className={styles.MoviePoster} alt={movieData.title} src={movieData.poster}></img>
                     <div className={styles.textContainer}>
                         <div>
-                            <h1 className={styles.movieTitle}>{state.title}</h1>
-                            <p>{state.year} . {state.duration} min</p>
+                            <h1 className={styles.movieTitle}>{movieData.title}</h1>
+                            <p>{movieData.year} . {movieData.duration} min</p>
                         </div>
                         
                         <div className={styles.btnsContainer}>
                             <button className={styles.whatchNowBtn}>Watch now</button>
-                            <button className={`${styles.favBtn} ${styles.exBtns}`} ><i onClick={favRequest} style={{color:fav}} className="fa-solid fa-heart"></i></button>
+                            <FavouriteButton movieId={id}/>
                             <button className={`${styles.trailerBtn} ${styles.exBtns}`} >Trailer</button>
                             <button className={`${styles.shareBtn} ${styles.exBtns}`} ><i className="fa-solid fa-share"></i></button>
                         </div>
                         <div className={styles.plotContainer}>
-                            <p>{state.plot}</p>
+                            <p>{movieData.plot}</p>
                         </div>
                         <div>
-                            <div className={styles.detailedText}><p className={styles.detailedTextFp}>Director  </p><p>{state.director}</p></div>
-                            <div className={styles.detailedText}><p className={styles.detailedTextFp}>Rated  </p><p>{state.rated.length > 0? state.rated:"N/A"}</p></div>
-                            <div className={styles.detailedText}><p className={styles.detailedTextFp}>Genres  </p><p>{state.genres.map((genre)=>{return genre}).join(", ")}</p></div>
                             <div className={styles.detailedText}>
-                                <div className={styles.ratingsDiv}><img className={styles.imdbIcon} src={imdb}/><span>{state.imdb ? state.imdb : "N/A"}</span></div>
-                                <div className={styles.ratingsDiv}><img className={styles.imdbIcon} src={meta}/><span>{state.meta ? state.meta : "N/A"}</span></div>
+                                <p className={styles.detailedTextFp}>Director  </p>
+                                <p>{movieData.director}</p>
+                            </div>
+                            <div className={styles.detailedText}>
+                                <p className={styles.detailedTextFp}>Rated  </p>
+                                <p>{movieData.contentRate ? movieData.contentRate:"N/A"}</p>
+                            </div>
+                            <div className={styles.detailedText}>
+                                <p className={styles.detailedTextFp}>Genres  </p>
+                                <GenresList genres={movieData.genre} />
+                            </div>
+                            <div className={styles.detailedText}>
+                                <div className={styles.ratingsDiv}>
+                                    <img className={styles.imdbIcon} src={imdb}/>
+                                    <span>{movieData['ratings'] && movieData['ratings']['imdb']? movieData['ratings']['imdb'] : "N/A"}</span>
+                                </div>
+                                <div className={styles.ratingsDiv}>
+                                    <img className={styles.imdbIcon} src={meta}/>
+                                    <span>{movieData['ratings'] && movieData['ratings']['metacritics'] ?movieData['ratings']['metacritics'] : "N/A"}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -146,16 +126,16 @@ function Movie(){
                         <h3 className={styles.sectionTitle}>Tailer</h3>
                         <div className={styles.movieTrailerContainer} >
                             {/* <iframe className={styles.movieTrailer} src={state.trailer} title="Rick and Morty Season 4 - Official Trailer" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
-                            <ReactPlayer style={{margin:"auto"}} url={state.trailer} light={state.thumbnail? state.thumbnail:true}/>
+                            <ReactPlayer style={{margin:"auto"}} url={movieData.trailer} light={movieData.thumbnail? movieData.thumbnail:true}/>
                         </div>
                     </div>
                     <div className={styles.similarContainer}>
                         <h3 className={styles.sectionTitle}>You may also like</h3>
-                        <SimilarMovies movie_id={state.page_id}/>
+                        <SimilarMovies movie_id={movieData.id}/>
                     </div>
                     <div style={{width:'100%',minHeight:"100%"}}>
                         <h3 className={styles.sectionTitle}>Comments</h3>
-                        <Comment page_id={state.page_id} />
+                        <Comment page_id={movieData.id} />
                     </div>
                 </div>
             </SecondPageContainer>

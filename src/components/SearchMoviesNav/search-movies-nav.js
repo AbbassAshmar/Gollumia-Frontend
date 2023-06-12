@@ -39,7 +39,8 @@ function SearchMoviesNav(props){
                     })}
             </SearchedMovies>
         </SearchedMoviesContainer>:
-        null}
+        null
+        }
         </>
     )
 

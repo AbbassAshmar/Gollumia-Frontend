@@ -2,13 +2,16 @@ import styles from "../../pages/SingleMoviePage/movie.module.css"
 import { useEffect, useState} from "react";
 import MovieCard from '../MovieCard/movie-card'
 
-function SimilarMovies(props){
+function SimilarMovies({movie_id}){
 
     const [similarMovies, setSimilarMovies] = useState([])
+
     async function fetchMovies(){
-        const request_similar_movies = await fetch(`http://127.0.0.1:8000/api/movies/${props.movie_id}/similar/`)
+        const request_similar_movies = await fetch(`http://127.0.0.1:8000/api/movies/${movie_id}/similar/`)
         const similar_movies_list = await request_similar_movies.json();
-        setSimilarMovies(similar_movies_list["movies"])
+        if (request_similar_movies.status==200){
+            setSimilarMovies(similar_movies_list["movies"])
+        }
     }
     useEffect(()=>{
         fetchMovies()
