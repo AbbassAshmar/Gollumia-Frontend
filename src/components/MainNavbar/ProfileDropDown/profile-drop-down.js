@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import "../moviesNavbar.css"
 import Pfp from "../../ProfilePicture/pfp"
 import { useNavigate } from "react-router-dom"
+
 const Settings = styled.div`
     height :320%;
     max-height:400%;

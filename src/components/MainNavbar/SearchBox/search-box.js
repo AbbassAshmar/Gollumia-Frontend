@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import "../moviesNavbar.css"
 const Box = styled.div`
     display:none;
     position: absolute;

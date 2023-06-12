@@ -2,9 +2,29 @@ import { useState } from "react"
 import NavButton from "../button"
 import { Link } from "react-router-dom"
 import "../moviesNavbar.css"
+import { Logo } from "../movies-navbar"
+import styled from "styled-components"
 
+const Container = styled.div`
+    display: none;
+    flex:4;
+    justify-content: space-between;
+    align-items: center;
 
-function SideNavbar(){
+    @media screen and (max-width:900px){
+            display: flex;
+            width:58%;
+            flex:none;
+            margin-left:.5rem;
+    }
+`
+const DisplayButton = styled.i`
+font-size: 1.2rem;
+color:white;
+align-items: center;
+cursor:"pointer"
+`
+function SideNavbar({genres}){
 
     const [displayGenres, setDisplayGenres] = useState(false)
     const [sideNavBackground, setSideNavBackground] = useState('hidden')
@@ -34,6 +54,7 @@ function SideNavbar(){
 
 
 return (
+    <>
     <div style={{zIndex:`${(sideNavBackground ==="hidden")?"-1":"1000"}`}} onClick={handleSideNavClose} className="side-navbar-wrapper">
         <div style={{transform:`translateX(${(displaySideNav===false)?"-100%":"0"})`}} onTransitionEnd={handleSideNavClose}  className="side-navbar-container">
             <div className="side-navbar-content">
@@ -55,6 +76,11 @@ return (
             </div>
         </div>
     </div>
+    <Container className="navbar-elements-simplified">
+        <DisplayButton className="fa-solid fa-bars" onClick={handleDisplaySideNav} />
+        <Logo>AFLIX</Logo>
+    </Container>
+    </>
 )
 
 }

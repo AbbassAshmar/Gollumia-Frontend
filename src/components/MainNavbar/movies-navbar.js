@@ -8,7 +8,7 @@ import SearchMoviesNav from "../SearchMoviesNav/search-movies-nav";
 import ProfileDropDown from "./ProfileDropDown/profile-drop-down";
 import SideNavbar from "./SideNavbar/side-navbar";
 import DefaultSearchBox from "./DefaultSearchBox/default-search-box";
-
+import SearchBox from "./SearchBox/search-box"
 
 
 const Button = styled.button`
@@ -21,17 +21,13 @@ const Button = styled.button`
     overflow:hidden;
     gap:5px;
 `
-const Logo = styled.h1`
+export const Logo = styled.h1`
     font-family: 'Kanit', sans-serif;
     color:orange;
     font-weight:700;
     font-size:2.3rem;
     margin:0 0 0 0;
 `
-
-
-
-
 
 function MoviesNav(){
     const navigate = useNavigate();
@@ -42,6 +38,9 @@ function MoviesNav(){
     const [searchedMovies, setSearchedMovies] = useState([])
     const [searchInputValue, setSearchInputValue] = useState(0)
     
+    function detectInputBlur(){
+        setSearchedMovies([])
+    }
     async function requestMoviesOnSeachInputChange(title){
         console.log("change")
         const request = await fetch(`http://127.0.0.1:8000/api/movies/?title=${title}&start=0&limit=5`);
@@ -57,6 +56,8 @@ function MoviesNav(){
         setSearchInputValue(search_input.length)
         if(search_input.length>=1){
             requestMoviesOnSeachInputChange(search_input)
+        }else{
+            setSearchedMovies([])
         }
     }
 
@@ -103,11 +104,7 @@ function MoviesNav(){
 
     return(
     <nav className="moviesPageNavTag">
-        <SideNavbar />
-        <div className="navbar-elements-simplified">
-            <i className="fa-solid fa-bars" style={{cursor:"pointer"}} onClick={handleDisplaySideNav}></i>
-            <Logo>AFLIX</Logo>
-        </div>
+        <SideNavbar genres={genres} />
         
         <ul className="navbar-elements-list">
             <li><Logo>AFLIX</Logo></li>
@@ -124,8 +121,7 @@ function MoviesNav(){
             <li><Link to={'/movies/top-imdb/'} style={{textDecoration:"none"}}>Top IMDB</Link></li>
         </ul>
         <div className="movies-navbar">
-
-            <DefaultSearchBox handleSearchChange={handleSearchChange} handleSearchSubmit={handleSearchSubmit} />
+            <DefaultSearchBox detectInputBlur={detectInputBlur} handleSearchChange={handleSearchChange} handleSearchSubmit={handleSearchSubmit}  setSearchedMovies={setSearchedMovies}/>
             
             <div className="search-simplified">
                 <i style={{background:SearchIconColor}} className="fa-solid fa-magnifying-glass" onClick={handleSearchIconClick}></i>        
