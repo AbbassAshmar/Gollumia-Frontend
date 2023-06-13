@@ -1,4 +1,4 @@
-import Category from "../Category/title";
+import Title from "../Category/title";
 import styled from "styled-components";
 
 const Filter = styled.button`
@@ -21,7 +21,7 @@ function FilterHeader(props){
     }
     return(
         <Container>
-            <Category ctg={"All Movies"}></Category>
+            <Title ctg={props.title}></Title>
             <Filter onClick={handleFilterClick}>
                 <i style={{margin:"2px 0 0 0",transform:`rotate(${props.isActive?"180deg":"0"})`}} className="fa-solid fa-sort-down"></i> 
                 <p style={{margin:"0"}}>Filter</p>

@@ -15,7 +15,7 @@ function SimilarMovies({movie_id}){
     }
     useEffect(()=>{
         fetchMovies()
-    },[])
+    },[movie_id])
     
     return(
         <div className={styles.similarMovies}>

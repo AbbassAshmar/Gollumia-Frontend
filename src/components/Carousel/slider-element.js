@@ -1,5 +1,6 @@
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
+import GenresList from "../../pages/SingleMoviePage/GenresList/genres-list";
 
 const Div = styled.div`
     width:100%;
@@ -180,10 +181,8 @@ const ImdbRating = styled.div`
 
 `
 function SliderItem(props){
-    const [bg , Setbg] = useState('')
 
     useEffect(()=>{
-        Setbg(props.imgsrc)
         styles.carouselInfoContainer.backgroundImage=`url(${require(`./carouselPhotos/AvatarTheWayofWater.jpg`)})`;
     }, [props])
     
@@ -229,7 +228,11 @@ function SliderItem(props){
                     <Time>{props.time}m</Time>
                     <Dir>{props.dir}</Dir>
                 </div>
-                <Genre>{props.year} <span style={{fontSize:"2rem",margin:"0 3px 0 8px"}}> .  </span> {props.genre}</Genre>
+                <Genre>
+                    {props.year} 
+                    <span style={{fontSize:"2rem",margin:"0 5px 0 0"}}> .</span>
+                    <GenresList genres={props.genre} />
+                </Genre>
                 <div style={{display:"flex",gap:"1rem"}}>
                     <ImdbRating>
                         <Rating>{props.imdb}</Rating>

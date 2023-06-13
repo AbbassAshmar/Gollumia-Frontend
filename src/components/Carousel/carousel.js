@@ -5,17 +5,6 @@ import Slider from "react-slick"
 import SliderItem from "./slider-element";
 import {useEffect, useState} from "react"
 
-// function clearTitle(title){
-//     console.log(title)
-//     let cleartitle = ""
-//     for(let i=0;i<title.length;i++){
-//       if (title[i] !=":"){
-//         cleartitle += title[i]
-//       }
-//     }
-//     cleartitle = cleartitle.replace(/\s/g, '')
-//     return cleartitle;
-//   }
 
 
 function Crousel(props){

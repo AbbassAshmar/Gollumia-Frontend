@@ -12,7 +12,7 @@ function MoviesCollection(){
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
     const [searchProps, setSearchProps] = useState({params : searchParams,page: 0})
-
+    const [title , setTitle] = useState("All Movies")
     // request movies with no filters , but with limits (pagination)
     async function requestMovies(){
         const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);
@@ -34,11 +34,20 @@ function MoviesCollection(){
 
     // used for requesting movies (only not filtered), depending on pagination 
     useEffect(()=>{
+        if (searchParams.get('title')){
+            setTitle("Search results for " + searchParams.get('title'))
+        }else if (!searchParams.get('title') && 
+                    searchParams.get('genre') && 
+                    !searchParams.get('contentRate') && 
+                    !searchParams.get('released')){
+            setTitle("All "+searchParams.get('genre')+" Movies")
+        }else{
+            setTitle("All Movies")
+        }
         if (!searchParams.get('title') && 
             !searchParams.get('genre') && 
             !searchParams.get('contentRate') && 
-            !searchParams.get('released')) {
-                
+            !searchParams.get('released')) {     
             requestMovies()
         }
     },[searchProps])
@@ -79,6 +88,7 @@ function MoviesCollection(){
                     setSearchParamsIfAltered={setSearchParamsIfAltered}
                     searchParams={searchParams}
                     searchProps={searchProps}
+                    title={title}
                 />
                 <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
                 <MoviesGridContainer movies={movies}/>

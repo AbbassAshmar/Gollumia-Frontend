@@ -6,14 +6,14 @@ text-decoration:none;
 cursor:pointer;
 color:white;
 transition: color .2s;
-
+margin-right:1rem;
 &:hover{
     color:orange;
 }
 `
 function GenresList({genres}){
     return (
-        <div>
+        <div style={{display:"inline-block"}}>
             {
             genres?
             genres.map((genre)=>{

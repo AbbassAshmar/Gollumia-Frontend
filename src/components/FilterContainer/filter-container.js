@@ -7,7 +7,11 @@ function FilterContainer(props){
     const [isActive, setIsActive] = useState(false)
     return(
         <div>
-            <FilterHeader setIsActive={(isActive)=>{setIsActive(isActive)}} isActive={isActive}></FilterHeader>
+            <FilterHeader 
+                setIsActive={(isActive)=>{setIsActive(isActive)}} 
+                isActive={isActive}
+                title = {props.title}
+            />
             <FilterMenu 
                 setCurrentPageNumber={props.setCurrentPageNumber}
                 searchProps={props.searchProps}
