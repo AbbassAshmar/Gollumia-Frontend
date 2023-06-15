@@ -21,21 +21,22 @@ function SimilarMovies({movie_id}){
         <div className={styles.similarMovies}>
             {similarMovies.map((movie)=>{
             return(
-            <MovieCard 
-            page_id={movie.id} 
-            duration={movie.duration}
-            genres={movie.genre}
-            key={movie.id} 
-            id={movie.id} 
-            rated={movie.contentRate} 
-            title={movie.title} 
-            imdb={movie.ratings.imdb}
-            meta={movie.ratings.meta} 
-            plot={movie.plot} 
-            director={movie.director} 
-            poster={movie.poster} 
-            released={movie.released}
-            hoverScale={true}/>)
+                <MovieCard 
+                page_id={movie.id} 
+                duration={movie.duration}
+                genres={movie.genre}
+                key={movie.id} 
+                id={movie.id} 
+                rated={movie.contentRate} 
+                title={movie.title} 
+                imdb={movie.ratings.imdb}
+                meta={movie.ratings.meta} 
+                plot={movie.plot} 
+                director={movie.director} 
+                poster={movie.poster} 
+                released={movie.released}
+                hoverScale={true}/>
+            )
             })}
         </div>
     )

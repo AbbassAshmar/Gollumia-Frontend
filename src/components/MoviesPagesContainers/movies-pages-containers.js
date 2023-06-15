@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import MoviesNav from "../MainNavbar/movies-navbar";
 import App from "../Footer/footer";
-import { useEffect } from "react";
 
 const Main = styled.div`
     background : black;
@@ -17,7 +16,7 @@ const MoviesContainer = styled.div`
 function MoviesPagesContainers({children}){
    
     return (
-        <div style={{background:"black"}}>
+        <div style={{overflow:"hidden",background:"black"}}>
             <MoviesNav/>
             <Main>
                 <MoviesContainer>

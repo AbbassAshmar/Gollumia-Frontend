@@ -6,12 +6,24 @@ const Container  = styled.div`
     align-items:center;
     width:100%;
     min-height:10vh;
-    border-bottom:2px solid white;
+    border-bottom:1px solid white;
+    
+    @media screen and (max-width:600px){
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+        padding-bottom:20px;
+        padding-top:20px;
+    }
 `
 const Elements = styled.div`
     display:grid;
     grid-template-columns: repeat(auto-fill ,minmax(107px,auto));
     flex:7;
+
+    @media screen and (max-width:600px){
+        width:100%;
+    }
 `
 const Title = styled.p`
 margin:0;

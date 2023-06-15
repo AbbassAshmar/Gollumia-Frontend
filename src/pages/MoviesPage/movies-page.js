@@ -17,11 +17,9 @@ export const Movies_Container = styled.div`
     min-height: 200%;
     width: 87%;
     margin: auto;
-    overflow: hidden;
     @media screen and (max-width:1400px){
-        .moviesBackground{
-            width: 95%;
-        }
+         width: 95%;
+        
     }
 `
 export function MoviesPage(){

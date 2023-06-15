@@ -1,5 +1,5 @@
 import { useCookies } from "react-cookie"
-import { useState } from "react"
+import { useRef, useState,useEffect } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import "../moviesNavbar.css"
@@ -44,6 +44,22 @@ function ProfileDropDown(){
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
     const [ExpandInfo, setExpandInfo] = useState(false)
     const navigate = useNavigate();
+    const ref = useRef(null)
+    const ref2 = useRef(null)
+
+        useEffect(() => {
+            console.log(ExpandInfo)
+            if (ExpandInfo){
+                function handleClickOutside(event) {
+                    if (ref.current && !ref.current.contains(event.target) && !ref2.current.contains(event.target)) {
+                        setExpandInfo(false)
+                    }
+                }
+                document.addEventListener("mousedown", handleClickOutside);
+            }
+        }, [ExpandInfo]);
+  
+
 
     async function handleLogout(){
         const request = await fetch("http://127.0.0.1:8000/logout/",{
@@ -60,13 +76,13 @@ function ProfileDropDown(){
 
     return (
         <div style={{position:'relative'}}>
-            <Button onClick={()=>{setExpandInfo(!ExpandInfo)}} id="signedin" color="warning">
+            <Button ref={ref2} onClick={()=>{setExpandInfo(!ExpandInfo)}} id="signedin" color="warning">
                 <Pfp/>
                 {/* arrow icon up or down */}
                 {ExpandInfo ?<i className="fa-solid fa-sort-up"></i>:<i className="fa-solid fa-sort-down"></i>}
             </Button>
             
-            <Settings className="settingsButton" style={{maxHeight:`${ExpandInfo?"300%":"0"}`}}>
+            <Settings ref={ref} className="settingsButton" style={{maxHeight:`${ExpandInfo?"300%":"0"}`}}>
                 <div className="username">&nbsp;{cookies.username}</div>
                 <Link to={`/user/${cookies.username}`} style={{textDecoration:"none",position:"relative" ,top:".25rem"}}>
                     <div>&nbsp;View Profile</div>

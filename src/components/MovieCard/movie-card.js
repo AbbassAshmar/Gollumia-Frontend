@@ -14,6 +14,7 @@ let HoverDiv = styled.div`
     color:orange;
     opacity:0;
     transition:all 0.4s;
+    justify-self:start;
 `
 const Title = styled.div`
     color:white;
@@ -30,22 +31,57 @@ const Title = styled.div`
     &:hover{
         opacity:0.5;
     }
+    @media screen and (max-width:688px){
+        max-width:160px;
+    }
+    @media screen and (max-width:404px){
+        max-width:140px;
+    }
+    @media screen and (max-width:335px){
+        max-width: 130px;
+    }
 `
 const Card = styled.div`
 display:flex;
 flex-direction:column;
 gap:4px;
+justify-self:center;
+width:170px;
+margin: 0 0 1rem 0;
 
-@media screen and (max-width:481px){
-    transform :scale(.8);
+@media screen and (max-width:1100px){
+    width: 210px;
+}
+
+@media screen and (max-width:670px){
+    width: 180px;    
+}
+@media screen and (max-width:543px){
+    width: 220px;
+    
+}
+
+@media screen and (max-width:482px){
+    width: 200px;
+}
+@media screen and (max-width:440px){
+    width: 190px;
 }
 @media screen and (max-width:404px){
-    transform :scale(.78);
+    width: 170px;
 }
-@media screen and (max-width:376px){
-    transform :scale(.7);
+@media screen and (max-width:379px){
+    width: 150px;
 }
-
+@media screen and (max-width:335px){
+    width: 130px;
+}
+@media screen and (max-width:292px){
+    width: 120px;
+}
+@media screen and (max-width:269px){
+    width: 105px;
+}
 `
 
 
@@ -79,10 +115,65 @@ let Cardcontainer= styled.div`
         &:hover #HoverDiv{
             opacity:1;
         }
-        @media screen and (max-width:843px){
+        @media screen and (max-width:1100px){
+            width: 210px;
+            height: 280px;
+        }
+        @media screen and (max-width:959px){
+            width: 200px;
+            height: 270px;
+        }
+        @media screen and (max-width:890px){
             width: 220px;
             height: 290px;
         }
+        @media screen and (max-width:786px){
+            width: 200px;
+            height: 280px;
+        }
+
+        @media screen and (max-width:670px){
+            width: 180px;
+            height: 260px;
+        }
+        @media screen and (max-width:620px){
+            width: 170px;
+            height: 250px;
+        }
+        @media screen and (max-width:543px){
+            width: 220px;
+            height: 290px;
+        }
+        @media screen and (max-width:482px){
+            width: 200px;
+            height: 270px;
+        }
+        @media screen and (max-width:440px){
+            width: 190px;
+            height: 250px;
+        }
+        @media screen and (max-width:404px){
+            width: 170px;
+            height:220px;
+        }
+        @media screen and (max-width:379px){
+            width: 150px;
+            height:210px;
+        }
+        @media screen and (max-width:335px){
+            width: 130px;
+            height:190px;
+        }
+        @media screen and (max-width:292px){
+            width: 120px;
+            height:175px;
+        }
+        @media screen and (max-width:269px){
+            width: 105px;
+            height:155px;
+        }
+        
+        
 `
 
 function MovieCard(props){

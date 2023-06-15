@@ -42,7 +42,6 @@ function MoviesNav(){
         setSearchedMovies([])
     }
     async function requestMoviesOnSeachInputChange(title){
-        console.log("change")
         const request = await fetch(`http://127.0.0.1:8000/api/movies/?title=${title}&start=0&limit=5`);
         const response = await request.json();
         if (request.status == 200){

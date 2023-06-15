@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import FilterElementWrapper from "../FilterElementWrapper/filter-element-wrapper";
 import styled from "styled-components";
-import { useSearchParams } from "react-router-dom";
 
 const Form = styled.form`
     display:flex;
@@ -13,7 +12,7 @@ const Buttons = styled.div`
     display:flex;
     gap:5px;
     align-self:flex-start;
-    width:20%;
+    width:100%;
     margin:1rem 0;
 `
 const Submit= styled.button`
@@ -100,7 +99,7 @@ function FilterMenu(props){
     },[props.searchProps])
    
     return(
-        <div style={{transition:"all 0.3s",maxHeight:`${props.isActive?"100vh":"0"}`,overflow:"hidden"}}>
+        <div style={{transition:"all 0.3s",maxHeight:`${props.isActive?"200vh":"0"}`,overflow:"hidden"}}>
             <div>
                 <Form onSubmit={handleFilterSubmit}>
                     <div style={{width:"100%",margin:"auto"}}>

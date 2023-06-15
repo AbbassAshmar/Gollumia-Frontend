@@ -2,6 +2,7 @@ import React from "react";
 import  img1 from '../../photos/img1.jpg';
 import  img2 from '../../photos/img2.jpg';
 import img3 from "../../photos/img3.jpg";
+import img4 from "../../photos/img4.jpg"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
 import InputField from "../../components/Input/input";
@@ -46,7 +47,7 @@ function Home(){
         <div className="section4">
             <div  className="section4-content-container">
                 <div className="section4-content-block"> 
-                    <Block place={img3} title="theincredibles"/>
+                    <Block place={img4} title="theincredibles"/>
                 </div>
                 <div className="section4-content-text">
                     <h2>Amazing Movies</h2>

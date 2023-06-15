@@ -3,13 +3,22 @@ import styled from "styled-components";
 
 const Container = styled.div`
     display: grid;
-    grid-template-columns:repeat(auto-fit ,minmax(220px,1fr));
-    overflow:hidden;
+    grid-template-columns:repeat(auto-fit ,minmax(200px,1fr));
+    overflow:visible;
     justify-items: center;
     gap:10px;
     width:100%;
     padding:1%;
-    background:black;
+    background:black; 
+    @media screen and (max-width:802px){
+        grid-template-columns:repeat(3,1fr);
+    }
+    @media screen and (max-width:638px){
+        grid-template-columns: repeat(auto-fit ,minmax(150px,1fr));
+    }
+    @media screen and (max-width:543px){
+        grid-template-columns:repeat(2 ,50%);
+    }
     @media screen and (max-width:487px){
         padding-left:0;
         grid-template-columns:repeat(2 ,50%);
@@ -19,6 +28,7 @@ const Container = styled.div`
         grid-template-columns:repeat(2 ,50%);
         gap:2px;
     }
+   
 `
 function MoviesGridContainer(props){
     return (
