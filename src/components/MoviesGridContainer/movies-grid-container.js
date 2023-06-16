@@ -28,7 +28,6 @@ const Container = styled.div`
         grid-template-columns:repeat(2 ,50%);
         gap:2px;
     }
-   
 `
 function MoviesGridContainer(props){
     return (

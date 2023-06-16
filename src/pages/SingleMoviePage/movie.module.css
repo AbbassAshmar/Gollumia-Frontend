@@ -1,32 +1,3 @@
-.whatchNowBtn {
-background-image: linear-gradient(45deg, #FF512F 0%, #F09819  51%, #FF512F  100%)
-}
-
-.whatchNowBtn {
-margin: 10px 0 0 0px;
-padding: 5.5px 15px;
-text-align: center;
-transition: 0.5s;
-background-size: 200% auto;
-color: white;
-border-radius: 5px;
-display: block;
-border: 0px;
-font-weight: 700;
-font-size: 0.9rem;
-box-shadow: 0px 0px 14px -7px #f09819;
-}
-
-.whatchNowBtn:hover {
-background-position: right center;
-/* change the direction of the change here */
-color: #fff;
-text-decoration: none;
-}
-
-.whatchNowBtn:active {
-transform: scale(0.95);
-}
 
 .infoContainer *{
     color:white;
@@ -39,12 +10,13 @@ transform: scale(0.95);
     margin: auto;
     height: 100%;
     display: flex;
+    gap:20px;
     align-items: center;
     justify-content: space-between;
 }
 .MoviePoster{
-    width:28vw;
-    height: 82%;
+    width: 350px;
+    height: 470px;
 }
 .textContainer{
     width: 65%;
@@ -60,6 +32,12 @@ transform: scale(0.95);
     text-shadow: 0px 3px 3px black
 }
 
+.movieTitle2{
+    display: none;
+    text-shadow: 0px 3px 3px black
+}
+
+
 .btnsContainer{
     display: flex;
     align-items: end;
@@ -69,7 +47,6 @@ transform: scale(0.95);
 }
 .btnsContainer *{
     border: 0;
-    
     outline: none;
 }
 .exBtns{
@@ -95,7 +72,12 @@ transform: scale(0.95);
     border-radius: 5px;
     padding: .3rem .35rem .2rem .35rem;
     font-weight: 600;
-
+}
+.trailerBtn2{
+    border-radius: 5px;
+    padding: .3rem .35rem .2rem .35rem;
+    font-weight: 600;
+    display: none;
 }
 .shareBtn{
     border-radius: 5px;
@@ -114,13 +96,14 @@ transform: scale(0.95);
 }
 .detailedText{
 gap: 10%;
+margin-top: 0;
 display: flex;
 }
 .detailedText .detailedTextFp{
     width: 10%;
 }
 .imdbIcon{
-    width: 25px;
+    min-width: 25px;
     margin-right: 7px;
 }
 .ratingsDiv{
@@ -139,6 +122,9 @@ display: flex;
 /* ----------------------------- */
 .trailerContainer{
     width: 100%;
+    width: 95%;
+    margin: auto;
+
 }
 .sectionTitle{
     color:white;
@@ -189,4 +175,174 @@ display: flex;
     height: 100%;
     top: 0;
     left: 0;
+}
+.GenreContainer2{
+    display: none;
+}
+@media screen and (max-width:1075px){
+    .MoviePoster{
+        width: 300px;
+        height: 410px;
+        
+    }
+    .btnsContainer{
+        top:-1.3rem;
+    }
+}
+
+@media screen and (max-width:900px){
+   
+    .MoviePoster{
+        width: 300px;
+        height: 410px;
+        
+    }
+    .textContainer{
+        width:60%;
+    }
+
+    
+    .movieTitle{
+        font-weight: 600;
+        font-size: 2rem;
+    }
+
+   
+
+}
+
+@media screen and (max-width:800px){
+   
+    .MoviePoster{
+        width: 270px;
+    height: 380px;
+    margin-bottom: .6rem;
+    }
+
+    .infoContainer{
+        width: 95%;
+        margin: auto;
+        height: 100%;
+        display: flex;
+        gap:30px;
+        align-items: center;
+        justify-content: space-between;
+    }
+       
+    .movieTitle{
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+
+    .plotContainer{
+        display: none;
+    }
+    .textContainer{
+        width: 65%;
+        height:58%;
+        margin: 0 0 6.6rem 0;
+    }
+    
+
+}
+
+@media screen and (max-width:700px){
+
+    .textContainer{
+        height: 60%;
+        margin: 0 0 6rem 0;
+    }
+    .btnsContainer{
+        top:-1rem;
+    }
+}
+
+@media screen and (max-width:685px){
+
+    .MoviePoster{
+        margin-bottom: 1.1rem;
+    }
+
+    .textContainer{
+        height: 63%;
+        margin: 0 0 5.7rem 0;
+    }
+    .btnsContainer{
+        top:-.8rem;
+    }
+    .detailedText{
+        gap: 27%;
+    }
+}
+
+@media screen and (max-width:577px){
+    .movieTitle{
+        font-size: 1.5rem;
+    }
+    .MoviePoster{
+        width: 50vw;
+        height: auto;
+        margin:0;
+    }
+    .infoContainer{
+        gap:2%;
+        align-items: start;
+        padding-top: 3rem;
+        
+    }
+    
+    .textContainer{
+        width: 55%;
+        padding: 0 0 0 1rem;
+    }
+
+}
+
+@media screen and (max-width:445px){
+    .movieTitle{
+        display: none;
+        
+    }
+    .movieTitle2{
+        display: block;
+        font-size: 1.2rem;
+        margin-bottom: .1rem;
+    }
+    .MoviePoster{
+        width: 50vw;
+        height: auto;
+        margin:0;
+    }
+    .infoContainer{
+        padding-top: 2rem;
+    }
+    .textContainer{
+        margin: 4.1rem 0 0 0;
+        height:35%;
+    }
+    .trailerBtn{
+        display: none;
+    }
+    .trailerBtn2{
+        display: block;
+    }
+    .GenreContainer{
+        display: none;
+    }
+    .GenreContainer2{
+        display: block;
+        margin-bottom: .1rem;
+    }
+    .RatingsContainer{
+        flex-direction: column;
+        margin:.1rem 0 0 0;
+        gap:20px;
+    }
+    .DirecterRatingCont{
+        display: none;
+        
+    }
+    .detailedTextFp{
+        display: none;
+    }
 }
