@@ -21,7 +21,7 @@ const Cont  = styled.div`
 `
 
 const FirstPageContainer = styled.div`
-    height: 91.05vh;
+    min-height:75vh;
     width: 100%;
     position: relative;
     z-index: 0;
@@ -37,6 +37,10 @@ const FirstPageContainer = styled.div`
         filter:blur(2px);
         transform: scale(1.1);
     }
+    @media screen and (max-width:577px){
+        min-height:55vh;
+    }
+
    
 `
 const FirstChild = styled.div`
@@ -52,10 +56,14 @@ const FirstChild = styled.div`
     }
 `
 const PlotContainer = styled.div`
-
 display:none;
+margin:0 0 1rem 0;
+
 @media screen and (max-width:800px){
     display:block;
+}
+@media screen and (max-width:577px){
+    margin:1rem 0;
 }
 `
 const ImgBtnContainer = styled.div`
@@ -85,11 +93,7 @@ const SecondPageContainer =styled.div`
     background:black;
     min-height:100%;
 `
-const GenresContainer2 = styled(GenresContainer)`
-@media screen and (max-width:445px){
-    display:block;
-}
-`
+
 function Movie(){
     const {id} = useParams();
     const [movieData, setMovieData ] = useState({})
@@ -150,8 +154,8 @@ function Movie(){
             </FirstPageContainer>
             <PlotContainer style={{width:"100%",background:"black"}}>
                 <div style={{width:"95%",margin:"auto",color:"white",background:"black"}}>
-                    <p style={{margin:"0 0 2rem 0"}}>Plot Summary</p>
-                    <p>{movieData.plot}</p>
+                    <p style={{margin:"0 0 .3rem 0"}}>Plot Summary</p>
+                    <p style={{margin:"0",}}>{movieData.plot}</p>
                 </div>
             </PlotContainer>
             <SecondPageContainer>

@@ -1,11 +1,31 @@
 import React, { useState } from "react";
-import { cookies, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import styles from "./Comments.module.css"
 import CmntInput from "./comment-input-form"
 import { Link } from "react-router-dom";
 import CmntDiv from "./comment-container";
 import { useEffect } from "react";
 import CmntPfp from "./comment-pfp";
+import styled from "styled-components";
+
+const PfpLink = styled(Link)`
+
+@media screen and (max-width:577px){
+    display:none;
+}
+`
+const Details = styled.h3`
+
+@media screen and (max-width:577px){
+    font-size:1.1rem;
+}
+`
+const Label = styled.span`
+
+@media screen and (max-width:370px){
+    display:none;
+}
+`
 function Comment(props){
     const [cookies,setCookies] = useCookies([])
     const [cmnts, setCmnts] = useState([])
@@ -98,14 +118,14 @@ function Comment(props){
             <div className={styles.CmntBox}>
                 <div className={styles.cmntCountUsername}>
                     <div>
-                        <h3>{count} Comments</h3> {/*comments and replies total count, updated whenever a new reply or cmnt is added + when the page refreshes*/}
+                        <Details>{count} <Label>Comments</Label></Details> {/*comments and replies total count, updated whenever a new reply or cmnt is added + when the page refreshes*/}
                     </div>
                     <div>
-                        <h3 style={{fontSize:"1.3rem"}}> { cookies.username }</h3>
+                        <Details style={{overflow: "hidden",textOverflow: "ellipsis"}}> { cookies.username }</Details>
                     </div>
                 </div>
                 <div className={styles.cmntPfpInput}>
-                    <Link to="#"><CmntPfp letter={cookies.pfp?cookies.pfp:cookies.username[0]}/></Link>
+                    <PfpLink to="#"><CmntPfp letter={cookies.pfp?cookies.pfp:cookies.username[0]}/></PfpLink>
                     <CmntInput new_comment_data={new_comment_data} page_id={props.page_id} reply={false}/>
                 </div>
             </div>

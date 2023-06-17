@@ -13,6 +13,7 @@
     gap:20px;
     align-items: center;
     justify-content: space-between;
+    padding-top:2rem;
 }
 .MoviePoster{
     width: 350px;
@@ -42,7 +43,7 @@
     display: flex;
     align-items: end;
     position: relative;
-    top:-2rem;
+    top:-1.2rem;
     gap:2%;
 }
 .btnsContainer *{
@@ -105,6 +106,7 @@ display: flex;
 .imdbIcon{
     min-width: 25px;
     margin-right: 7px;
+    max-width: 30px;
 }
 .ratingsDiv{
     background-color: transparent;
@@ -143,13 +145,11 @@ display: flex;
     margin: auto;
     min-height: 100%;
 }
-.secondPageCont .similarContainer{
-    position: relative;
-    top:10px;
+.similarContainer{
     width: 100%;
-    height: 50vh;
-    margin: 0 0 2.4rem 0;
+    margin: 0 0 .6rem 0;
     overflow: hidden;
+    max-height: 70vh;
 }
 
 .secondPageCont .similarContainer .similarMovies{
@@ -160,6 +160,7 @@ display: flex;
     box-sizing: content-box;
     padding: 0 17px 17px 0;
     width: 100%;
+    height:200vh;
     scroll-behavior: smooth;
 }
 
@@ -175,6 +176,10 @@ display: flex;
     height: 100%;
     top: 0;
     left: 0;
+}
+.GenreContainer{
+    display: flex;
+    flex-wrap: wrap;
 }
 .GenreContainer2{
     display: none;
@@ -274,6 +279,14 @@ display: flex;
         gap: 27%;
     }
 }
+@media screen and (max-width:672px){
+    .similarContainer{
+        margin:0 ;
+        max-height: 65vh;
+    }
+
+}
+
 
 @media screen and (max-width:577px){
     .movieTitle{
@@ -297,8 +310,13 @@ display: flex;
     }
 
 }
+@media screen and (max-width:544px){
+    .similarContainer{
+        max-height: 72vh;
+    }
+}
 
-@media screen and (max-width:445px){
+@media screen and (max-width:440px){
     .movieTitle{
         display: none;
         
@@ -317,7 +335,7 @@ display: flex;
         padding-top: 2rem;
     }
     .textContainer{
-        margin: 4.1rem 0 0 0;
+        margin: 5.6rem 0 0 0;
         height:35%;
     }
     .trailerBtn{
@@ -328,6 +346,7 @@ display: flex;
     }
     .GenreContainer{
         display: none;
+        
     }
     .GenreContainer2{
         display: block;
@@ -335,7 +354,7 @@ display: flex;
     }
     .RatingsContainer{
         flex-direction: column;
-        margin:.1rem 0 0 0;
+        margin:.1rem 0 .8rem 0;
         gap:20px;
     }
     .DirecterRatingCont{
@@ -344,5 +363,9 @@ display: flex;
     }
     .detailedTextFp{
         display: none;
+    }
+    .similarContainer{
+        max-height: 52vh;
+        margin:0 ;
     }
 }
