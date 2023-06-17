@@ -9,7 +9,8 @@ import CmntPfp from "./comment-pfp";
 import styled from "styled-components";
 
 const PfpLink = styled(Link)`
-
+text-decoration:none;
+color:white;
 @media screen and (max-width:577px){
     display:none;
 }
@@ -125,7 +126,7 @@ function Comment(props){
                     </div>
                 </div>
                 <div className={styles.cmntPfpInput}>
-                    <PfpLink to="#"><CmntPfp letter={cookies.pfp?cookies.pfp:cookies.username[0]}/></PfpLink>
+                    <PfpLink to="#"><CmntPfp letter={cookies.pfp && cookies.pfp != "null"?cookies.pfp:cookies.username[0]}/></PfpLink>
                     <CmntInput new_comment_data={new_comment_data} page_id={props.page_id} reply={false}/>
                 </div>
             </div>

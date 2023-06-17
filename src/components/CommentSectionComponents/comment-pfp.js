@@ -25,11 +25,13 @@ height:100%;
 `
 
 function CmntPfp(props){
-    
+    useEffect(()=>{
+        console.log(props)
+    },[props])
     return(
         <Div>
             {
-            (props.letter && props.letter.length > 1 )?
+            (props.letter && props.letter.length > 1 && props.letter.length !== 'null')?
             <Img src={props.letter}/>:
             <SquareDiv>
                 {props.letter}

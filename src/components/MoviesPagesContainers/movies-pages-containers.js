@@ -16,7 +16,7 @@ const MoviesContainer = styled.div`
 function MoviesPagesContainers({children}){
    
     return (
-        <div style={{overflow:"hidden",background:"black"}}>
+        <div style={{overflow:"hidden",minHeight: "100vh",background:"black"}}>
             <MoviesNav/>
             <Main>
                 <MoviesContainer>

@@ -37,7 +37,7 @@ background-image: linear-gradient(45deg, #FF512F 0%, #F09819  51%, #FF512F  100%
 `
 
 const Container = styled.div`
-
+margin : 0 0 14px 0;
 `
 function MovieButtons({id}){
     return (

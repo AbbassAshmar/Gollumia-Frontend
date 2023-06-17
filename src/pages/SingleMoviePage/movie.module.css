@@ -11,7 +11,7 @@
     height: 100%;
     display: flex;
     gap:20px;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     padding-top:2rem;
 }
@@ -179,7 +179,7 @@ display: flex;
 }
 .GenreContainer{
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 .GenreContainer2{
     display: none;
@@ -230,8 +230,7 @@ display: flex;
         height: 100%;
         display: flex;
         gap:30px;
-        align-items: center;
-        justify-content: space-between;
+        align-items: flex-start;
     }
        
     .movieTitle{
@@ -364,8 +363,66 @@ display: flex;
     .detailedTextFp{
         display: none;
     }
+    
+}
+
+
+
+@media screen and (max-height:1400px){
     .similarContainer{
-        max-height: 52vh;
+        max-height: 30vh;
+        margin:0 ;
+    }
+}
+@media screen and (max-height:1250px){
+    .similarContainer{
+        max-height: 35vh;
+        margin:0 ;
+    }
+}
+@media screen and (max-height:1100px){
+    .similarContainer{
+        max-height: 42vh;
+        margin:0 ;
+    }
+}
+@media screen and (max-height:900px){
+    .similarContainer{
+        max-height: 40vh;
+        margin:0 ;
+    }
+}
+
+@media screen and (max-height:750px){
+    .similarContainer{
+        max-height: 43vh;
+        margin:0 ;
+    }
+}
+
+@media screen and (max-height:730px){
+    .similarContainer{
+        max-height: 58vh;
+        margin:0 ;
+    }
+}
+
+
+@media screen and (max-height:670px){
+    .similarContainer{
+        max-height: 55vh;
+        margin:0 ;
+    }
+}
+@media screen and (max-height:610px){
+    .similarContainer{
+        max-height: 68vh;
+        margin:0 ;
+    }
+}
+@media screen and (max-height:400px){
+    .similarContainer{
+        max-height: 44vh;
         margin:0 ;
     }
 }

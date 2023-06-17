@@ -156,7 +156,7 @@ function UserPage(){
     }
  
     return(
-        <div>
+        <div style={{minHeight: "100vh",background: "black"}}>
             <MoviesNav></MoviesNav>
             <Section>
                 <Content>

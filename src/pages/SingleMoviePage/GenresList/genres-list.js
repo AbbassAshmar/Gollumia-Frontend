@@ -13,7 +13,7 @@ margin-right:1rem;
 `
 function GenresList({genres}){
     return (
-        <div style={{display:"inline-block"}}>
+        <div style={{display:"flex",flexWrap:"wrap"}}>
             {
             genres?
             genres.map((genre)=>{
