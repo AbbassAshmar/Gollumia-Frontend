@@ -90,11 +90,7 @@ form label{
     width: 100%;
     background-color: rgb(121, 80, 3);
 }
-.page2{
-    width: 100%;
-    height: 100vh;
-    background-color: #000000;
-}
+
 
 .page2-content{
     height: 100%;
@@ -112,20 +108,7 @@ form label{
     height:50%;
     align-self: flex-start;
     margin-top: 1rem;
-    right:5%;
-    top:7%;
-    position: relative;
-    z-index: 1;
-}
-#deadpool{
-position: absolute;
-z-index: 5;
-}
-#momento{
-position: absolute;
-z-index: 4;
-top :70%;
-left:60%;
+    
 }
 .page2-content .text p{
     font-size: 1.2rem;
@@ -141,44 +124,7 @@ left:60%;
 }
 
 
-.section4{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    background-color: #000000;
-    align-items: center;
-    justify-content: center;
-}
-.section4-content-container{
-    width:90%;
-    height:80%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap-reverse;
-}
-.section4-content-container .section4-content-text{
-    text-align: start;
-    flex: .8;
-    transform: translateY(1rem);
 
-}
-.section4-content-container .section4-content-text h2{
- font-weight: 900;
- font-size: 2rem;
- color:white;
-}
-.section4-content-container .section4-content-text p{
-    font-size: 1rem;
-    font-weight: 500;
-    color:white;
-}
-.section4-content-container .section4-content-block{
-  width: 95%;
-  height: 60%;
-
-}
 
 .page3{
     background-color: black;
@@ -200,13 +146,10 @@ left:60%;
 
 
 @media screen and (max-width:530px) {
-    .section4{
+
+
+    .page2{
         height: 80%;
-        width: 100%;
-        display: flex;
-        background-color: #000000;
-        align-items: start;
-        justify-content: center;
     }
     .page2-content .page2-blocks{
         width: 90%;
@@ -217,11 +160,7 @@ left:60%;
         position: relative;
         z-index: 1;
     }
-    .section4-content-container .section4-content-text h2{
-        font-weight: 900;
-        font-size: 2rem;
-        color:white;
-       }
+    
     .page2-content .text{
         flex:.7;
         text-align: center;
@@ -236,10 +175,7 @@ left:60%;
         font-size: 2rem;
         color:white
     }
-    .section4-content-container .section4-content-text{
-        text-align: center;
-        flex: .8;
-    }
+     
     .parg h2, .parg h3{
         font-size:1.5rem;
     }
@@ -249,31 +185,16 @@ left:60%;
         text-align: center;
         margin-bottom: 1rem;
     }
-  
-    .section4-content-container .section4-content-text p{
-        font-size: 1rem;
-        font-weight: 500;
-        color:white;
-    }
-
+   
 }
 @media screen and (min-width:530px){
-    .section4-content-container .section4-content-text{
-        text-align: center;
-        flex: .8;
-    
-    }
     .parg h2, .parg h3{
         font-size:1.9rem;
     }
 }
 
 @media screen and (min-width:690px){
-    .section4-content-container .section4-content-text{
-        text-align: center;
-        flex: .8;
     
-    }
     .parg h2, .parg h3{
         font-size:2.5rem;
     }
@@ -283,29 +204,7 @@ left:60%;
         text-align: center;
         margin-bottom: 1rem;
     }
-    .section4{
-        height: 100%;
-        width: 100%;
-        display: flex;
-        background-color: #000000;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .section4-content-container .section4-content-block{
-        width: 600px;
-        height: 350px;
-    }
-    .section4-content-container .section4-content-text h2{
-        font-weight: 900;
-        font-size: 3rem;
-        color:white
-    }
-    .section4-content-container .section4-content-text p{
-        font-size: 1.3rem;
-        font-weight: 500;
-        color:white;
-    }
+    
     
 }
 
@@ -334,17 +233,10 @@ left:60%;
         font-weight: 500;
         color:white;
     }
-    #deadpool{
-        position: absolute;
-        z-index: 5;
-    }
-    #momento{
-    position: absolute;
-    z-index: 4;
-    top: 55%;
-    left:45%;
-    }
+
 }
+
+
 @media screen and (max-width:400px) {
     .page2-content{
         height: 100%;
@@ -370,16 +262,7 @@ left:60%;
         font-weight: 500;
         color:white;
     }
-    #deadpool{
-        position: absolute;
-        z-index: 5;
-    }
-    #momento{
-    position: absolute;
-    z-index: 4;
-    top: 55%;
-    left:45%;
-    }
+   
 }
 
 @media screen and (max-width:380px) {
@@ -407,16 +290,7 @@ left:60%;
         font-weight: 500;
         color:white;
     }
-    #deadpool{
-        position: absolute;
-        z-index: 5;
-    }
-    #momento{
-    position: absolute;
-    z-index: 4;
-    top: 55%;
-    left:45%;
-    }
+
 }
 
 

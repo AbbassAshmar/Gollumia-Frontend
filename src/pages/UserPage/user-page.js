@@ -4,7 +4,8 @@ import MoviesNav from '../../components/MainNavbar/movies-navbar';
 import styled from 'styled-components';
 import { Form,FormGroup,Input,Label,Col } from 'reactstrap';
 import { Cookies, useCookies } from 'react-cookie';
-
+import MoviePageFooter from '../SingleMoviePage/MoviePageFooter/movie-page-footer';
+import { animate, motion, transform, useAnimate } from 'framer-motion';
 const Section = styled.div`
     margin:0;
     padding:0;
@@ -56,40 +57,44 @@ const LabelLetter = styled.div`
     }
 `
 const H2 = styled.h2`
-    display:block;
+    width:70%;
+    display:flex;
+    justify-content:space-between;
     margin:2rem 0 0 20%;
     color:white;
+    @media screen and (max-width:1200px){
+        margin:2rem 0 0 0;
+        width:80%;
+    }
     @media screen and (max-width:1075px){
         margin:2rem 0 0 0;
+        width:90%;
+    }
+    align-items:flex-end;
+`
+const SuccessMessage = styled.p`
+    color:green;
+    font-size:1.4rem;
+    padding :3px;
+    border:2px solid green;
+    border-radius:7px;
+    @media screen and (max-width:1075px){
+        font-size:.9rem;
+        padding :3px;
+        border:1px solid green;
+        border-radius:7px;
     }
 `
 function UserPage(){
     const [display,setDisplay] = useState(false)
     const [cookie,setCookies] = useCookies(['token','pfp','username','email'])
     const [info, setInfo] = useState({email:cookie.email, username:cookie.username})
-    const [passwords,setPasswords] = useState({oldPass:"",newPass:"",confirmPass:""})
     const [passwordError , setPasswordError] = useState("")
+    const [successMessage, setSuccessMessage] = useState(false)
+    const [scope, animate] = useAnimate()
     const [img, setImg] = useState({currentImg:(cookie.pfp !="null" && cookie.pfp?
     cookie.pfp:cookie.username[0]),newImg:""})
-
-    function handlePasswordValidation(){
-        if (passwords.newPass == "" && passwords.confirmPass==""){
-            return null
-        }
-        if (passwords.newPass.length <8){
-            return "password should not be less than 8 character !";
-        }
-        if (!(passwords.newPass.match(".*\\d+.*"))){
-            return "password should contain at least one digit !";
-        }
-        if (passwords.newPass != passwords.confirmPass){
-            return "passwords don't match !";
-        }
-        if (passwords.oldPass == ""){
-            return "old password required !";
-        }
-        return null
-    }
+    
     async function request_update (data){
         let send_request = await fetch(`http://localhost:8000/users/${cookie.id}/`,{
             method:"PATCH",
@@ -101,35 +106,36 @@ function UserPage(){
         let response = await send_request.json()
         if (send_request.status == 200){
             setDisplay(false)
+            setSuccessMessage(true)
             for(let [key,value] of Object.entries(response)){
                 setCookies(key,value,{path:"/"})
             }
         }else{
             setPasswordError(response["error"])
-
         }
     }
     
     function handleFormSubmit(e){
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        
-        if (handlePasswordValidation()){
-            setPasswordError(handlePasswordValidation())
-            return null
-        }
-        setPasswordError("")
         request_update(formData)
     }
+
     function handleImage(e){
         let image= e.target.files[0] // get the file from the input
         const reader = new FileReader(); // fileReader instance
         reader.onload =()=>{ // after the fileReader finishes loading async.
-            console.log(reader.result)
             setImg({currentImg:"3333",newImg:reader.result}) // update the state to include the uploaded url
         }
         reader.readAsDataURL(image) // read the image as a url representing it
     }
+
+    useEffect(()=>{
+        if(successMessage) {
+            animate(scope.current, {opacity:[1,1,1,1,0]},{duration:10})
+            setSuccessMessage(false)
+        }
+    },[successMessage])
     const ImageStyle ={
        display:"none"
     }
@@ -157,10 +163,21 @@ function UserPage(){
  
     return(
         <div style={{minHeight: "100vh",background: "black"}}>
-            <MoviesNav></MoviesNav>
+            <MoviesNav/>
             <Section>
                 <Content>
-                <H2><i className="fa-solid fa-person-praying"></i> Edit Profile</H2>
+                    <H2>
+                        <p> 
+                            <i className="fa-solid fa-person-praying"/> Edit Profile
+                        </p>
+                        <SuccessMessage 
+                            ref={scope}
+                            as={motion.h2}
+                            initial={{opacity:0}}
+                        >
+                            <i class="fa-regular fa-circle-check" style={{marginRight:".4rem"}}/>Info Saved
+                        </SuccessMessage>
+                    </H2>
                     <Form onSubmit={handleFormSubmit} style={FormStyle} row>
                         <Div>
                             <div style={{flex:"1",margin:"2rem 0 0 0"}}>
@@ -177,43 +194,51 @@ function UserPage(){
                                 <div style={{padding:"1rem"}}>
                                 <FormGroup>
                                     <Label for="emailInput" sm={2} defaultValue>Email</Label>
-                                    <Input value={info.email} onChange={(e)=>{setInfo({...info,email:e.target.value})}} id='emailInput' name='email' type='email'></Input>
+                                    <Input 
+                                        value={info.email} 
+                                        onChange={(e)=>{setInfo({...info,email:e.target.value})}} 
+                                        id='emailInput' 
+                                        name='email' 
+                                        type='email'
+                                    />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label sm={2} for="usernameInput">Username</Label>
-                                    <Input  name="username" value={info.username} onChange={(e)=>{setInfo({...info,username:e.target.value})}} id="usernameInput"></Input>
+                                    <Input  
+                                        name="username" 
+                                        value={info.username} 
+                                        onChange={(e)=>{setInfo({...info,username:e.target.value})}} 
+                                        id="usernameInput"
+                                    />
                                 </FormGroup>
                                 <button onClick={()=>{setDisplay(!display)}} type="button" style={{display:"flex",alignItems:"center",gap:".9em",marginBottom:".4em"}}>
-                                    <i style={{color:"white"}} className="fa-solid fa-key"></i><p  style={{margin:"0",color:"white"}}>Change Password</p>
+                                    <i style={{color:"white"}} className="fa-solid fa-key"/>
+                                    <p  style={{margin:"0",color:"white"}}>Change Password</p>
                                 </button>
                                 <div style={{maxHeight:`${display?"30rem":"0"}`,transition:"max-height .5s",overflow:"hidden"}}>
                                     <FormGroup>
                                         <Label sm={8} id='oldpasswordInput'>Old Password</Label>
-                                        <Input style={{border:`${passwordError[0] =="o" ?"1px solid red":"none"}`}} type="password" 
-                                            onChange={(e)=>{setPasswords({...passwords,oldPass:e.target.value})}}
-                                            value={passwords.oldPass} 
+                                        <Input style={{border:`${passwordError[0] =="o" ?"1px solid red":"none"}`}} 
+                                            type="password" 
                                             for="oldpasswordInput"
-                                            name="oldPassword">
-                                        </Input>
+                                            name="oldPassword"
+                                        />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label sm={7} id="newpasswordInput">New Password</Label>
                                         <Input style={{border:`${passwordError !="" && passwordError[0]!='o'?"1px solid red":"none"}`}} 
                                             for="newpasswordInput"
                                             type='password'
-                                            onChange={(e)=>{setPasswords({...passwords,newPass:e.target.value})}}
-                                            value={passwords.newPass}
                                             name='newPassword' 
-                                        ></Input>
+                                        />
                                     </FormGroup>
                                     <FormGroup >
                                         <Label sm={9} id="confirmnewpassword">Confirm New Password</Label>
-                                        <Input style={{border:`${passwordError =="passwords don't match"?"1px solid red":"none"}`}} for="confirmnewpassword"
+                                        <Input style={{border:`${passwordError =="passwords don't match"?"1px solid red":"none"}`}} 
+                                            for="confirmnewpassword"
                                             type='password'
-                                            onChange={(e)=>{setPasswords({...passwords,confirmPass:e.target.value})}}
-                                            value={passwords.confirmPass} 
                                             name='confirmPassword' 
-                                        ></Input>
+                                        />
                                         <p style={{color:"red",margin:"0",transform:"translateY(70%)"}}>{passwordError}</p>
                                     </FormGroup>
                                 </div>
@@ -228,12 +253,7 @@ function UserPage(){
                     </Form>
                 </Content>
             </Section>
-            <div style={{background:"black"}}>
-                <div style={{height:"3.5rem",width:"100%"}}></div>
-                <div className="emptyline"></div>
-                <div style={{height:"1rem",width:"100%"}}></div>
-                <App></App>
-            </div>
+            <MoviePageFooter />
         </div>
     )
 }

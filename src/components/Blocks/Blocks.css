@@ -1,6 +1,7 @@
 .blockcontainer{
-    width:100%;
-    height: 90%;
+    width: 100%;
+    margin: auto;
+    height: 100%;
     position: relative;
     background-size: cover;
     background-position:center;
@@ -14,4 +15,10 @@
 
 .blockcontainer:hover{
     transform: scale(1.05);
+}
+
+@media screen and (max-width:400px) {
+    .blockcontainer{
+        height:200px;
+    }
 }
