@@ -46,8 +46,6 @@ function Register(){
             body: JSON.stringify(user)}
         )
         const response = await request.json();
-        console.log(response.error)
-        console.log(request)
         if (request.status == 201){
             setErrorMessage({})
             let token = response.token
@@ -62,7 +60,6 @@ function Register(){
             setCookies("pfp",pfp, {path: '/'})
             navigate("/home", { replace: true })
         }else if (request.status == 400){
-            console.log("hrere")
             if (response.error === 'Passwords do not match !') {
                 setErrorMessage({matchError: response.error});
             } else if (response.error === 'invalid email') {

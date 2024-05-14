@@ -124,6 +124,8 @@ function Movie(){
                             </span>
                         </h1>
                         <GenresContainer classes={`${styles.GenreContainer2} ${styles.detailedText}`} genres={movieData.genre}/>
+
+                        {/* movie poster */}
                         <img className={styles.MoviePoster} alt={movieData.title} src={movieData.poster}></img>
                         <WatchNowButton >Watch now</WatchNowButton>
                     </ImgBtnContainer>

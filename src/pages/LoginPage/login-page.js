@@ -114,8 +114,6 @@ function LoginPage(){
                         </form>
                     </div>
                 </main>
-        
-                
             </div>
         </div>
     )

@@ -12,6 +12,7 @@ import LatestMovies from "../../components/LatestMovies/latest-movies"
 import UpcomingMovies from "../../components/UpcomingMovies/upcoming-movies";
 import App from "../../components/Footer/footer";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const Movies_Container = styled.div`
     min-height: 200%;
@@ -55,12 +56,12 @@ export function MoviesPage(){
                 <section className="crouselsection">
                     <Crousel Moviesdata={dataState} />
                     <div className="socialMedia-MoviesPage">
-                        <div>
+                        <motion.div initial={{opacity:0, y:-30}} animate={{opacity:1, y:0}}>
                             <SmBtn small={false} icon="facebook-f" color="blue" className="fb" text="facebook"></SmBtn>
                             <SmBtn small={false} icon="instagram" color="#ac2bac" className="fb" text="Instagram"></SmBtn>
                             <SmBtn small={false} icon="twitter" color="#1DA1F2" className="fb" text="twitter"></SmBtn>
                             <SmBtn small={false} icon="github" color="orange" className="fb" text="github"></SmBtn>
-                        </div>
+                        </motion.div>
                         <p style={{margin:"1rem 0 0 0",fontSize:".9rem",fontWeight:"100"}}>
                             Watch Movies Online Free<br></br>
                             Watch all kinds of popular movies and forget about handing your money to netflix. At <span style={{color:"orange"}}>AFLIX</span>, A stands for Aree (free) !<br></br>

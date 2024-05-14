@@ -27,6 +27,10 @@ const BlockContainer = styled.div`
 
     @media screen and (max-width:950px){
         width: 80%;
+        height: 40vh;
+    }
+    @media screen and (max-width:500px){
+        height: 35vh;
     }
 `
 const TextContainer = styled.div`
@@ -37,6 +41,7 @@ const TextContainer = styled.div`
     margin-top: 1rem;
     @media screen and (max-width:950px) {
         text-align: center;
+        align-self: center;
     }
 `
 const Paragraph = styled.p`
@@ -65,6 +70,7 @@ const Title = styled.div`
     @media screen and (max-width:530px) {
         font-size: 2rem;
         flex:1;
+       
     }
        
 `

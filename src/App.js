@@ -1,5 +1,5 @@
-import React from 'react'
-import {Routes, Route} from 'react-router-dom'
+import React, { useEffect } from 'react'
+import {Routes, Route, useLocation} from 'react-router-dom'
 import './App.css';
 import LoginPage from "./pages/LoginPage/login-page";
 import Home from './pages/HomePage/home-page';
@@ -13,23 +13,29 @@ import MoviesCollection from './pages/MoviesCollectionPage/movies-collection-pag
 import FavoritesPage from './pages/FavouritesPage/favorite-movies-page';
 import TopImdbPage from './pages/TopImdbPage/top-imdb-page';
 import SearchPage from './pages/SearchPage/search-page';
+import { AnimatePresence } from 'framer-motion';
 function App() {
+  const location = useLocation()
+
   return (
     <GoogleOAuthProvider clientId="798671795051-c95amd54jght2rvvkbnqog71ilut2kch.apps.googleusercontent.com">
       <div className="App">
-        <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='register' element={<Register />}></Route>
-          <Route path="login" element={<LoginPage />}></Route>
-          <Route path="home" element={<MoviesPage />}></Route>
-          <Route path="movies/:id" element={<Movie />}></Route>
-          <Route path="user/:username" element={<UserPage />}></Route>
-          <Route path="movies/category/:category" element={<CategorizedMovies/>}></Route>
-          <Route path="movies" element={<MoviesCollection/>}></Route>
-          <Route path='movies/:id/favorites/' element={<FavoritesPage/>}> </Route>
-          <Route path="movies/top-imdb/" element={<TopImdbPage/>}> </Route>
-          {/* <Route path="movies/search/:searchedKeyWord" element={<SearchPage/>}></Route> */}
-        </Routes>
+        <AnimatePresence>
+          <Routes location={location} key={location.pathname}>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='register' element={<Register />}></Route>
+            <Route path="login" element={<LoginPage />}></Route>
+            <Route path="home" element={<MoviesPage />}></Route>
+            <Route path="movies/:id" element={<Movie />}></Route>
+            <Route path="user/:username" element={<UserPage />}></Route>
+            <Route path="movies/category/:category" element={<CategorizedMovies/>}></Route>
+            <Route path="movies" element={<MoviesCollection/>}></Route>
+            <Route path='movies/:id/favorites/' element={<FavoritesPage/>}> </Route>
+            <Route path="movies/top-imdb/" element={<TopImdbPage/>}> </Route>
+            {/* <Route path="movies/search/:searchedKeyWord" element={<SearchPage/>}></Route> */}
+          </Routes>
+        </AnimatePresence>
+
       </div>
     </GoogleOAuthProvider>
   );

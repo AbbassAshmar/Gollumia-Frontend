@@ -13,6 +13,7 @@ function MoviesCollection(){
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
     const [searchProps, setSearchProps] = useState({params : searchParams,page: 0})
     const [title , setTitle] = useState("All Movies")
+    
     // request movies with no filters , but with limits (pagination)
     async function requestMovies(){
         const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);

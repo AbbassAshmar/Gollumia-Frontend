@@ -104,7 +104,6 @@ function MoviesNav(){
     return(
     <nav className="moviesPageNavTag">
         <SideNavbar genres={genres} />
-        
         <ul className="navbar-elements-list">
             <li><Logo>AFLIX</Logo></li>
             <li><Link to={"/home"} style={{textDecoration:"none"}}>Home</Link></li>
@@ -138,9 +137,7 @@ function MoviesNav(){
             </div>
             <SearchMoviesNav inputLength={searchInputValue} movies={searchedMovies}/>
         </div>
-
         <SearchBox displaySearchBar={displaySearchBar} handleSearchSubmit={handleSearchSubmit} handleSearchChange={handleSearchChange}/>
-
     </nav>
     
 

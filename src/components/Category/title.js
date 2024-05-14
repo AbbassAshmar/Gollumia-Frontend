@@ -1,7 +1,14 @@
-import React from 'react'
+import {useEffect} from 'react'
 import {Link} from 'react-router-dom'
+import { motion ,useAnimate,useInView} from 'framer-motion'
 
 function Title(props){
+    const [scope, animate]= useAnimate()
+    const isInView = useInView(scope,{once:true})
+    useEffect(()=>{
+        console.log(isInView)
+        if (isInView) animate(scope.current, {opacity:1, x:0})
+    },[isInView])
 
     const styles ={
         container:{
@@ -23,12 +30,12 @@ function Title(props){
         }
     }
     return (
-        <div style={styles.container}>
+        <motion.div ref={scope} initial={{opacity:0, x:-20}}  style={styles.container}>
             <h2 style={styles.h2}>{props.ctg}</h2>
             {!props.viewall?null :
             <Link to={`/movies/category/${props.ctg.toLowerCase()}/`} >View all <i className="fa-solid fa-circle-arrow-right"></i></Link>
             }
-        </div>
+        </motion.div>
     )
 }
 

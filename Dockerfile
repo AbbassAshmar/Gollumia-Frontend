@@ -1,5 +1,7 @@
+# each command creates a separate layer
 FROM node:19-alpine AS development
 WORKDIR /usr/src/app/frontend 
+
 #don't run npm install each time code changes
 COPY package.json .
 RUN npm install --force 
@@ -7,15 +9,16 @@ COPY . .
 EXPOSE 3000
 CMD ["npm", "start"]
 
-
 FROM node:latest AS builder
 WORKDIR /usr/src/app/frontend
-COPY package.json .
+
+# separate the layer of requirements from the layer of code files for caching
+COPY package.json .  
 RUN npm install 
+
+# layer of code files 
 COPY . .
 RUN npm run build
-
-
 
 #use the latest nginx image 
 FROM nginx:latest AS production

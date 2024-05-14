@@ -70,7 +70,7 @@ function Home(){
 
     return(
         <>
-        <div className="page1" style={{overflow:"hidden"}}>
+        <div  className="page1" style={{overflow:"hidden"}}>
             <div className="page1-container">
                 <Navbar />
                 <div className="main-content">
