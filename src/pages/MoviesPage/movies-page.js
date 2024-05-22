@@ -15,38 +15,36 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 export const Movies_Container = styled.div`
-    min-height: 200%;
-    width: 87%;
-    margin: auto;
-    @media screen and (max-width:1400px){
-         width: 95%;
-        
-    }
+min-height: 200%;
+width: 87%;
+margin: auto;
+@media screen and (max-width:1400px){
+        width: 95%;
+}
 `
 export function MoviesPage(){
     const [cookies , setCookies, removeCookie] = useCookies(["token"])
     const navigate = useNavigate()
     const[dataState, setData]= useState([])
+
     useEffect(()=>{
-            async function fetchData(){
-                let apidata =  await fetch("http://127.0.0.1:8000/api/");
-                if(apidata.ok == true && apidata.status == 200){
-                    let response = await apidata.json()
-                    setData(response)                   
-                }
+        async function fetchData(){
+            let apidata =  await fetch("http://127.0.0.1:8000/api/");
+            if(apidata.ok == true && apidata.status == 200){
+                let response = await apidata.json()
+                setData(response)                   
             }
-            fetchData()
-        },[])
+        }
+        fetchData()
+    },[])
         
-    useEffect(
-        () => {
-            if (cookies.token==null){
-                navigate('/login', {replace:true})
-            }
+    useEffect(() => {
+        if (cookies.token==null){
+            navigate('/login', {replace:true})
+        }
      },[])
         
     
-   
     return(
         <div className="moviesPageContainer">
             <div style={{backgroundColor:"black"}}>

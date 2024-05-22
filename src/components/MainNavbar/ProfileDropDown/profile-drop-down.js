@@ -3,7 +3,7 @@ import { useRef, useState,useEffect } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import "../moviesNavbar.css"
-import Pfp from "../../ProfilePicture/pfp"
+import ProfilePicture from "../../ProfilePicture/profile-picture";
 import { useNavigate } from "react-router-dom"
 
 const Settings = styled.div`
@@ -77,8 +77,7 @@ function ProfileDropDown(){
     return (
         <div style={{position:'relative'}}>
             <Button ref={ref2} onClick={()=>{setExpandInfo(!ExpandInfo)}} id="signedin" color="warning">
-                <Pfp/>
-                {/* arrow icon up or down */}
+                <ProfilePicture/>
                 {ExpandInfo ?<i className="fa-solid fa-sort-up"></i>:<i className="fa-solid fa-sort-down"></i>}
             </Button>
             

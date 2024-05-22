@@ -172,8 +172,6 @@ let Cardcontainer= styled.div`
             width: 105px;
             height:155px;
         }
-        
-        
 `
 
 function MovieCard(props){

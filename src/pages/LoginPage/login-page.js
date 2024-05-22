@@ -9,45 +9,53 @@ import { useNavigate } from "react-router-dom";
 import Facebook from "../../components/socialMedia/facebook";
 import Twitter from "../../components/socialMedia/twitter";
 import Google from "../../components/socialMedia/google";
-    const Logo = styled.h1`
-    font-family: 'Kanit', sans-serif;
-    font-family: 'Open Sans', sans-serif;
-    color:orange;
-    font-weight:700;
-    margin-left:2rem;
-    margin-top :7px;
-    `
-    const Parag = styled.p`
-    color: Red;
-    margin:0 0 0 2.5rem;
-    align-self: start;
-    transform:translateY(-2px);
-    `
-    const Input = styled.input`
-    width:80%;
-    border-radius:5px;
-    margin:1rem 0;
-    height:45px;
-    border :none;
-    outline:none;
-    color:black;
-    `
+
+const Logo = styled.h1`
+font-family: 'Kanit', sans-serif;
+font-family: 'Open Sans', sans-serif;
+color:orange;
+font-weight:700;
+margin-left:2rem;
+margin-top :7px;
+`
+
+
+const InputContainer = styled.div`
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+`
+const Input = styled.input`
+width:80%;
+border-radius:5px;
+margin:1rem 0;
+height:45px;
+border :none;
+outline:none;
+color:black;
+`
+const Message = styled.p`
+font-size:14px;
+color:red;
+`
 
 function LoginPage(){
     let navigate = useNavigate();
+    
     const [email, setEmail] = useState("")
     const [password, setPass] = useState("")
-    const[response, setResponse] = useState(302)
+
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
+    const [errors, setErrors] = useState({error_fields:[], messages:{}});
+
     useEffect(()=>{
-        if(cookies.token){
-            navigate('/home',{replace:true})
-        }
+        if(cookies.token) 
+        navigate('/home',{replace:true})
     },[])
-    function handleSubmit(e){
-        e.preventDefault()
-        const user = {email,password}
-        fetch("http://127.0.0.1:8000/login/",{
+
+    async function requestLogin(user){
+        const url = `${process.env.REACT_APP_API_URL}login/`;
+        const request = await fetch(url,{
             method:"POST",
             body:JSON.stringify(user),
             headers :{
@@ -55,24 +63,40 @@ function LoginPage(){
                 'Authorization': ''
             },
         })
-        .then((resp)=>{
-            setResponse(resp.status)
-            return resp.json()
-        })
-        .then((resp) =>{
-            if (resp.user && resp.token){
-            const pfp = resp.user.pfp && resp.user.pfp != "null" ? 'http://127.0.0.1:8000'+resp.user.pfp : null 
+
+        const response = await request.json();
+        return [request, response];
+    }
+
+    async function handleSubmit(e){
+        e.preventDefault()
+        const user = {email,password}
+        const [request, response] = await requestLogin(user);
+
+        if (request?.status == 200){
+            const data = response.data
+            const pfp = data.user.pfp && data.user.pfp != "null" ? 'http://127.0.0.1:8000' + data.user.pfp : null 
 
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate()+1);
-            setCookies("token", resp.token, {path :"/",expires:tomorrow})
-            setCookies("email", resp.user.email, {path :"/",expires:tomorrow})
-            setCookies("username", resp.user.username, {path :"/",expires:tomorrow})
-            setCookies("id", resp.user.id, {path :"/",expires:tomorrow})
+
+            setCookies("token", data.token, {path :"/",expires:tomorrow})
+            setCookies("email", data.user.email, {path :"/",expires:tomorrow})
+            setCookies("username", data.user.username, {path :"/",expires:tomorrow})
+            setCookies("id", data.user.id, {path :"/",expires:tomorrow})
             setCookies("pfp", pfp, {path :"/",expires:tomorrow})
-            navigate('/movies')}
-        })
-        .catch(error =>{ console.error(error)})
+
+            setErrors({error_fields:[], messages:{}});
+            navigate('/movies')
+        }
+
+        //validation error
+        if (request?.status == 400){
+            setErrors({
+                error_fields:response.metadata.error_fields,
+                messages: response.error.details
+            })
+        }
     }
  
   
@@ -88,13 +112,16 @@ function LoginPage(){
                     <div className="login-form-container">
                         <h2>Sign In</h2>
                         <form onSubmit={handleSubmit} className="login-form">
-                            <div>
+
+                            <InputContainer>
                                 <Input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
-                            </div>
-                            <div>        
+                                {errors.messages['email'] && <Message>{errors.messages['email']}</Message>}
+                            </InputContainer>
+                            <InputContainer>        
                                 <Input onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
-                            </div>
-                            { response != 302 ?<Parag>Wrong email or password ! </Parag>:null}
+                                {errors.messages['password'] && <Message>{errors.messages['password']}</Message>}
+                            </InputContainer>
+
                             <div  id="login-forgot-password-div">
                                 <Link id="login-forgot-password" to="#">Forgot password ?</Link>
                             </div>

@@ -81,19 +81,19 @@ function MoviesCollection(){
     
     return(
         <MoviesPagesContainers>
-                <FilterContainer 
-                    setCurrentPageNumber={setCurrentPageNumber} 
-                    setCount={setPagesCount} 
-                    setMovies={setMovies} 
-                    start={Math.ceil((currentPageNumber-1)*35)}
-                    setSearchParamsIfAltered={setSearchParamsIfAltered}
-                    searchParams={searchParams}
-                    searchProps={searchProps}
-                    title={title}
-                />
-                <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
-                <MoviesGridContainer movies={movies}/>
-                <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
+            <FilterContainer 
+                setCurrentPageNumber={setCurrentPageNumber} 
+                setCount={setPagesCount} 
+                setMovies={setMovies} 
+                start={Math.ceil((currentPageNumber-1)*35)}
+                setSearchParamsIfAltered={setSearchParamsIfAltered}
+                searchParams={searchParams}
+                searchProps={searchProps}
+                title={title}
+            />
+            <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
+            <MoviesGridContainer movies={movies}/>
+            <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
         </MoviesPagesContainers>
         
     )
