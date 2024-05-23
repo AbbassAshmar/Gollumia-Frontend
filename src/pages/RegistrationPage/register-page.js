@@ -6,7 +6,6 @@ import Navbar from '../../components/Navbar/navbar';
 import { useNavigate } from 'react-router-dom';
 import {useCookies} from "react-cookie";
 
-
 const inputNostate = {
     cursor: "pointer",
     border:"none",

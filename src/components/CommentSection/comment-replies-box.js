@@ -5,11 +5,16 @@ import ReplyBox from "./reply-box";
 
 
 const Container = styled.div`
-
+display: flex;
+flex-direction: column;
+gap:1.5rem;
 `
 
 const RepliesContainer = styled.div`
 margin-left:calc(57px + 1rem);
+display: flex;
+flex-direction: column;
+gap:1.5rem;
 `
 
 export default function CommentRepliesBox({comment, repliesList}){
@@ -22,19 +27,23 @@ export default function CommentRepliesBox({comment, repliesList}){
             likes={comment.likes} 
             dislikes={comment.dislikes}
             createdAt={comment.created_at}/>
-            <RepliesContainer>
-                {repliesList.length && repliesList.map(reply => (
-                    <ReplyBox
-                    key={reply.id}
-                    id={reply.id}
-                    text={reply.text} 
-                    user={reply.user} 
-                    likes={reply.likes} 
-                    dislikes={reply.dislikes}
-                    createdAt={reply.created_at}
-                    replyingTo={reply.replying_to}/>
-                ))}
-            </RepliesContainer>
+            
+            {(repliesList && repliesList.length>0) && (
+                <RepliesContainer>
+                    { repliesList.map(reply => (
+                        <CommentBox
+                        isReply={true}
+                        key={reply.id}
+                        id={reply.id}
+                        text={reply.text} 
+                        user={reply.user} 
+                        likes={reply.likes} 
+                        dislikes={reply.dislikes}
+                        createdAt={reply.created_at}
+                        replyingTo={reply.replying_to}/>
+                    ))}
+                </RepliesContainer>
+            )}
         </Container>
     )
 }

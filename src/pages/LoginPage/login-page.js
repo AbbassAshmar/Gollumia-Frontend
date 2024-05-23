@@ -3,13 +3,42 @@ import { useState } from "react";
 import "./login.css"
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
-import { Button } from "reactstrap";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import Facebook from "../../components/socialMedia/facebook";
 import Twitter from "../../components/socialMedia/twitter";
 import Google from "../../components/socialMedia/google";
+import MoviesBackground from "../../photos/wallpaperflare.com_wallpaper.jpg";
 
+const Container =styled.div`
+color:white;
+width: 100%;
+background-image: url(${MoviesBackground});
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+position: relative;
+&::before{
+    content:"";
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5));
+}
+`
+const ContentContainer = styled.div`
+position: relative;
+z-index: 10000;
+width:100%;
+height: 100%;
+`
+const Main = styled.div`
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+padding:2rem;
+`
 const Logo = styled.h1`
 font-family: 'Kanit', sans-serif;
 font-family: 'Open Sans', sans-serif;
@@ -18,27 +47,91 @@ font-weight:700;
 margin-left:2rem;
 margin-top :7px;
 `
+const FormContainer = styled.div`
+border-radius: 8px;
+padding:2rem;
+gap:2rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: rgba(41, 39, 39, 0.5);   
+box-shadow: 0 5px 30px black,0 5px 30px black;
+`
+const TextContainer = styled.div`
+gap: .5rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
+const Form = styled.form`
+gap:2rem;
+width: 100%;
+display: flex;
+flex-direction:column;
+align-items: center;
+justify-content: center;
+`
+const Inputs = styled.div`
+width: 100%;
+gap:1rem;
+display: flex;
+flex-direction:column;
+align-items: center;
+justify-content: center;
+`
 
+const SubmitButtonContainer = styled.div`
+width: 100%;
+gap:.5rem;
+display: flex;
+flex-direction:column;
+align-items: center;
+justify-content: center;
+`
 
 const InputContainer = styled.div`
+width:100%;
 display: flex;
 flex-direction: column;
 gap: 0.5rem;
 `
 const Input = styled.input`
-width:80%;
+width:100%;
 border-radius:5px;
-margin:1rem 0;
 height:45px;
 border :none;
 outline:none;
 color:black;
+padding-left:.5rem;
 `
 const Message = styled.p`
 font-size:14px;
 color:red;
 `
+const SignInButton =styled.button`
+border:none;
+background:orange;
+width:fit-content;
+padding: 0.5rem 1rem;
+border-radius: 6px;
+`
+const SocialMediaContainer = styled.div`
+width: 100%;
+gap: 0.5rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+`
+const SocialMediaButtons = styled.div`
+display: flex;
+gap:1rem;
+`
+const SignUpInstead = styled.div`
 
+`
 function LoginPage(){
     let navigate = useNavigate();
     
@@ -54,7 +147,7 @@ function LoginPage(){
     },[])
 
     async function requestLogin(user){
-        const url = `${process.env.REACT_APP_API_URL}login/`;
+        const url = `${process.env.REACT_APP_API_URL}/login/`;
         const request = await fetch(url,{
             method:"POST",
             body:JSON.stringify(user),
@@ -101,48 +194,57 @@ function LoginPage(){
  
   
     return(
-        <div className="login-page">
-            <div className="login-page-container">
+        <Container>
+            <ContentContainer>
                 <header>
                     <nav style={{height:"70px", display:"flex",alignItems:"center"}}>
                         <Logo>AFLIX</Logo>
                     </nav>
                 </header>
-                <main>
-                    <div className="login-form-container">
-                        <h2>Sign In</h2>
-                        <form onSubmit={handleSubmit} className="login-form">
+                <Main>
+                    <FormContainer>
+                        <TextContainer>
+                            <h2>Sign In</h2>
+                            <p style={{margin:'0',maxWidth:'270px',textAlign:"center"}}>Enter Your details to sign in to your account and join us</p>
+                        </TextContainer>
+                        <Form onSubmit={handleSubmit}>
 
-                            <InputContainer>
-                                <Input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
-                                {errors.messages['email'] && <Message>{errors.messages['email']}</Message>}
-                            </InputContainer>
-                            <InputContainer>        
-                                <Input onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
-                                {errors.messages['password'] && <Message>{errors.messages['password']}</Message>}
-                            </InputContainer>
+                            <Inputs>
+                                <InputContainer>
+                                    <Input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
+                                    {errors.messages['email'] && <Message>{errors.messages['email']}</Message>}
+                                </InputContainer>
 
-                            <div  id="login-forgot-password-div">
+                                <InputContainer>        
+                                    <Input onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
+                                    {errors.messages['password'] && <Message>{errors.messages['password']}</Message>}
+                                </InputContainer>
+                            </Inputs>
+                            
+
+                            <SubmitButtonContainer>
                                 <Link id="login-forgot-password" to="#">Forgot password ?</Link>
-                            </div>
-                            <div className="sign-in-btn-div">
-                                <Button style={{width:"80%", backgroundColor:"orange", border:"none"}}>Sign in</Button>
-                            </div>
-                            <p>Or login with</p>
-                            <div className="social-media-logos">
-                                <Twitter />
-                                <Facebook />
-                                <Google />
-                            </div>
-                            <div>
-                                <p style={{marginRight:'5px'}}>Don't have an account?</p>
+                                <SignInButton style={{width:"80%", backgroundColor:"orange", border:"none"}}>Sign in</SignInButton>
+                            </SubmitButtonContainer>
+
+                            <SocialMediaContainer>
+                                <p style={{margin:'0'}}>Or login with</p>
+                                <SocialMediaButtons>
+                                    <Twitter />
+                                    <Facebook />
+                                    <Google />
+                                </SocialMediaButtons>
+                            </SocialMediaContainer>
+                            
+                            <SignUpInstead>
+                                <p style={{marginRight:'5px',display:"inline"}}>Don't have an account?</p>
                                 <Link to="/register">Sign up !</Link>
-                            </div>
-                        </form>
-                    </div>
-                </main>
-            </div>
-        </div>
+                            </SignUpInstead>
+                        </Form>
+                    </FormContainer>
+                </Main>
+            </ContentContainer>
+        </Container>
     )
 
 }

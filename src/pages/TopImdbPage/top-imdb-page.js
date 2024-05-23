@@ -1,5 +1,3 @@
-import App from "../../components/Footer/footer";
-import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -8,6 +6,7 @@ import Title from "../../components/Category/title";
 import Pagination from "../../components/Pagination/pagination";
 import { useLocation, useSearchParams } from "react-router-dom";
 import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
+
 const Main = styled.div`
     background:black;
     margin:0 0 0 1.3rem;
@@ -22,7 +21,7 @@ function TopImdbPage(){
     async function request_top_imdb_movies(){
         let limit  = 35
         let start =(currentPageNumber -1)*limit
-        const request = await fetch(`http://127.0.0.1:8000/api/movies/top-imdb/?limit=${limit}&start=${start}`)
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/top-imdb/?limit=${limit}&start=${start}`)
         const top_imdb_movies = await request.json()
         if (request.status === 200){
             setMovies(top_imdb_movies['movies'])
@@ -47,10 +46,10 @@ function TopImdbPage(){
     
     return (
         <MoviesPagesContainers>
-                <Title ctg={"Top Imdb Movies"} />
-                <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
-                <MoviesGridContainer movies={movies}/>
-                <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
+            <Title ctg={"Top Imdb Movies"} />
+            <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
+            <MoviesGridContainer movies={movies}/>
+            <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
         </MoviesPagesContainers>
     )
 }

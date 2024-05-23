@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import "./moviesPage.css"
 import Crousel from "../../components/Carousel/carousel";
 import SmBtn from "../../components/Button/social-media-button";
@@ -10,7 +9,6 @@ import Title from "../../components/Category/title"
 import {TrendingMovies} from "../../components/TrendingMovies/trending-movies"
 import LatestMovies from "../../components/LatestMovies/latest-movies"
 import UpcomingMovies from "../../components/UpcomingMovies/upcoming-movies";
-import App from "../../components/Footer/footer";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -27,29 +25,24 @@ export function MoviesPage(){
     const navigate = useNavigate()
     const[dataState, setData]= useState([])
 
-    useEffect(()=>{
-        async function fetchData(){
-            let apidata =  await fetch("http://127.0.0.1:8000/api/");
-            if(apidata.ok == true && apidata.status == 200){
-                let response = await apidata.json()
-                setData(response)                   
-            }
-        }
-        fetchData()
-    },[])
-        
     useEffect(() => {
         if (cookies.token==null){
             navigate('/login', {replace:true})
+        }else{
+            fetchData()
         }
-     },[])
-        
+    },[])
+
+    async function fetchData(){
+        const request =  await fetch(`${process.env.REACT_APP_API_URL}/api/`);
+        if(request.ok == true && request.status == 200){
+            let response = await request.json()
+            setData(response)                   
+        }
+    }
     
     return(
         <div className="moviesPageContainer">
-            <div style={{backgroundColor:"black"}}>
-                <MoviesNav></MoviesNav>
-            </div>    
             <Movies_Container >
                 <section className="crouselsection">
                     <Crousel Moviesdata={dataState} />
@@ -77,10 +70,6 @@ export function MoviesPage(){
                     <UpcomingMovies />
                 </section>
             </Movies_Container>
-            <div style={{height:"3.5rem",width:"100%"}}></div>
-            <div className="emptyline"></div>
-            <div style={{height:"1rem",width:"100%"}}></div>
-            <App/>
         </div>
     )
 }

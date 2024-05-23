@@ -31,13 +31,13 @@ function FavoritesPage(){
 
     return(
         <MoviesPagesContainers>
-                <Title ctg="Favourites" />
-                <PaginationBlock 
-                    children={<MoviesGridContainer movies={favoriteMovies}/>}
-                    url ={`/movies/${id}/favorites`}
-                    request_movies={request_favorite_movies}
-                    pagesCount={pagesCount}
-                />
+            <Title ctg="Favourites" />
+            <PaginationBlock 
+                children={<MoviesGridContainer movies={favoriteMovies}/>}
+                url ={`/movies/${id}/favorites`}
+                request_movies={request_favorite_movies}
+                pagesCount={pagesCount}
+            />
         </MoviesPagesContainers>
     )
 }

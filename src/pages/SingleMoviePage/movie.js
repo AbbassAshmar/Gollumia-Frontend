@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from "react";
 import {useParams } from "react-router-dom";
-import MoviesNav from "../../components/MainNavbar/movies-navbar";
 import styles from "./movie.module.css"
 import styled from "styled-components";
 import imdb from "../../photos/imdb.png";
@@ -9,7 +8,6 @@ import SimilarMovies from '../../components/SimilarMovies/similar-movies'
 import Ratings from "./Ratings/ratings";
 import MovieButtons from "./MovieButtons/movie-buttons";
 import DetailsBlock from "./DetailsBlock/details-block";
-import MoviePageFooter from "./MoviePageFooter/movie-page-footer";
 import Trailer from "./Trailer/trailer";
 import { WatchNow } from "./MovieButtons/movie-buttons";
 import GenresContainer from "./GenresContainer/genres-container";
@@ -135,7 +133,6 @@ function Movie(){
     
     return(
         <Container>
-            <MoviesNav />
             <ContentContainer>
                 <AboveTheFolds background={movieData.image?movieData.image:movieData.poster}>
                     <FirstChild></FirstChild>
@@ -187,7 +184,6 @@ function Movie(){
                     </SectionContainer>
                 </Content>
             </ContentContainer>
-            <MoviePageFooter />
         </Container> 
     )
 }

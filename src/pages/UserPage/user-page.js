@@ -1,12 +1,10 @@
 import {React, useEffect, useState} from 'react'
-import App from '../../components/Footer/footer';
-import MoviesNav from '../../components/MainNavbar/movies-navbar';
 import styled from 'styled-components';
 import { Form,FormGroup,Input,Label,Col } from 'reactstrap';
-import { Cookies, useCookies } from 'react-cookie';
-import MoviePageFooter from '../SingleMoviePage/MoviePageFooter/movie-page-footer';
-import { animate, motion, transform, useAnimate } from 'framer-motion';
-const Section = styled.div`
+import {  useCookies } from 'react-cookie';
+import { motion, useAnimate } from 'framer-motion';
+
+const Container = styled.div`
     margin:0;
     padding:0;
     font-weight:400;
@@ -162,99 +160,96 @@ function UserPage(){
     }
  
     return(
-        <div style={{minHeight: "100vh",background: "black"}}>
-            <MoviesNav/>
-            <Section>
-                <Content>
-                    <H2>
-                        <p> 
-                            <i className="fa-solid fa-person-praying"/> Edit Profile
-                        </p>
-                        <SuccessMessage 
-                            ref={scope}
-                            as={motion.h2}
-                            initial={{opacity:0}}
-                        >
-                            <i class="fa-regular fa-circle-check" style={{marginRight:".4rem"}}/>Info Saved
-                        </SuccessMessage>
-                    </H2>
-                    <Form onSubmit={handleFormSubmit} style={FormStyle} row>
-                        <Div>
-                            <div style={{flex:"1",margin:"2rem 0 0 0"}}>
-                                <div>
-                                    <InputLabel style={inputLabelStyle} >
-                                        {img.currentImg.length>2?null:
-                                        <LabelLetter>{cookie.username[0].toUpperCase()}</LabelLetter>
-                                        }
-                                        <Input name="pfp" onChange={handleImage} type="file" accept="image/*" style={ImageStyle}></Input>
-                                    </InputLabel>
-                                </div>
+        <Container>
+            <Content>
+                <H2>
+                    <p> 
+                        <i className="fa-solid fa-person-praying"/> Edit Profile
+                    </p>
+                    <SuccessMessage 
+                        ref={scope}
+                        as={motion.h2}
+                        initial={{opacity:0}}
+                    >
+                        <i class="fa-regular fa-circle-check" style={{marginRight:".4rem"}}/>Info Saved
+                    </SuccessMessage>
+                </H2>
+                <Form onSubmit={handleFormSubmit} style={FormStyle} row>
+                    <Div>
+                        <div style={{flex:"1",margin:"2rem 0 0 0"}}>
+                            <div>
+                                <InputLabel style={inputLabelStyle} >
+                                    {img.currentImg.length>2?null:
+                                    <LabelLetter>{cookie.username[0].toUpperCase()}</LabelLetter>
+                                    }
+                                    <Input name="pfp" onChange={handleImage} type="file" accept="image/*" style={ImageStyle}></Input>
+                                </InputLabel>
                             </div>
-                            <div style={{flex:"2"}}>
-                                <div style={{padding:"1rem"}}>
+                        </div>
+                        <div style={{flex:"2"}}>
+                            <div style={{padding:"1rem"}}>
+                            <FormGroup>
+                                <Label for="emailInput" sm={2} defaultValue>Email</Label>
+                                <Input 
+                                    value={info.email} 
+                                    onChange={(e)=>{setInfo({...info,email:e.target.value})}} 
+                                    id='emailInput' 
+                                    name='email' 
+                                    type='email'
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label sm={2} for="usernameInput">Username</Label>
+                                <Input  
+                                    name="username" 
+                                    value={info.username} 
+                                    onChange={(e)=>{setInfo({...info,username:e.target.value})}} 
+                                    id="usernameInput"
+                                />
+                            </FormGroup>
+                            <button onClick={()=>{setDisplay(!display)}} type="button" style={{display:"flex",alignItems:"center",gap:".9em",marginBottom:".4em"}}>
+                                <i style={{color:"white"}} className="fa-solid fa-key"/>
+                                <p  style={{margin:"0",color:"white"}}>Change Password</p>
+                            </button>
+                            <div style={{maxHeight:`${display?"30rem":"0"}`,transition:"max-height .5s",overflow:"hidden"}}>
                                 <FormGroup>
-                                    <Label for="emailInput" sm={2} defaultValue>Email</Label>
-                                    <Input 
-                                        value={info.email} 
-                                        onChange={(e)=>{setInfo({...info,email:e.target.value})}} 
-                                        id='emailInput' 
-                                        name='email' 
-                                        type='email'
+                                    <Label sm={8} id='oldpasswordInput'>Old Password</Label>
+                                    <Input style={{border:`${passwordError[0] =="o" ?"1px solid red":"none"}`}} 
+                                        type="password" 
+                                        for="oldpasswordInput"
+                                        name="oldPassword"
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label sm={2} for="usernameInput">Username</Label>
-                                    <Input  
-                                        name="username" 
-                                        value={info.username} 
-                                        onChange={(e)=>{setInfo({...info,username:e.target.value})}} 
-                                        id="usernameInput"
+                                    <Label sm={7} id="newpasswordInput">New Password</Label>
+                                    <Input style={{border:`${passwordError !="" && passwordError[0]!='o'?"1px solid red":"none"}`}} 
+                                        for="newpasswordInput"
+                                        type='password'
+                                        name='newPassword' 
                                     />
                                 </FormGroup>
-                                <button onClick={()=>{setDisplay(!display)}} type="button" style={{display:"flex",alignItems:"center",gap:".9em",marginBottom:".4em"}}>
-                                    <i style={{color:"white"}} className="fa-solid fa-key"/>
-                                    <p  style={{margin:"0",color:"white"}}>Change Password</p>
-                                </button>
-                                <div style={{maxHeight:`${display?"30rem":"0"}`,transition:"max-height .5s",overflow:"hidden"}}>
-                                    <FormGroup>
-                                        <Label sm={8} id='oldpasswordInput'>Old Password</Label>
-                                        <Input style={{border:`${passwordError[0] =="o" ?"1px solid red":"none"}`}} 
-                                            type="password" 
-                                            for="oldpasswordInput"
-                                            name="oldPassword"
-                                        />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label sm={7} id="newpasswordInput">New Password</Label>
-                                        <Input style={{border:`${passwordError !="" && passwordError[0]!='o'?"1px solid red":"none"}`}} 
-                                            for="newpasswordInput"
-                                            type='password'
-                                            name='newPassword' 
-                                        />
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <Label sm={9} id="confirmnewpassword">Confirm New Password</Label>
-                                        <Input style={{border:`${passwordError =="passwords don't match"?"1px solid red":"none"}`}} 
-                                            for="confirmnewpassword"
-                                            type='password'
-                                            name='confirmPassword' 
-                                        />
-                                        <p style={{color:"red",margin:"0",transform:"translateY(70%)"}}>{passwordError}</p>
-                                    </FormGroup>
-                                </div>
-                                <FormGroup>
-                                    <div  style={{marginTop:"6%",width:"100%"}}> 
-                                        <Input style={{minWidth:"100%"}} type='submit'>Submit</Input>
-                                    </div>
+                                <FormGroup >
+                                    <Label sm={9} id="confirmnewpassword">Confirm New Password</Label>
+                                    <Input style={{border:`${passwordError =="passwords don't match"?"1px solid red":"none"}`}} 
+                                        for="confirmnewpassword"
+                                        type='password'
+                                        name='confirmPassword' 
+                                    />
+                                    <p style={{color:"red",margin:"0",transform:"translateY(70%)"}}>{passwordError}</p>
                                 </FormGroup>
-                                </div>
                             </div>
-                        </Div>
-                    </Form>
-                </Content>
-            </Section>
-            <MoviePageFooter />
-        </div>
+                            <FormGroup>
+                                <div  style={{marginTop:"6%",width:"100%"}}> 
+                                    <Input style={{minWidth:"100%"}} type='submit'>Submit</Input>
+                                </div>
+                            </FormGroup>
+                            </div>
+                        </div>
+                    </Div>
+                </Form>
+            </Content>
+        </Container>
+          
     )
 }
 

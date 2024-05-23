@@ -60,7 +60,7 @@ const Li = styled.li`
   margin-left:0;
   color:white;
 `
-export default function App(){
+export default function Footer(){
 
   return(
     <Container>
