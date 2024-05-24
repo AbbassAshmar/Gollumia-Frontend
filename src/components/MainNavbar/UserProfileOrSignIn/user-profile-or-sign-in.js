@@ -4,35 +4,66 @@ import ProfilePicture from "../../ProfilePicture/profile-picture";
 import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-display: flex;
-gap: 0.5rem;
-align-items: center;
 position:relative;
 `
-
+const ProfileContainer  = styled.div`
+display: flex;
+gap:.5rem;
+color:white;
+cursor: pointer;
+align-items: center;
+`
 const UserProfile = styled.div`
 width:36px;
 height:36px;
 `
-
 const SignInButton = styled(Link)`
 color:orange;
 border:none;
 background:none;
 `
-
 const ActionsList = styled.div`
-position: absolute;
+right:0;
+top:140%;
+z-index:100;
 display: flex;
+position: absolute;
+border-radius:6px;
 flex-direction: column;
+background-color: white;
+box-shadow: 0px 0px 10px rgba(255, 165, 0, .9);
+`
+const UserName = styled.div`
+color:orange;
+overflow: hidden;
+max-width: 170px;
+text-overflow: ellipsis;
+white-space: nowrap;
+padding:.75rem 1.25rem .5rem 1.25rem;
 `
 const ActionLink = styled(Link)`
-padding:.5rem 1rem;
+color:black;
+padding:.5rem 1.25rem;
+white-space: nowrap;
+text-decoration: none;
+text-align: start;
+&:hover{
+    background:orange;
+    color:white;
+}
 `
 const ActionButton = styled.button`
 border:none;
+color:black;
 background:none;
-padding: 0.5rem 1rem;
+text-align:start;
+padding: .5rem 1.25rem;
+padding-bottom: .75rem;
+border-radius: 0 0 6px 6px;
+&:hover{
+    background:orange;
+    color:white;
+}
 `
 
 export default function UserProfileOrSignIn(){
@@ -56,12 +87,14 @@ export default function UserProfileOrSignIn(){
 
     if (cookies.token) return(
         <Container> 
-            <UserProfile>
-                <ProfilePicture />
-            </UserProfile>
-            <i className="fa-solid fa-angle-down"/>
-
+            <ProfileContainer>
+                <UserProfile>
+                    <ProfilePicture />
+                </UserProfile>
+                <i className="fa-solid fa-angle-down"/>
+            </ProfileContainer>
             <ActionsList>
+                <UserName>huhiuhiuiuhihihuhihuewfhwiuhfiuw</UserName>
                 <ActionLink to={`/user/${cookies.username}`}>
                     View Profile
                 </ActionLink>
@@ -69,7 +102,7 @@ export default function UserProfileOrSignIn(){
                     My Favourites
                 </ActionLink>
                 <ActionButton onClick={signOut}>
-                    <div>&nbsp;Sign Out</div>
+                    Sign Out
                 </ActionButton>
             </ActionsList>
         </Container>

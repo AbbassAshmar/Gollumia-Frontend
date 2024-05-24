@@ -22,6 +22,7 @@ height:100%;
 display:flex;
 font-weight:900;
 font-size:1.3rem;
+border-radius: 50%;
 align-items:center;
 justify-content:center;
 background-color:orange;

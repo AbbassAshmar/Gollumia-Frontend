@@ -6,14 +6,22 @@ import UserProfileOrSignIn from "./UserProfileOrSignIn/user-profile-or-sign-in";
 import Logo from "../Logo/logo";
 
 const Container = styled.div`
+display: flex;
+width:100%;
+padding:1rem 2rem;
+justify-content: space-between;
+align-items:center;
+background:black;
 @media screen and (max-width: 1024px) {
     display: none;
 }
 `
 const ElementsContainer = styled.div`
-gap:1rem;
+gap:2rem;
 display: flex;
 align-items: center;
+width:100%;
+justify-content: flex-start;
 `
 const Element = styled(Link)`
 margin:0;
@@ -21,18 +29,51 @@ color:white;
 gap: 0.5rem;
 display: flex;
 align-items: center;
+text-decoration: none;
+`
+const GenreContainer =styled.div`
+position:relative;
 `
 
-const GenreElement = styled.div`
-
-`
-const Genre = styled.div`
-
+const GenreWord = styled.div`
+margin:0;
+color:white;
+gap: 0.5rem;
+padding:1rem;
+display: flex;
+cursor:pointer;
+align-items: center;
+display: inline-block;
 `
 const GenresList = styled.div`
+top:110%;
+left:0;
+gap: 1.25rem;
+z-index:100;
+display: flex;
+flex-wrap: wrap;
+border-radius: 8px;
+padding: 1.25rem;
+max-width:800px;
+min-width: 240px;
 position:absolute;
+white-space:pre-wrap;
+background-color: white;
+box-shadow: 0px 0px 10px rgba(255, 165, 0, .9);
 `
-
+const GenresListTitle = styled.p`
+margin: 0;
+color:orange;
+width:100%;
+font-size:1rem;
+font-weight: 600;
+`
+const GenreElement = styled(Link)`
+color:black;
+font-weight: 300;
+text-decoration: none;
+font-size: 14px;
+`
 const SearchAndUser = styled.div`
 display:flex;
 gap:1rem;
@@ -46,12 +87,14 @@ export default function BigScreenNavbar(){
     const [SearchIconColor ,setSearchIconColor] = useState("black")
     const [displaySearchBar,setDisplaySearchBar] = useState('none')
 
-    const [genres, setGenres] = useState([])
+    const [genres, setGenres] = useState([{name:'shadow'}, {name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},])
     const [searchedMovies, setSearchedMovies] = useState([])
     const [searchInputValue, setSearchInputValue] = useState(0)
     
+    const [showGenresList, setShowGenresList] = useState(true);
+
     useEffect(()=>{
-        requestGenres()
+        // requestGenres()
     },[])
 
 
@@ -104,25 +147,29 @@ export default function BigScreenNavbar(){
                 <Logo />
                 <Element to={"/home"}>
                     <i className="fa-solid fa-house"/>
-                    <p>Home</p>
+                    <span>Home</span>
                 </Element>
                 
-                <GenreElement>
-                    <Genre>Genre</Genre>
-                    <GenresList>
+                <GenreContainer>
+                    <GenreWord>
+                        <i className="fa-solid fa-layer-group"/>
+                       <span>Genre</span> 
+                    </GenreWord>
+                    <GenresList $show={showGenresList}>
+                        <GenresListTitle>Pick a Genre</GenresListTitle>
                         {genres.length>0 && genres.map((genre)=>(
-                            <Link key={genre.id} to={`/movies/?genre=${genre.name}`}>{genre.name}</Link>
+                            <GenreElement key={genre.id} to={`/movies/?genre=${genre.name}`}>{genre.name}</GenreElement>
                         ))}
                     </GenresList>
-                </GenreElement>
+                </GenreContainer>
                 
                 <Element to={'/movies'}>
                     <i className="fa-solid fa-video"/>
-                    <p>Movies</p>
+                    <span>Movies</span>
                 </Element>
                 <Element to={'/movies/top-imdb/'}>
                     <i className="fa-solid fa-star"/>
-                    <p>Top IMDB</p>
+                    <span>Top IMDB</span>
                 </Element>
             </ElementsContainer>
 
