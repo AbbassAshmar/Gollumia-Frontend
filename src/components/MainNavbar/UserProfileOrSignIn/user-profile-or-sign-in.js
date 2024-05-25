@@ -2,6 +2,8 @@ import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import ProfilePicture from "../../ProfilePicture/profile-picture";
 import { Link, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import useClickOutside from "../../../hooks/use-click-outside";
 
 const Container = styled.div`
 position:relative;
@@ -16,29 +18,46 @@ align-items: center;
 const UserProfile = styled.div`
 width:36px;
 height:36px;
+@media screen and (max-width:800px){
+    width:32px;
+    height:32px;
+}
 `
 const SignInButton = styled(Link)`
 color:orange;
 border:none;
 background:none;
+white-space: nowrap;
+text-decoration: none;
+font-size: 1.25rem;
+font-weight: 600;
+
+&:hover{
+    color:darkorange;
+}
 `
 const ActionsList = styled.div`
 right:0;
-top:140%;
 z-index:100;
-display: flex;
-position: absolute;
+display:flex;
+overflow: hidden;
 border-radius:6px;
+position: absolute;
+top:calc(100% + 1rem);
 flex-direction: column;
 background-color: white;
+transition: all .3s;
+max-height: ${({$show})=> $show?"100vh":"0"};
 box-shadow: 0px 0px 10px rgba(255, 165, 0, .9);
+
 `
 const UserName = styled.div`
 color:orange;
 overflow: hidden;
 max-width: 170px;
-text-overflow: ellipsis;
 white-space: nowrap;
+min-height: 2.8rem;
+text-overflow: ellipsis;
 padding:.75rem 1.25rem .5rem 1.25rem;
 `
 const ActionLink = styled(Link)`
@@ -70,6 +89,12 @@ export default function UserProfileOrSignIn(){
     const navigate = useNavigate();
     const [cookies, setCookies, removeCookie] = useCookies();
 
+    const [showActionsList, setShowActionsList] = useState(false);
+
+    const actionsListRef = useRef();
+    const profileContainerRef = useRef();
+    useClickOutside([actionsListRef,profileContainerRef], showActionsList, ()=>setShowActionsList(false));
+
     async function signOut(){
         const request = await fetch(`${process.env.REACT_APP_API_URL}/logout/`,{
             method:"POST",
@@ -85,15 +110,19 @@ export default function UserProfileOrSignIn(){
         }
     }
 
+    function handleProfileClick(){
+        setShowActionsList(!showActionsList)
+    }
+
     if (cookies.token) return(
-        <Container> 
-            <ProfileContainer>
+        <Container > 
+            <ProfileContainer ref={profileContainerRef} onClick={handleProfileClick}>
                 <UserProfile>
                     <ProfilePicture />
                 </UserProfile>
                 <i className="fa-solid fa-angle-down"/>
             </ProfileContainer>
-            <ActionsList>
+            <ActionsList ref={actionsListRef} $show={showActionsList}>
                 <UserName>huhiuhiuiuhihihuhihuewfhwiuhfiuw</UserName>
                 <ActionLink to={`/user/${cookies.username}`}>
                     View Profile

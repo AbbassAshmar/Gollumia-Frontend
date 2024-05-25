@@ -31,24 +31,6 @@ html, body, #root, .App{
     height: 100%;
     width: 100%;
 }
-nav{
-    width: 100%;
-    height: 12%;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-nav img{
-    margin-top: 20px;
-    width: 100px;
-    height: auto;
-    cursor: pointer;
-    margin-left: 3rem;
-} 
-nav #signin{
-    margin-right: 3rem;
-}
 
 .main-content{
     width: 100%;
@@ -71,20 +53,7 @@ nav #signin{
     font-size: 3rem;
 }
 
-form{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-}
 
-form label{
-    color:white;
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-
-}
 .emptyline{
     height: .5rem;
     width: 100%;
