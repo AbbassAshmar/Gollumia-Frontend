@@ -1,9 +1,9 @@
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
-import ProfilePicture from "../../ProfilePicture/profile-picture";
+import ProfilePicture from "../../../ProfilePicture/profile-picture";
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
-import useClickOutside from "../../../hooks/use-click-outside";
+import useClickOutside from "../../../../hooks/use-click-outside";
 
 const Container = styled.div`
 position:relative;

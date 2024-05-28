@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
-import UserProfileOrSignIn from "./UserProfileOrSignIn/user-profile-or-sign-in";
 import Logo from "../Logo/logo";
 import SearchBar from "./components/SearchBar/search-bar";
+import UserProfileOrSignIn from "./components/UserProfileOrSignIn/user-profile-or-sign-in";
+import useGetGenres from "./hooks/use-get-genres";
 
 const Container = styled.div`
 display: flex;
@@ -105,21 +106,9 @@ export default function BigScreenNavbar(){
     const [cookies,setCookies] = useCookies(["token"])
 
     const [showGenresList, setShowGenresList] = useState(true);
-    const [genres, setGenres] = useState([{name:'shadow'}, {name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},{name:'shadow'},])
+    const genres = useGetGenres();
 
-    useEffect(()=>{
-        // requestGenres()
-    },[])
 
-    async function requestGenres(){
-        const URL = `${process.env.REACT_APP_API_URL}/api/genres/`;
-        const request = await fetch(URL);
-        const genre_list = await request.json();
-
-        if (request?.status == 200){
-            setGenres(genre_list.data.genres)
-        }
-    }
     
     return ( 
         <Container>

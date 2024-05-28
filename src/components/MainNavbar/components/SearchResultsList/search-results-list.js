@@ -81,7 +81,6 @@ background-color: orange;
 }
 `
 export default function SearchResultsList({searchResults,searchResultsListRef}){
-    
     return(
         <>
             {searchResults?.length > 0 && (
