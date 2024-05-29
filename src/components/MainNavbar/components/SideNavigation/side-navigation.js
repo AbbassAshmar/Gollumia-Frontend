@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import { useState } from "react";
-import useGetGenres from "../../hooks/use-get-genres";
+import useGetGenres from "../../../../hooks/use-get-genres";
 
 const Container = styled.div`
 top:0;
@@ -80,6 +80,9 @@ overflow:hidden;
 border-radius: 8px;
 background-color:orange;
 box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+@media screen and (max-width:400px){
+min-width:calc(100vw - 2rem);
+}
 `
 const GenreLink = styled(Link)`
 color:white;

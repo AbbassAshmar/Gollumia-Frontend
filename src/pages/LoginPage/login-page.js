@@ -9,6 +9,7 @@ import Facebook from "../../components/socialMedia/facebook";
 import Twitter from "../../components/socialMedia/twitter";
 import Google from "../../components/socialMedia/google";
 import MoviesBackground from "../../photos/wallpaperflare.com_wallpaper.jpg";
+import SimplifiedNavbar from "../../components/SimplifiedNavbar/simplified-navbar";
 
 const Container =styled.div`
 color:white;
@@ -196,11 +197,7 @@ function LoginPage(){
     return(
         <Container>
             <ContentContainer>
-                <header>
-                    <nav style={{height:"70px", display:"flex",alignItems:"center"}}>
-                        <Logo>AFLIX</Logo>
-                    </nav>
-                </header>
+                <SimplifiedNavbar />
                 <Main>
                     <FormContainer>
                         <TextContainer>
@@ -208,25 +205,20 @@ function LoginPage(){
                             <p style={{margin:'0',maxWidth:'270px',textAlign:"center"}}>Enter Your details to sign in to your account and join us</p>
                         </TextContainer>
                         <Form onSubmit={handleSubmit}>
-
                             <Inputs>
                                 <InputContainer>
                                     <Input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
                                     {errors.messages['email'] && <Message>{errors.messages['email']}</Message>}
                                 </InputContainer>
-
                                 <InputContainer>        
                                     <Input onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
                                     {errors.messages['password'] && <Message>{errors.messages['password']}</Message>}
                                 </InputContainer>
                             </Inputs>
-                            
-
                             <SubmitButtonContainer>
                                 <Link id="login-forgot-password" to="#">Forgot password ?</Link>
                                 <SignInButton style={{width:"80%", backgroundColor:"orange", border:"none"}}>Sign in</SignInButton>
                             </SubmitButtonContainer>
-
                             <SocialMediaContainer>
                                 <p style={{margin:'0'}}>Or login with</p>
                                 <SocialMediaButtons>
@@ -235,7 +227,6 @@ function LoginPage(){
                                     <Google />
                                 </SocialMediaButtons>
                             </SocialMediaContainer>
-                            
                             <SignUpInstead>
                                 <p style={{marginRight:'5px',display:"inline"}}>Don't have an account?</p>
                                 <Link to="/register">Sign up !</Link>

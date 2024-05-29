@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../Logo/logo";
 import SearchBar from "./components/SearchBar/search-bar";
 import UserProfileOrSignIn from "./components/UserProfileOrSignIn/user-profile-or-sign-in";
-import useGetGenres from "./hooks/use-get-genres";
+import useGetGenres from "../../hooks/use-get-genres";
 
 const Container = styled.div`
 display: flex;
@@ -58,14 +58,13 @@ const GenresList = styled.div`
 transform: translateY(100%);
 bottom:-1rem;
 left:0;
-gap: 1.25rem;
 z-index:100;
 display: flex;
 flex-wrap: wrap;
 border-radius: 8px;
-padding: 1.25rem;
-max-width:800px;
-min-width: 240px;
+padding: 1rem;
+max-width:900px;
+min-width: 300px;
 position:absolute;
 white-space:pre-wrap;
 background-color: white;
@@ -82,12 +81,20 @@ color:orange;
 width:100%;
 font-size:1rem;
 font-weight: 600;
-`
+padding: 0 0 .5rem 1rem;
+` 
 const GenreElement = styled(Link)`
 color:black;
-font-weight: 300;
+font-weight: 500;
 text-decoration: none;
 font-size: 14px;
+padding: .25rem 1rem;
+border-radius: 4px;
+transition:background-color .3s;
+&:hover{
+    color:white;
+    background-color: orange;
+}
 `
 const SearchAndUser = styled.div`
 display:flex;

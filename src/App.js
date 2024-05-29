@@ -21,6 +21,7 @@ function App() {
     <GoogleOAuthProvider clientId="798671795051-c95amd54jght2rvvkbnqog71ilut2kch.apps.googleusercontent.com">
       <div className="App">
         <Routes location={location} key={location.pathname}>
+          
           <Route path='/' element={<Home />}></Route>
           <Route path='register' element={<Register />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
@@ -29,7 +30,6 @@ function App() {
             <Route path="home" element={<MoviesPage />}/>
             <Route path="movies/:id" element={<Movie />}></Route>
             <Route path="user/:username" element={<UserPage />}></Route>
-            {/* <Route path="movies/category/:category" element={<CategorizedMovies/>}></Route> */}
             <Route path="movies" element={<MoviesCollection/>}></Route>
             <Route path='movies/:id/favorites/' element={<FavoritesPage/>}> </Route>
             <Route path="movies/top-imdb/" element={<TopImdbPage/>}> </Route>

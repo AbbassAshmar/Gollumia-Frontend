@@ -123,7 +123,7 @@ export default function UserProfileOrSignIn(){
                 <i className="fa-solid fa-angle-down"/>
             </ProfileContainer>
             <ActionsList ref={actionsListRef} $show={showActionsList}>
-                <UserName>huhiuhiuiuhihihuhihuewfhwiuhfiuw</UserName>
+                <UserName>{cookies.username}</UserName>
                 <ActionLink to={`/user/${cookies.username}`}>
                     View Profile
                 </ActionLink>

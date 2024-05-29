@@ -3,24 +3,18 @@ import FilterHeader from "../FilterHeader/filter-header";
 import FilterMenu from "../FilterMenu/filter-menu";
 
 
-function FilterContainer(props){
+function FilterContainer({title}){
     const [isActive, setIsActive] = useState(false)
     return(
         <div>
             <FilterHeader 
-                setIsActive={(isActive)=>{setIsActive(isActive)}} 
+                setIsActive={setIsActive} 
                 isActive={isActive}
-                title = {props.title}
+                title={title}
             />
             <FilterMenu 
-                setCurrentPageNumber={props.setCurrentPageNumber}
-                searchProps={props.searchProps}
-                start={props.start} 
-                setCount={props.setCount} setMovies={props.setMovies} 
-                setIsActive={(isActive)=>{setIsActive(isActive)}} 
+                setIsActive={setIsActive} 
                 isActive={isActive}
-                searchParams={props.searchParams}
-                setSearchParamsIfAltered={props.setSearchParamsIfAltered}
             />
         </div>
     )

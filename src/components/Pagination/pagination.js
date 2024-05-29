@@ -1,69 +1,89 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import { useEffect } from "react";
 
 const Container = styled.div`
-    width:40%;
-    display:flex;
-    align-items:center;
-    margin:2rem auto 2rem auto;
-    justify-content:center;
-    background:black;
+width:40%;
+display:flex;
+align-items:center;
+margin:2rem auto 2rem auto;
+justify-content:center;
+background:black;
 `
-const StyledLink = styled(Link)`
-    padding:.5rem 1.2rem .5rem 1.2rem;
-    border-radius:4px;
-    text-decoration:none;
-    font-size:1.2rem;
-    transition: background .2s;
-    &:hover{
-        background:rgba(255,255,255,.3);
+const Page = styled.div`
+padding:.5rem 1.2rem .5rem 1.2rem;
+border-radius:4px;
+text-decoration:none;
+font-size:1.2rem;
+transition: background-color .2s;
+&:hover{
+    background:rgba(255,255,255,.3);
+}
+`
+
+export default function Pagination({totalPagesCount}){
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [currentPage, setCurrentPage] = useState(searchParams.get("page")? parseInt(searchParams.get("page")) : 1);
+
+
+    function handlePageClick(page){
+        setCurrentPage(page)
     }
-`
-function Pagination(props){
-    // useEffect(()=>{console.log(props)},[props])
+
+    useEffect(()=>{
+        searchParams.set("page" , currentPage);
+        setSearchParams(searchParams);
+    }, [currentPage])
+
+    
+    useEffect(()=>{
+        if (!searchParams.get('page')){
+            setCurrentPage(1)
+        }else if (parseInt(searchParams.get("page")) >=1){
+            setCurrentPage(parseInt(searchParams.get('page')))
+        }
+    },[searchParams.get("page")])
+
+
     return(
         <Container>
-            <StyledLink style={{display:`${props.page_number <= 1 ?"none":"inline-block"}`}}  
-            to={props.url(props.page_number -1)} >
-                <i style={{transform:'rotate(180deg)'}} className="fa-solid fa-greater-than"></i>
-            </StyledLink>
+            <Page onClick={()=>handlePageClick(currentPage - 1)} style={{display:`${currentPage <= 1 ?"none":"inline-block"}`}}>
+                <i style={{transform:'rotate(180deg)'}} className="fa-solid fa-greater-than"/>
+            </Page>
 
-            <StyledLink style={{display:`${props.page_number-1 <= 1 ?"none":"inline-block"}`}}  
-            to={props.url(1)}>
+            <Page onClick={()=>handlePageClick(1)} style={{display:`${currentPage-1 <= 1 ?"none":"inline-block"}`}}>
                 1
-            </StyledLink>
-             <div style={{margin:"0 .3rem", color:"blue",display:`${props.page_number-1 <= 1 ?"none":"inline-block"}`}} >
+            </Page>
+
+            <div style={{margin:"0 .3rem", color:"blue",display:`${currentPage-1 <= 1 ?"none":"inline-block"}`}} >
                 ...
             </div>
 
-            <StyledLink style={{display:`${props.page_number -1>=1 && props.page_number-1 <= props.pagesCount?"inline-block":"none"}`}} 
-            to={props.url(props.page_number -1)}>
-                {props.page_number-1}
-            </StyledLink>
-            <StyledLink style={{background:"orange",display:`${props.page_number >=1 && props.page_number <= props.pagesCount?"inline-block":"none"}`}}
-            to={props.url(props.page_number)}>
-                {props.page_number}
-            </StyledLink>
-            <StyledLink style={{display:`${props.page_number +1 >=1 && props.page_number + 1 <= props.pagesCount?"inline-block":"none"}`}} 
-            to={props.url(props.page_number +1)}>
-                {props.page_number+1}
-            </StyledLink>
+            <Page onClick={()=>handlePageClick(1)} style={{display:`${currentPage -1>=1 && currentPage-1 <= totalPagesCount?"inline-block":"none"}`}} >
+                {currentPage-1}
+            </Page>
+
+            <Page style={{background:"orange",display:`${currentPage >=1 && currentPage <= totalPagesCount?"inline-block":"none"}`}}>
+                {currentPage}
+            </Page>
+
+            <Page onClick={()=>handlePageClick(currentPage+1)} style={{display:`${currentPage +1 >=1 && currentPage + 1 <= totalPagesCount?"inline-block":"none"}`}}>
+                {currentPage+1}
+            </Page>
        
-            <div style={{margin:"0 .3rem",color:"blue",display:`${props.page_number+1 >= props.pagesCount ?"none":"inline-block"}`}} >
+            <div style={{margin:"0 .3rem",color:"blue",display:`${currentPage+1 >= totalPagesCount ?"none":"inline-block"}`}} >
                 ...
             </div>
-            <StyledLink style={{display:`${props.page_number+1 >= props.pagesCount ?"none":"inline-block"}`}} 
-            to={props.url(props.pagesCount)}>
-                {props.pagesCount}
-            </StyledLink>
+
+            <Page onClick={()=>handlePageClick(totalPagesCount)} style={{display:`${currentPage+1 >= totalPagesCount ?"none":"inline-block"}`}}>
+                {totalPagesCount}
+            </Page>
             
-            <StyledLink style={{display:`${props.page_number >= props.pagesCount ?"none":"inline-block"}`}} 
-            to={props.url(props.page_number+1)}>
-                <i className="fa-solid fa-greater-than"></i>
-            </StyledLink>
+            <Page style={{display:`${currentPage >= totalPagesCount ?"none":"inline-block"}`}}>
+                <i className="fa-solid fa-greater-than"/>
+            </Page>
         </Container>
     )
 }
 
-export default Pagination;

@@ -2,9 +2,9 @@ import React, { useEffect,useState} from 'react';
 import { Button } from 'reactstrap';
 import "./Register.css"
 import { Link, useLocation } from "react-router-dom";
-import Navbar from '../../components/Navbar/navbar';
 import { useNavigate } from 'react-router-dom';
 import {useCookies} from "react-cookie";
+import SimplifiedNavbar from '../../components/SimplifiedNavbar/simplified-navbar';
 
 const inputNostate = {
     cursor: "pointer",
@@ -77,7 +77,7 @@ function Register(){
         
         <div className='register-page'>
             <header>
-                <Navbar />
+                <SimplifiedNavbar />
             </header>
             <div className='register-form-container'>
                 <h2>Sign up</h2>

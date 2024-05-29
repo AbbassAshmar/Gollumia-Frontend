@@ -5,10 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
 import InputField from "../../components/Input/input";
 import Footer from "../../components/Footer/footer";
-import Navbar from "../../components/Navbar/navbar"
 import { useAnimate,useInView} from "framer-motion"
 import BlockTextSection from "../../components/BlockTextSection/block-text-section";
 import styled from "styled-components";
+import SimplifiedNavbar from "../../components/SimplifiedNavbar/simplified-navbar";
 
 const Page2 = styled.div`
 width: 100%;
@@ -51,13 +51,10 @@ function Home(){
     const [scope4,animate4] = useAnimate()
     const isInView2 = useInView(scope3,{once:true})
 
-  
-    
     useEffect(()=>{
         if (isInView){
             animate(scope.current,pargAnimation.animation)
             animate2(scope2.current, pargAnimation.animation)
-           
         }
     },[isInView])
 
@@ -72,7 +69,7 @@ function Home(){
         <>
         <div  className="page1" style={{overflow:"hidden"}}>
             <div className="page1-container">
-                <Navbar />
+                <SimplifiedNavbar />
                 <div className="main-content">
                     <div className="parg">
                         <h2>Get Into the paradise of movies</h2>

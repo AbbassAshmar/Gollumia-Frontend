@@ -15,15 +15,17 @@ const Container = styled.div`
     justify-content:space-between;
     align-items:center;
 `
-function FilterHeader(props){
+
+function FilterHeader({isActive, setIsActive, title}){
     function handleFilterClick(){
-        props.setIsActive(!props.isActive)
+        setIsActive(!isActive)
     }
+
     return(
         <Container>
-            <Title ctg={props.title}></Title>
+            <Title ctg={title}/>
             <Filter onClick={handleFilterClick}>
-                <i style={{margin:"2px 0 0 0",transform:`rotate(${props.isActive?"180deg":"0"})`}} className="fa-solid fa-sort-down"></i> 
+                <i style={{margin:"2px 0 0 0",transform:`rotate(${isActive?"180deg":"0"})`}} className="fa-solid fa-sort-down"/>
                 <p style={{margin:"0"}}>Filter</p>
             </Filter>
         </Container>

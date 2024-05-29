@@ -1,120 +1,79 @@
 import { useEffect, useState } from "react";
 import FilterElementWrapper from "../FilterElementWrapper/filter-element-wrapper";
 import styled from "styled-components";
+import useGetGenres from "../../hooks/use-get-genres";
+import { useSearchParams } from "react-router-dom";
+import useGetContentRatings from "../../hooks/use-get-content-ratings";
 
 const Form = styled.form`
-    display:flex;
-    flex-direction:column;
-    width:80%;
-    margin:auto;
+display:flex;
+flex-direction:column;
+width:80%;
+margin:auto;
 `
 const Buttons = styled.div`
-    display:flex;
-    gap:5px;
-    align-self:flex-start;
-    width:100%;
-    margin:1rem 0;
+display:flex;
+gap:5px;
+align-self:flex-start;
+width:100%;
+margin:1rem 0;
 `
-const Submit= styled.button`
-    background : orange;
-    padding:.25rem 1rem ;
-    border-radius:12px;
-    font-size:.9rem;
-    font-weight:300;
-    color:white;
+const SubmitBtn= styled.button`
+background : orange;
+padding:.25rem 1rem ;
+border-radius:12px;
+font-size:.9rem;
+font-weight:300;
+color:white;
 `
-const CloseBtn = styled(Submit)`
-    background:white;
-    color:black;
+const CloseBtn = styled(SubmitBtn)`
+background:white;
+color:black;
 `
-function FilterMenu(props){
-    const Genres = [
-        "All",
-        "Action",
-        "Adventure",
-        "Animation",
-        "Comedy",
-        "Crime",
-        "Documentary",
-        "Drama",
-        "Fantasy",
-        "Historical",
-        "Horror",
-        "Mystery",
-        "Romance",
-        "Science Fiction",
-        "Thriller",
-        "Western"
-    ];
+
+function FilterMenu({isActive, setIsActive}){
+    const Genres = useGetGenres();
+    const ContentRatings = useGetContentRatings();
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const Released= [
-        "All",
-        "Unreleased",
-        "2023",
-        "2022",
-        "2021",
-        "2020",
-        "2019",
-        "older"
+        {name:"All"},
+        {name:"Unreleased"},
+        {name:"2023"},
+        {name:"2022"},
+        {name:"2021"},
+        {name:"2020"},
+        {name:"2019"},
+        {name:"older"}
     ]
-    const Ratings= [
-        "All","G","PG","PG-13","R","R+","Rx"
-    ]
-    
-    async function requestFilteredMovies(url){
-        const send_request = await fetch(url);
-        const movies_list = await send_request.json();
-        if (send_request.status == 200){
-            props.setMovies(movies_list.movies?movies_list.movies:[])
-            props.setCount(Math.ceil(movies_list['total_count']/35))
-        }
-    }
-    
-    function handleFilterSubmit(e){
+
+    function handleFilterFormSubmit(e){
         e.preventDefault();
-        let url = `http://localhost:8000/api/movies/?limit=35&start=0&`
-        let formData = new FormData(e.currentTarget);
-        let params = {}
-        for (const value of formData.entries()) {
-            url += `${value[0]}=${value[1]}&`
-            params[value[0]] = value[1]
+
+        const formData = new FormData(e.currentTarget);
+        for (let [key, value] of formData.entries()){
+            searchParams.set(key, value);
         }
-        //remove the last character (? or &)
-        url = url.slice(0,-1)
-        requestFilteredMovies(url)
-        props.setSearchParamsIfAltered(params)  
-        // reset page number to page 1 when filter is clicked 
-        props.setCurrentPageNumber(1)
+
+        searchParams.set('page',"1");
+        setSearchParams(searchParams);
     }
-
-    // used for requesting movies (only if filtered) depending on pagination
-    useEffect(()=>{
-        if (props.searchParams && (props.searchParams.get('title') || props.searchParams.get('genre') || props.searchParams.get('contentRate') || props.searchParams.get('released'))) {
-            let url =`http://localhost:8000/api/movies/?limit=35&start=${props.start}&`
-
-            for (const value of props.searchParams.entries()){
-                url += `${value[0]}=${value[1]}&`
-            }
-            requestFilteredMovies(url)
-        }
-    },[props.searchProps])
    
     return(
-        <div style={{transition:"all 0.3s",maxHeight:`${props.isActive?"200vh":"0"}`,overflow:"hidden"}}>
-            <div>
-                <Form onSubmit={handleFilterSubmit}>
-                    <div style={{width:"100%",margin:"auto"}}>
-                        <FilterElementWrapper title="Released : " name="released" list={Released}/>
-                        <FilterElementWrapper title="Rating : " name="contentRating" list={Ratings}/>
-                        <FilterElementWrapper title="Genre : " name="genre" list={Genres}/>
-                    </div>
-                    <Buttons>
-                        <Submit type="submit"><i className="fa-solid fa-filter"></i> Filter</Submit>
-                        <CloseBtn type="button" onClick={()=>{props.setIsActive(!props.isActive)}}>
-                            <i style={{marginRight:".2rem",}} className="fa-solid fa-xmark"></i>Close
-                        </CloseBtn>
-                    </Buttons>
-                </Form>   
-            </div>
+        <div style={{transition:"all 0.3s",maxHeight:`${isActive?"200vh":"0"}`,overflow:"hidden"}}>
+            <Form onSubmit={handleFilterFormSubmit}>
+                <div style={{width:"100%",margin:"auto"}}>
+                    <FilterElementWrapper title="Released : " name="released" valueField={"name"} list={Released}/>
+                    <FilterElementWrapper title="Rating : " name="contentRating" valueField={"name"} list={ContentRatings}/>
+                    <FilterElementWrapper title="Genre : " name="genre" valueField={"name"} list={Genres}/>
+                </div>
+                <Buttons>
+                    <SubmitBtn type="submit"><i className="fa-solid fa-filter"/>Filter</SubmitBtn>
+                    <CloseBtn type="button" onClick={()=>{setIsActive(!isActive)}}>
+                        <i style={{marginRight:".2rem",}} className="fa-solid fa-xmark"></i>Close
+                    </CloseBtn>
+                </Buttons>
+            </Form>   
         </div>
     )
 }

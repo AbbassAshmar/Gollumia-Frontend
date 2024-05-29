@@ -19,7 +19,6 @@ justify-content: space-between;
     padding : .5rem 1rem;
 }
 `
-
 const BarsLogo = styled.div`
 gap:1rem;
 display: flex;

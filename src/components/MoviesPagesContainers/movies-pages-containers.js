@@ -5,14 +5,17 @@ background : black;
 width:100%;
 `
 const MoviesContainer = styled.div`
-width :97%;
+width :100%;
 background:black;
 margin:auto;
-padding-top:1rem;
+padding:2rem;
+
+@media screen and (max-width:800px){
+    padding : 1rem;
+}
 `
 
 function MoviesPagesContainers({children}){
-   
     return (
         <Main>
             <MoviesContainer>

@@ -8,30 +8,23 @@ import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies
 
 function MoviesCollection(){
     const [movies,setMovies] = useState([])
-    const [pagesCount , setPagesCount] = useState(1)
+    const [totalPagesCount , setTotalPagesCount] = useState(40)
+
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPageNumber , setCurrentPageNumber]= useState(searchParams.get('page')?searchParams.get('page'):1)
+
     const [searchProps, setSearchProps] = useState({params : searchParams,page: 0})
     const [title , setTitle] = useState("All Movies")
     
     // request movies with no filters , but with limits (pagination)
-    async function requestMovies(){
-        const request = await fetch(`http://localhost:8000/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);
+    async function fetchMovies(){
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/?limit=35&start=${(currentPageNumber -1)*35}`);
         const moviesList = await request.json()
         if (request.status == 200){
-            setMovies(moviesList['movies'])
-            setPagesCount(Math.ceil(moviesList['total_count']/35))
+            setMovies(moviesList.data.movies)
+            setTotalPagesCount(moviesList.metadata.pages_count)
         }
     }
-
-    // change currentPageNumber state when page query string changes (by pagination or manual)
-    useEffect(()=>{
-        if (!searchParams.get('page')){
-            setCurrentPageNumber(1)
-        }else if (parseInt(searchParams.get("page")) >=1){
-            setCurrentPageNumber(parseInt(searchParams.get('page')))
-        }
-    },[searchParams.get("page")])
 
     // used for requesting movies (only not filtered), depending on pagination 
     useEffect(()=>{
@@ -49,25 +42,26 @@ function MoviesCollection(){
             !searchParams.get('genre') && 
             !searchParams.get('contentRate') && 
             !searchParams.get('released')) {     
-            requestMovies()
+            fetchMovies()
         }
     },[searchProps])
 
     // url used for links in pagination components, if filters are present, add them to pagination 
     // this way , pagination can be used for filtered movies too 
-    function getUrl(page_number){
-        let url = `/movies/?page=${page_number}&`;
-        let params_list = ['title','contentRating','genre','released']
-        for (const value of searchParams.entries()){
-            for(const param of params_list){
-                if (param ==value[0]){
-                    url += `${value[0]}=${value[1]}&`
-                }
-            }
-        }
-        url = url.slice(0,-1)
-        return url;
-    }
+
+    // function getUrl(page_number){
+    //     let url = `/movies/?page=${page_number}&`;
+    //     let params_list = ['title','contentRating','genre','released']
+    //     for (const value of searchParams.entries()){
+    //         for(const param of params_list){
+    //             if (param ==value[0]){
+    //                 url += `${value[0]}=${value[1]}&`
+    //             }
+    //         }
+    //     }
+    //     url = url.slice(0,-1)
+    //     return url;
+    // }
 
     function setSearchParamsIfAltered(GetSearchParams){
         if (GetSearchParams != searchParams){
@@ -81,19 +75,10 @@ function MoviesCollection(){
     
     return(
         <MoviesPagesContainers>
-            <FilterContainer 
-                setCurrentPageNumber={setCurrentPageNumber} 
-                setCount={setPagesCount} 
-                setMovies={setMovies} 
-                start={Math.ceil((currentPageNumber-1)*35)}
-                setSearchParamsIfAltered={setSearchParamsIfAltered}
-                searchParams={searchParams}
-                searchProps={searchProps}
-                title={title}
-            />
-            <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
+            <FilterContainer title={title}/>
+            <Pagination totalPagesCount={totalPagesCount} />
             <MoviesGridContainer movies={movies}/>
-            <Pagination url={getUrl} pagesCount={pagesCount} page_number={parseInt(currentPageNumber)}/>
+            <Pagination totalPagesCount={totalPagesCount} />
         </MoviesPagesContainers>
         
     )
