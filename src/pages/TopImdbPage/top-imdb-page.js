@@ -4,8 +4,8 @@ import { useState } from "react";
 import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";
 import Title from "../../components/Category/title";
 import Pagination from "../../components/Pagination/pagination";
-import { useLocation, useSearchParams } from "react-router-dom";
 import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
+import { useSearchParams } from "react-router-dom";
 
 const Main = styled.div`
     background:black;
@@ -14,42 +14,27 @@ const Main = styled.div`
 function TopImdbPage(){
     const [movies, setMovies] = useState([])
     const [searchParams, setSearchParams] = useSearchParams()
-    const [currentPageNumber,setCurrentPageNumber] = useState(searchParams.get("page")?searchParams.get("page"):1)
-    const [pagesCount, setPagesCount] = useState(1)
-    const location = useLocation()
+    const [totalPagesCount, setTotalPagesCount] = useState(20);
 
-    async function request_top_imdb_movies(){
-        let limit  = 35
-        let start =(currentPageNumber -1)*limit
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/top-imdb/?limit=${limit}&start=${start}`)
-        const top_imdb_movies = await request.json()
+    useEffect(()=>{
+        fetchTopIMDBMovies(searchParams.get("page"))
+    },[searchParams])
+
+    async function fetchTopIMDBMovies(page){
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/top-imdb/?page=${page}`)
+        const response = await request.json()
         if (request.status === 200){
-            setMovies(top_imdb_movies['movies'])
-            setPagesCount(Math.ceil(top_imdb_movies['total_count'] / 35))
+            setMovies(response.data.movies)
+            setTotalPagesCount(response.metadata.pages_count)
         }
     }
 
-    // update the state of the page number (searchParam) on location change
-    useEffect(()=>{
-        if (searchParams.get("page") && searchParams.get("page") >=1){
-            setCurrentPageNumber(parseInt(searchParams.get("page")))
-        }
-    },[location.search])
-
-    useEffect(()=>{
-        request_top_imdb_movies()
-    },[currentPageNumber])
-
-    function getUrl(pageNumber){
-        return `/movies/top-imdb/?page=${pageNumber}`
-    }
-    
     return (
         <MoviesPagesContainers>
             <Title ctg={"Top Imdb Movies"} />
-            <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
+            <Pagination totalPagesCount={totalPagesCount}/>
             <MoviesGridContainer movies={movies}/>
-            <Pagination url={getUrl} pagesCount={pagesCount} page_number={currentPageNumber}/>
+            <Pagination totalPagesCount={totalPagesCount}/>
         </MoviesPagesContainers>
     )
 }

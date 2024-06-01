@@ -1,32 +1,42 @@
-import styles from "../../pages/SingleMoviePage/movie.module.css"
-import { useEffect, useState} from "react";
-import MovieCard from '../MovieCard/movie-card'
+import styled from "styled-components";
+import { useState, useEffect } from "react";
+import MovieCard from '../MovieCard/movie-card';
 
-function SimilarMovies({movie_id}){
+const Container = styled.div`
+gap:1rem;
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+align-items: flex-start;
+justify-content: flex-start;
+`
 
+export default function SimilarMovies({movie_id}){
     const [similarMovies, setSimilarMovies] = useState([])
+    
+    useEffect(()=>{
+        fetchSimilaryMovies()
+    },[movie_id])
 
-    async function fetchMovies(){
+    async function fetchSimilaryMovies(){
         const request_similar_movies = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/${movie_id}/similar/`)
         const similar_movies_list = await request_similar_movies.json();
+
         if (request_similar_movies.status==200){
-            setSimilarMovies(similar_movies_list["movies"])
+            setSimilarMovies(similar_movies_list.data.movies)
         }
     }
-    useEffect(()=>{
-        fetchMovies()
-    },[movie_id])
+   
     
     return(
-        <div className={styles.similarMovies}>
+        <Container>
             {similarMovies.map((movie)=>{
             return(
                 <MovieCard 
-                page_id={movie.id} 
-                duration={movie.duration}
-                genres={movie.genre}
                 key={movie.id} 
                 id={movie.id} 
+                duration={movie.duration}
+                genres={movie.genre}
                 rated={movie.contentRate} 
                 title={movie.title} 
                 imdb={movie.ratings.imdb}
@@ -38,8 +48,6 @@ function SimilarMovies({movie_id}){
                 hoverScale={true}/>
             )
             })}
-        </div>
+        </Container>
     )
 }
-
-export default SimilarMovies;

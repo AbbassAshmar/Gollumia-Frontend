@@ -13,9 +13,11 @@ background:black;
 `
 const Page = styled.div`
 padding:.5rem 1.2rem .5rem 1.2rem;
+color:white;
 border-radius:4px;
 text-decoration:none;
 font-size:1.2rem;
+cursor: pointer;
 transition: background-color .2s;
 &:hover{
     background:rgba(255,255,255,.3);
@@ -25,7 +27,6 @@ transition: background-color .2s;
 export default function Pagination({totalPagesCount}){
     const [searchParams, setSearchParams] = useSearchParams();
     const [currentPage, setCurrentPage] = useState(searchParams.get("page")? parseInt(searchParams.get("page")) : 1);
-
 
     function handlePageClick(page){
         setCurrentPage(page)
@@ -44,8 +45,7 @@ export default function Pagination({totalPagesCount}){
             setCurrentPage(parseInt(searchParams.get('page')))
         }
     },[searchParams.get("page")])
-
-
+    
     return(
         <Container>
             <Page onClick={()=>handlePageClick(currentPage - 1)} style={{display:`${currentPage <= 1 ?"none":"inline-block"}`}}>
@@ -56,7 +56,7 @@ export default function Pagination({totalPagesCount}){
                 1
             </Page>
 
-            <div style={{margin:"0 .3rem", color:"blue",display:`${currentPage-1 <= 1 ?"none":"inline-block"}`}} >
+            <div style={{margin:"0 .3rem", color:"white",display:`${currentPage-1 <= 1 ?"none":"inline-block"}`}} >
                 ...
             </div>
 
@@ -72,7 +72,7 @@ export default function Pagination({totalPagesCount}){
                 {currentPage+1}
             </Page>
        
-            <div style={{margin:"0 .3rem",color:"blue",display:`${currentPage+1 >= totalPagesCount ?"none":"inline-block"}`}} >
+            <div style={{margin:"0 .3rem",color:"white",display:`${currentPage+1 >= totalPagesCount ?"none":"inline-block"}`}} >
                 ...
             </div>
 
@@ -80,7 +80,7 @@ export default function Pagination({totalPagesCount}){
                 {totalPagesCount}
             </Page>
             
-            <Page style={{display:`${currentPage >= totalPagesCount ?"none":"inline-block"}`}}>
+            <Page onClick={()=>handlePageClick(currentPage + 1)} style={{display:`${currentPage >= totalPagesCount ?"none":"inline-block"}`}}>
                 <i className="fa-solid fa-greater-than"/>
             </Page>
         </Container>

@@ -120,16 +120,16 @@ function Movie(){
     const [movieData, setMovieData ] = useState({})
 
     async function fetchMovieData (id){
-        const request = await fetch(`http://127.0.0.1:8000/api/movies/${id}/`);
-        const movie_data = await request.json();
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/${id}/`);
+        const response = await request.json();
         if (request.status == 200){
-            setMovieData(movie_data)
+            setMovieData(response)
         }
     }
 
     useEffect(()=>{
         fetchMovieData(id)
-    },[])
+    },[id])
     
     return(
         <Container>

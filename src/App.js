@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import './App.css';
 import LoginPage from "./pages/LoginPage/login-page";
@@ -8,7 +8,6 @@ import {MoviesPage} from './pages/MoviesPage/movies-page';
 import Movie from './pages/SingleMoviePage/movie';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import UserPage from './pages/UserPage/user-page';
-// import CategorizedMovies from './pages/CategoriesMoviePage/category-movies-page';
 import MoviesCollection from './pages/MoviesCollectionPage/movies-collection-page';
 import FavoritesPage from './pages/FavouritesPage/favorite-movies-page';
 import TopImdbPage from './pages/TopImdbPage/top-imdb-page';

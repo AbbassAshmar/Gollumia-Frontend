@@ -1,43 +1,44 @@
 import Title from "../../components/Category/title";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";
 import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
-import PaginationBlock from "../../components/PaginationBlock/pagination-block";
+import Pagination from "../../components/Pagination/pagination";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 function FavoritesPage(){
-    const [favoriteMovies, setFavoriteMovies] = useState([])
     const [cookies,setCookies] = useCookies();
-    const [pagesCount , setPagesCount] = useState(1)
-    const {id} = useParams()
+    const [favoriteMovies, setFavoriteMovies] = useState([])
+    const [totalPagesCount, setTotalPagesCount] = useState(20);
+    const [searchParams,setSearchParams] = useSearchParams();
 
+    useEffect(()=>{
+        fetchFavoriteMovies(searchParams.get('page'));
+    },[searchParams])
 
-    async function request_favorite_movies(currentPageNumber){
-        let limit = 35
-        let start = (currentPageNumber-1) * 35
-        const request = await fetch(`http://127.0.0.1:8000/api/movies/favorites/${id}/?start=${start}&limit=${limit}`,{
+    async function fetchFavoriteMovies(page){
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/users/user/favorites/?page=${page}`,{
             headers: {
                 "Content-type":"application/json",
-                "Authorization":"Token "+cookies.token
+                "Authorization":"Token "+ cookies.token
             }
         })
         const response = await request.json();
+
         if (request.status == 200){
-            setFavoriteMovies(response['movies'])
-            setPagesCount(Math.ceil(response['total_count'] / 35))
+            console.log(response)
+            setFavoriteMovies(response.data.movies);
+            setTotalPagesCount(response.metadata.pages_count)
         }
     }
 
     return(
         <MoviesPagesContainers>
             <Title ctg="Favourites" />
-            <PaginationBlock 
-                children={<MoviesGridContainer movies={favoriteMovies}/>}
-                url ={`/movies/${id}/favorites`}
-                request_movies={request_favorite_movies}
-                pagesCount={pagesCount}
-            />
+            <Pagination totalPagesCount={totalPagesCount}/>
+            <MoviesGridContainer movies={favoriteMovies}/>
+            <Pagination totalPagesCount={totalPagesCount}/>
         </MoviesPagesContainers>
     )
 }

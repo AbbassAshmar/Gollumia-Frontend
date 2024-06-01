@@ -37,21 +37,23 @@ function Register(){
     async function handleRegisterSubmit(e){
         e.preventDefault();
         const user = {username , email,password,confirmPass}
-        const request = await fetch("http://127.0.0.1:8000/users/",{
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/users/`,{
             headers :{
                 "Content-type":"application/json"
             },
             method: 'POST',
             body: JSON.stringify(user)}
         )
+
         const response = await request.json();
+        
         if (request.status == 201){
             setErrorMessage({})
             let token = response.token
             let id= response.user.id
             let name =  response.user.username
             let email = response.user.email
-            const pfp = response.pfp && response.pfp != "null" ? 'http://127.0.0.1:8000'+response.pfp : null 
+            const pfp = response.pfp && response.pfp != "null" ? `${process.env.REACT_APP_API_URL}`+response.pfp : null 
             setCookies("token",token, {path: '/'})
             setCookies("email",email, {path: '/'})
             setCookies("username",name, {path: '/'})
@@ -67,7 +69,6 @@ function Register(){
                 setErrorMessage({lengthError: response.error});
             } else if (response.error === "Password must contain numbers and characters !") {
                 setErrorMessage({charError: response.error});
-
             }
         }
 

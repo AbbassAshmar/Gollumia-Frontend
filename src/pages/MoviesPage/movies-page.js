@@ -21,31 +21,26 @@ margin: auto;
 }
 `
 export function MoviesPage(){
-    const [cookies , setCookies, removeCookie] = useCookies(["token"])
-    const navigate = useNavigate()
-    const[dataState, setData]= useState([])
+    const[carouselMovies, setCarouselMovies]= useState([])
 
     useEffect(() => {
-        if (cookies.token==null){
-            navigate('/login', {replace:true})
-        }else{
-            fetchData()
-        }
+        fetchCarouselMovies()
     },[])
 
-    async function fetchData(){
-        const request =  await fetch(`${process.env.REACT_APP_API_URL}/api/`);
+    async function fetchCarouselMovies(){
+        const request =  await fetch(`${process.env.REACT_APP_API_URL}/api/movies/?limit=10`);
+        let response = await request.json()
         if(request.ok == true && request.status == 200){
-            let response = await request.json()
-            setData(response)                   
+            setCarouselMovies(response.data.movies)                   
         }
     }
     
     return(
         <div className="moviesPageContainer">
             <Movies_Container >
+
                 <section className="crouselsection">
-                    <Crousel Moviesdata={dataState} />
+                    <Crousel Moviesdata={carouselMovies} />
                     <div className="socialMedia-MoviesPage">
                         <motion.div initial={{opacity:0, y:-30}} animate={{opacity:1, y:0}}>
                             <SmBtn small={false} icon="facebook-f" color="blue" className="fb" text="facebook"></SmBtn>
@@ -61,6 +56,7 @@ export function MoviesPage(){
                         </p>
                     </div>
                 </section>
+
                 <section className="moviesSection">
                     <Title viewall={true} ctg="Trending" />
                     <TrendingMovies />

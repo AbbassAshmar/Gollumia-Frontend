@@ -5,84 +5,85 @@ import {  useCookies } from 'react-cookie';
 import { motion, useAnimate } from 'framer-motion';
 
 const Container = styled.div`
-    margin:0;
-    padding:0;
-    font-weight:400;
-    background:black;
+margin:0;
+padding:0;
+font-weight:400;
+background:black;
 `
 
 const Content = styled.div`
-    width:80%;
-    display:flex;
-    margin:auto;
-    flex-direction:column;
-    align-items:start;
+width:80%;
+display:flex;
+margin:auto;
+flex-direction:column;
+align-items:start;
 
 `
 const Div = styled.div`
-    width:100%;
-    max-width:600px;
-    display:flex;
-    margin:auto;
-    flex-wrap:wrap;
-    @media screen and (max-width:900px){
-        flex-direction:column;
-    }
+width:100%;
+max-width:600px;
+display:flex;
+margin:auto;
+flex-wrap:wrap;
+@media screen and (max-width:900px){
+    flex-direction:column;
+}
 `
 const InputLabel = styled.label`
-    border-radius:50%;
-    cursor: pointer;
-    background-size:100% 100%;
-    background-repeat:no-repeat;
-    background-position:center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 140px;
-    width: 140px;
-    margin: auto;
+border-radius:50%;
+cursor: pointer;
+background-size:100% 100%;
+background-repeat:no-repeat;
+background-position:center;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 140px;
+width: 140px;
+margin: auto;
 
-    @media screen and (max-width:800px){
-        height: 100px;
-        width: 100px;
-    }
+@media screen and (max-width:800px){
+    height: 100px;
+    width: 100px;
+}
 `
 const LabelLetter = styled.div`
-    font-size:7rem;
-    padding: 0 0 1rem 0;
-    @media screen and (max-width:800px){
-        font-size:4.5rem;
-    }
+font-size:7rem;
+padding: 0 0 1rem 0;
+@media screen and (max-width:800px){
+    font-size:4.5rem;
+}
 `
 const H2 = styled.h2`
-    width:70%;
-    display:flex;
-    justify-content:space-between;
-    margin:2rem 0 0 20%;
-    color:white;
-    @media screen and (max-width:1200px){
-        margin:2rem 0 0 0;
-        width:80%;
-    }
-    @media screen and (max-width:1075px){
-        margin:2rem 0 0 0;
-        width:90%;
-    }
-    align-items:flex-end;
+width:70%;
+display:flex;
+justify-content:space-between;
+margin:2rem 0 0 20%;
+color:white;
+@media screen and (max-width:1200px){
+    margin:2rem 0 0 0;
+    width:80%;
+}
+@media screen and (max-width:1075px){
+    margin:2rem 0 0 0;
+    width:90%;
+}
+align-items:flex-end;
 `
 const SuccessMessage = styled.p`
-    color:green;
-    font-size:1.4rem;
+color:green;
+font-size:1.4rem;
+padding :3px;
+border:2px solid green;
+border-radius:7px;
+@media screen and (max-width:1075px){
+    font-size:.9rem;
     padding :3px;
-    border:2px solid green;
+    border:1px solid green;
     border-radius:7px;
-    @media screen and (max-width:1075px){
-        font-size:.9rem;
-        padding :3px;
-        border:1px solid green;
-        border-radius:7px;
-    }
+}
 `
+
 function UserPage(){
     const [display,setDisplay] = useState(false)
     const [cookie,setCookies] = useCookies(['token','pfp','username','email'])
@@ -94,14 +95,16 @@ function UserPage(){
     cookie.pfp:cookie.username[0]),newImg:""})
     
     async function request_update (data){
-        let send_request = await fetch(`http://localhost:8000/users/${cookie.id}/`,{
+        let send_request = await fetch(`${process.env.REACT_APP_API_URL}/users/${cookie.id}/`,{
             method:"PATCH",
             headers:{
                 "Authorization":"Token "+cookie.token
             },
             body:data
         })
+
         let response = await send_request.json()
+        
         if (send_request.status == 200){
             setDisplay(false)
             setSuccessMessage(true)
