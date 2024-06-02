@@ -94,7 +94,7 @@ width:100%;
 padding: 0 2rem;
 background:black;
 min-height:100%;
-gap: 2rem;
+gap: 4rem;
 display: flex;
 flex-direction: column;
 `
@@ -124,6 +124,7 @@ function Movie(){
         const response = await request.json();
         if (request.status == 200){
             setMovieData(response)
+            console.log(response)
         }
     }
 
@@ -134,7 +135,7 @@ function Movie(){
     return(
         <Container>
             <ContentContainer>
-                <AboveTheFolds background={movieData.image?movieData.image:movieData.poster}>
+                <AboveTheFolds background={movieData.image || movieData.poster}>
                     <FirstChild></FirstChild>
                     <div className={styles.infoContainer}>
                         <ImgBtnContainer>
@@ -150,7 +151,7 @@ function Movie(){
                         </ImgBtnContainer>
                         <div className={styles.textContainer}>
                             <div>
-                                <h1  className={styles.movieTitle}>{movieData.title}</h1>
+                                <h1 className={styles.movieTitle}>{movieData.title}</h1>
                                 <Released style={{marginTop:".8rem",}}>{movieData.released} . {movieData.duration} min</Released>
                             </div>
                             <MovieButtons id={id} />
@@ -169,10 +170,11 @@ function Movie(){
                         </div>
                     </div>
                 </AboveTheFolds>
+
                 <Content>
                     <SectionContainer>
                         <SectionTitle>Trailer</SectionTitle>
-                        <Trailer thumbnail={movieData.thumbnail} url={movieData.trailer}/>
+                        <Trailer title={movieData.title} thumbnail={movieData.image} trailer={movieData.trailer}/>
                     </SectionContainer>
                     <SectionContainer>
                         <SectionTitle>You may also like</SectionTitle>
@@ -183,6 +185,7 @@ function Movie(){
                         <CommentSection movie_id={movieData.id} />
                     </SectionContainer>
                 </Content>
+
             </ContentContainer>
         </Container> 
     )

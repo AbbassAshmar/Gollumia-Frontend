@@ -4,6 +4,7 @@ const Main = styled.div`
 background : black;
 width:100%;
 `
+
 const MoviesContainer = styled.div`
 width :100%;
 background:black;
