@@ -9,10 +9,9 @@ import {useEffect, useState} from "react"
 
 function Crousel(props){
   const [iData,setiData] = useState([])
-
     
     useEffect(()=>{
-      setiData(props.Moviesdata.slice(0,8))
+      setiData(props.Moviesdata)
     },[props])
 
     const settings ={

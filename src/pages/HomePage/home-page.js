@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import  img2 from '../../photos/img2.jpg';
+import img2 from '../../photos/img2.jpg';
 import img4 from "../../photos/img4.jpg"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'
@@ -8,8 +8,11 @@ import Footer from "../../components/Footer/footer";
 import { useAnimate,useInView} from "framer-motion"
 import BlockTextSection from "../../components/BlockTextSection/block-text-section";
 import styled from "styled-components";
-import SimplifiedNavbar from "../../components/SimplifiedNavbar/simplified-navbar";
+import Section1 from "./sections/section-1";
 
+const Container = styled.div`
+
+`
 const Page2 = styled.div`
 width: 100%;
 background-color: #000000;
@@ -17,9 +20,11 @@ min-height:100vh;
 display:flex;
 overflow:hidden;
 align-items:center;
-    @media screen and (max-width:500px){
-        min-height:0;
-    }
+border-top: 6px solid rgb(121, 80, 3);
+
+@media screen and (max-width:500px){
+    min-height:0;
+}
 `
 const Page3= styled.div`
     width: 100%;
@@ -27,6 +32,20 @@ const Page3= styled.div`
     background-color: #000000;
     align-items: center;
     justify-content: center;
+`
+
+const Section4 = styled.div`
+padding-top:4rem;
+background-color: black;
+border-top: 6px solid rgb(121, 80, 3);
+display:flex;
+flex-direction: column;
+gap:4rem;
+align-items: center;
+justify-content: center;
+`
+const InputContainer = styled.div`
+color:white;
 `
 const pargAnimation = {
     initial:{
@@ -41,6 +60,7 @@ const pargAnimation = {
         }
     }
 }
+
 function Home(){
     const [scope,animate] = useAnimate()
     const isInView = useInView(scope,{once:true})
@@ -66,20 +86,9 @@ function Home(){
     },[isInView2])
 
     return(
-        <>
-        <div  className="page1" style={{overflow:"hidden"}}>
-            <div className="page1-container">
-                <SimplifiedNavbar />
-                <div className="main-content">
-                    <div className="parg">
-                        <h2>Get Into the paradise of movies</h2>
-                        <h3>Where Filmers are born</h3>
-                    </div>
-                    <InputField lab={true}/> 
-                </div>
-            </div>
-        </div>
-        <div className="emptyline"></div>
+        <Container>
+        <Section1 />
+
         <Page2>
             <BlockTextSection 
             textAlign={"left"}
@@ -92,7 +101,6 @@ function Home(){
             "Nokia, Macos, Windows, Microwave, Toilet Papers and Sterling's butt."}
             /> 
         </Page2>
-        <div className="emptyline" ></div>
         <Page2>
             <BlockTextSection
             left={true}
@@ -103,18 +111,17 @@ function Home(){
             text={"Intertaining movies from all genres for all ages,especially for kids, I want kids,and at any time "}
             />
         </Page2>
-        <div className="emptyline" ></div>
-        <div style={{width:"100%",height:"5%", background:"black"}}></div>
-        <div className="page3">
-            <div className="page3-content">
-                <InputField lab={false}/>
-                <p>Enter Your email now and Join the best movie community in one click !</p>   
-            </div>
-        </div>
-        <Footer className='bg-dark'/>
-        <div className="emptyline"></div>
+
+
+            <Section4>
+                <InputContainer>
+                    <p>Enter Your email now and Join the best movie community in one click !</p>   
+                    <InputField lab={false}/>
+                </InputContainer>
+                <Footer className='bg-dark'/>   
+            </Section4>
            
-        </>
+        </Container>
     )
 }
 
