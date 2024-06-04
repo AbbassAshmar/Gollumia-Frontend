@@ -1,4 +1,4 @@
-import Title from "../Category/title";
+import Title from "../Title/title";
 import styled from "styled-components";
 
 const Filter = styled.button`

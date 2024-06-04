@@ -28,9 +28,9 @@ font-weight: 600;
 }
 `
 
-export default function SimplifiedNavbar(){
+export default function SimplifiedNavbar({style}){
     return(
-        <Container>
+        <Container style={style}>
             <Logo />
             <SignInButton to={"/login"}>
                 Sign in

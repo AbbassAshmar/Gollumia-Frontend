@@ -25,12 +25,15 @@ function App() {
           <Route path='register' element={<Register />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
           
-          <Route path="/" element={<DefaultPage/>}>
+          <Route path="/" element={<DefaultPage navbarStyle={{position:"absolute",top:"0", left:"0", background:"none"}}/>}>
             <Route path="home" element={<MoviesPage />}/>
+          </Route>
+
+          <Route path="/" element={<DefaultPage/>}>
             <Route path="movies/:id" element={<Movie />}></Route>
             <Route path="user/:username" element={<UserPage />}></Route>
             <Route path="movies" element={<MoviesCollection/>}></Route>
-            <Route path='movies/:id/favorites/' element={<FavoritesPage/>}> </Route>
+            <Route path='favorites' element={<FavoritesPage/>}> </Route>
             <Route path="movies/top-imdb/" element={<TopImdbPage/>}> </Route>
           </Route>
         </Routes>

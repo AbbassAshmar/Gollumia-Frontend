@@ -113,13 +113,13 @@ function Home(){
         </Page2>
 
 
-            <Section4>
-                <InputContainer>
-                    <p>Enter Your email now and Join the best movie community in one click !</p>   
-                    <InputField lab={false}/>
-                </InputContainer>
-                <Footer className='bg-dark'/>   
-            </Section4>
+        <Section4>
+            <InputContainer>
+                <p>Enter Your email now and Join the best movie community in one click !</p>   
+                <InputField lab={false}/>
+            </InputContainer>
+            <Footer className='bg-dark'/>   
+        </Section4>
            
         </Container>
     )

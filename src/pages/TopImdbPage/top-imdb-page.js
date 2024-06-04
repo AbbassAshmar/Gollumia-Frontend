@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { useState } from "react";
 import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";
-import Title from "../../components/Category/title";
+import Title from "../../components/Title/title";
 import Pagination from "../../components/Pagination/pagination";
 import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
 import { useSearchParams } from "react-router-dom";

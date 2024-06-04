@@ -6,10 +6,12 @@ export function TrendingMovies(){
     const [trendingMovies , setTrendingMovies] = useState([])
 
     async function fetchTrendingMovies(){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/trending/?limit=35`)
-        const movies_list = await request.json()
+        const URL = `${process.env.REACT_APP_API_URL}/api/movies/trending/?limit=17`;
+        const request = await fetch(URL);
+        const response = await request.json();
+        
         if (request.status == 200)
-            setTrendingMovies(movies_list["movies"])
+        setTrendingMovies(response.data.movies);
     }
 
     useEffect(()=>{

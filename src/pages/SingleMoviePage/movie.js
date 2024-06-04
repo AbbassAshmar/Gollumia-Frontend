@@ -124,7 +124,6 @@ function Movie(){
         const response = await request.json();
         if (request.status == 200){
             setMovieData(response)
-            console.log(response)
         }
     }
 
@@ -145,10 +144,11 @@ function Movie(){
                                     ({movieData && movieData.released?movieData.released.split('-')[0]:"N/A"})
                                 </span>
                             </h1>
-                            <GenresContainer classes={`${styles.GenreContainer2} ${styles.detailedText}`} genres={movieData.genre}/>
+                            <GenresContainer classes={`${styles.GenreContainer2} ${styles.detailedText}`} genres={movieData.genres}/>
                             <img className={styles.MoviePoster} alt={movieData.title} src={movieData.poster}/>
                             <WatchNowButton >Watch now</WatchNowButton>
                         </ImgBtnContainer>
+
                         <div className={styles.textContainer}>
                             <div>
                                 <h1 className={styles.movieTitle}>{movieData.title}</h1>

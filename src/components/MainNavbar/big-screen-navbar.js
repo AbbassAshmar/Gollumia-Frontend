@@ -13,7 +13,6 @@ width:100%;
 padding:1rem 2rem;
 align-items:center;
 justify-content: space-between;
-background-color: black;
 @media screen and (max-width: 1024px) {
     display: none;
 }

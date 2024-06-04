@@ -5,10 +5,12 @@ function UpcomingMovies(){
     const [upcomingMovies, setUpcomingMovies] = useState([])
     
     async function fetchUpcomingMovies(){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/upcoming/?limit=35`)
-        const movies_list = await request.json();
+        const URL = `${process.env.REACT_APP_API_URL}/api/movies/upcoming/?limit=17`;
+        const request = await fetch(URL);
+        const response = await request.json();
+
         if (request.status == 200)
-        setUpcomingMovies(movies_list['movies'])
+        setUpcomingMovies(response.data.movies);
     }
 
     useEffect(()=>{

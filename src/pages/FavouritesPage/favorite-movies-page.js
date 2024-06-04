@@ -1,4 +1,4 @@
-import Title from "../../components/Category/title";
+import Title from "../../components/Title/title";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";

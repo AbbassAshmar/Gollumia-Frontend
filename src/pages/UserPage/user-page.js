@@ -17,7 +17,6 @@ display:flex;
 margin:auto;
 flex-direction:column;
 align-items:start;
-
 `
 const Div = styled.div`
 width:100%;
@@ -41,7 +40,6 @@ justify-content: center;
 height: 140px;
 width: 140px;
 margin: auto;
-
 @media screen and (max-width:800px){
     height: 100px;
     width: 100px;
@@ -137,6 +135,7 @@ function UserPage(){
             setSuccessMessage(false)
         }
     },[successMessage])
+    
     const ImageStyle ={
        display:"none"
     }

@@ -20,10 +20,11 @@ const blockAnimation ={
 }
     const [blockScope, animateBlock] = useAnimate()
     const isInView = useInView(blockScope)
+    
     useEffect(()=>{
-        console.log(isInView)
         if(isInView) animateBlock(blockScope.current, blockAnimation.animation,blockAnimation.transition)
     },[isInView])
+
     return(
         <motion.div 
             key={props.title}

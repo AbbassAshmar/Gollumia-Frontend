@@ -4,21 +4,39 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import "./moviesPage.css"
 import Crousel from "../../components/Carousel/carousel";
-import SmBtn from "../../components/Button/social-media-button";
-import Title from "../../components/Category/title"
+import Title from "../../components/Title/title"
 import {TrendingMovies} from "../../components/TrendingMovies/trending-movies"
 import LatestMovies from "../../components/LatestMovies/latest-movies"
 import UpcomingMovies from "../../components/UpcomingMovies/upcoming-movies";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
-export const Movies_Container = styled.div`
-min-height: 200%;
-width: 87%;
-margin: auto;
-@media screen and (max-width:1400px){
-        width: 95%;
+const Container = styled.div`
+min-height: 100vh;
+width: 100%;
+background-color: black;
+overflow: hidden;
+`
+
+
+const MoviesGrids = styled.section`
+gap:4rem;
+width:100%;
+padding:2rem;
+display:flex;
+flex-direction: column;
+align-items: flex-start;
+
+@media screen and (max-width:800px){
+    padding:1rem;
 }
+`
+
+const MoviesGrid = styled.div`
+gap:2rem;
+width:100%;
+display:flex;
+flex-direction: column;
+align-items: flex-start;
 `
 export function MoviesPage(){
     const[carouselMovies, setCarouselMovies]= useState([])
@@ -36,36 +54,25 @@ export function MoviesPage(){
     }
     
     return(
-        <div className="moviesPageContainer">
-            <Movies_Container >
+        <Container>
+            <section>
+                <Crousel Moviesdata={carouselMovies} />
+            </section>
 
-                <section className="crouselsection">
-                    <Crousel Moviesdata={carouselMovies} />
-                    <div className="socialMedia-MoviesPage">
-                        <motion.div initial={{opacity:0, y:-30}} animate={{opacity:1, y:0}}>
-                            <SmBtn small={false} icon="facebook-f" color="blue" className="fb" text="facebook"></SmBtn>
-                            <SmBtn small={false} icon="instagram" color="#ac2bac" className="fb" text="Instagram"></SmBtn>
-                            <SmBtn small={false} icon="twitter" color="#1DA1F2" className="fb" text="twitter"></SmBtn>
-                            <SmBtn small={false} icon="github" color="orange" className="fb" text="github"></SmBtn>
-                        </motion.div>
-                        <p style={{margin:"1rem 0 0 0",fontSize:".9rem",fontWeight:"100"}}>
-                            Watch Movies Online Free<br></br>
-                            Watch all kinds of popular movies and forget about handing your money to netflix. At <span style={{color:"orange"}}>AFLIX</span>, A stands for Aree (free) !<br></br>
-                            When sankes are born with two heads, they fight each other food, that's why we offer you the best place to watch movies and have the best experience ! <br></br>
-                            Wubba Lubba Dub Dub !
-                        </p>
-                    </div>
-                </section>
-
-                <section className="moviesSection">
+            <MoviesGrids>
+                <MoviesGrid>
                     <Title viewall={true} ctg="Trending" />
                     <TrendingMovies />
+                </MoviesGrid>
+                <MoviesGrid>
                     <Title viewall={true}  ctg="Latest" />
                     <LatestMovies />
+                </MoviesGrid>
+                <MoviesGrid>
                     <Title viewall={true}  ctg="Upcoming" />
                     <UpcomingMovies />
-                </section>
-            </Movies_Container>
-        </div>
+                </MoviesGrid>
+            </MoviesGrids>
+        </Container>
     )
 }

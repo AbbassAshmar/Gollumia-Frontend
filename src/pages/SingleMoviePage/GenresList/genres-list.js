@@ -17,8 +17,8 @@ function GenresList({genres}){
             {
             genres?
             genres.map((genre)=>{
-                return <Genre to={`/movies/?genre=${genre}`} key={genre}>
-                            {genre}
+                return <Genre to={`/movies/?genre=${genre.name}`} key={genre.id}>
+                            {genre.name}
                         </Genre>
             }):
             'N/A'

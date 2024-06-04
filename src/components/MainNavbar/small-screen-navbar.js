@@ -10,7 +10,6 @@ display: flex;
 position:relative;
 padding: 1rem 2rem;
 align-items: center;
-background-color: black;
 justify-content: space-between;
 @media screen and (min-width: 1024px) {
     display: none;

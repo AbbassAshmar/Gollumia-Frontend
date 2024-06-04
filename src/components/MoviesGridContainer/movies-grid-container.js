@@ -23,6 +23,7 @@ const Container = styled.div`
         grid-template-columns:repeat(2 ,1fr);
     }
 `
+
 function MoviesGridContainer({movies}){
     return (
         <Container>

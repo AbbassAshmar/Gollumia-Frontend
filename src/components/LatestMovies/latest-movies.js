@@ -2,16 +2,19 @@ import React ,{useEffect,useState} from "react";
 import MoviesGridContainer from "../MoviesGridContainer/movies-grid-container";
 
 function LatestMovies(){
-    const [latestMovies, SetLatestMovies] = useState([]);
+    const [latestMovies, setLatestMovies] = useState([]);
     
-    async function Fetch(){
-        const data = await fetch("http://127.0.0.1:8000/api/movies/latest/",{method:"GET"})
-        const movies_list = await data.json()
-        SetLatestMovies(movies_list['movies'].slice(0,17))
+    async function fetchLatestMovies(){
+        const URL =`${process.env.REACT_APP_API_URL}/api/movies/latest/?limit=17`;
+        const request = await fetch(URL);
+        const response = await request.json()
+
+        if(request.status == 200)
+        setLatestMovies(response.data.movies)
     }
 
     useEffect(()=>{
-        Fetch()
+        fetchLatestMovies()
     },[])
 
     return(
