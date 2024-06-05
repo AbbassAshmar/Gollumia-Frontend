@@ -1,14 +1,20 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { motion, useTransform, useScroll, useMotionValueEvent } from "framer-motion";
-import { useEffect } from "react";
+import {motion, useTransform, useScroll} from "framer-motion";
 
 const Container = styled.div`
 gap:3rem;
 display: flex;
 position:relative;
 align-items: flex-end;
+@media screen and (max-width:1024px) {
+    flex-direction: column;
+    align-items: center;
+}
+@media screen and (max-width:728px){
+    gap:1rem;
+}
 `
 const ImageContainer = styled.div`
 width:75%;
@@ -20,7 +26,9 @@ border-radius: 10px;
 aspect-ratio: 1.5/1;
 align-items: center;
 justify-content:center;
-
+@media screen and (max-width:1024px){
+    width:100%;
+}
 `
 const Image = styled.img`
 width:140%;
@@ -29,16 +37,25 @@ height:140%;
 object-fit: cover;
 `
 const TextContainer = styled.div`
+gap:1rem;
 display: flex;
+position:relative;
 flex-direction: column;
 align-items: flex-start;
-gap:1rem;
-position:relative;
+@media screen and (max-width:1024px) {
+    flex-direction: row;
+    align-items: center;
+}
 `
 const GenreName = styled.h4`
 color:white;
+padding:0;
+margin:0;
 font-weight:bold;
 font-size:var(--heading-4);
+@media screen and (max-width:768px) {
+    font-size:var(--heading-4-mobile);
+}
 `
 const ViewAllLink = styled(Link)`
 color:var(--main-color);
@@ -73,9 +90,9 @@ export default function GenreBox({name, image, colors, style}){
         offset:['start end', 'end start']
     })
 
-    useEffect(()=>{console.log(style)},[style])
     const imageY = useTransform(scrollYProgress, [0,1], ['20%', '-20%']);
-    const imageScale = useTransform(scrollYProgress, [0,1], [.9, 1.1]);
+    const imageScale = useTransform(scrollYProgress, [0,1], [1, 1.15]);
+
     return(
         <Container style={style}>
             <BluredCircle $color={colors[0]}/>
