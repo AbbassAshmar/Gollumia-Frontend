@@ -113,7 +113,6 @@ export default function Carousel(){
         }
     },[activateAnimation])
 
-    useEffect(()=>{console.log(activateAnimation)},[activateAnimation])
 
     function handleNavigateRight(){
         if (activateAnimation == 4) {// idle

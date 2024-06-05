@@ -9,3 +9,41 @@
     font-family:  'Open Sans', sans-serif;;
     font-weight: 500;
 }
+
+
+/* scale 1.25 */
+
+:root {
+    --main-color:orange;
+    --main-color-dark:darkorange;
+    --big-1 :95px;
+    --big-2: 76px;
+    
+    --heading-1: 61px;
+    --heading-1-mobile: 32px;
+  
+    --heading-2: 48px;
+    --heading-2-mobile: 28px;
+  
+    --heading-3: 39px;
+    --heading-3-mobile: 25px;
+  
+    --heading-4: 31px;
+    --heading-4-mobile: 22px;
+
+    --heading-5: 25px;
+    --heading-5-mobile: 20;
+
+    --heading-6: 20px;
+    --heading-6-mobile: 18px;
+
+    --body: 16px;
+    --body-mobile: 16px;
+
+    --small-1:13px;
+    --small-1-mobile:14px;
+
+    --small-2:10px;
+    --small-2-mobile:11px;
+
+}
