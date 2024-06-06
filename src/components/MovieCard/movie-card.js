@@ -9,6 +9,7 @@ left:50%;
 opacity:0;
 width:100%;
 gap: 1rem;
+z-index:12;
 display: flex;
 position: absolute;
 align-items: center;
@@ -33,6 +34,7 @@ position: relative;
     position: absolute;
     background-color:black;
     transition:opacity .3s;
+    z-index:  10;
 }
 `
 const Container = styled(Link)`
