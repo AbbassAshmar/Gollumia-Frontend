@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Section1 from "./sections/section-1";
 import GenresSection from "./sections/genres-section";
 import TrendingSection from "./sections/trending-section";
+import HighLightsSection from "./sections/highlights-section";
 
 const Container = styled.div`
 gap:7rem;
@@ -51,6 +52,7 @@ function Home(){
             <Section1 />
             <GenresSection />
             <TrendingSection />
+            <HighLightsSection />
             <Section4>
                 <Footer />   
             </Section4>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import MovieCard from "../components/movie-card";
 import Up from "../../../photos/Up.jpg";
+import ParallaxMovieCard from "../components/parallax-movie-card";
 
 const Container = styled.div`
 width:100%;
@@ -54,7 +54,7 @@ const MovieCardsContainer = styled.div`
 width:40%;
 display: flex;
 flex-direction: column;
-align-items: flex-start;
+align-items: center;
 justify-content: center;
 @media screen and (max-width:768px){
     width:100%;
@@ -68,7 +68,7 @@ align-items: center;
 justify-content: center;
 `
 const MovieCardContainer = styled.div`
-width:50%;
+flex:1;
 `
 
 const BigImageContainer = styled.div`
@@ -85,9 +85,10 @@ const subtitle = "See What's Hot Now Your Next Adventure Awaits.";
 
 export default function TrendingSection(){
     const [trendingMovies, setTrendingMovies] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(()=>{
-        const URL = `${process.env.REACT_APP_API_URL}/api/movies/trending?limit=3`;
+        const URL = `${process.env.REACT_APP_API_URL}/api/movies/trending/?limit=3`;
         fetchTrendingMovies(URL);
     },[])
 
@@ -97,7 +98,18 @@ export default function TrendingSection(){
             const moviesList = await request.json()
             setTrendingMovies(moviesList.data.movies)
         }
+
+        setIsLoading(false);
     }
+
+
+    const renderMovieCards = (movies, isLoading, styles) => {
+        return movies.map((movie, index) => (
+          <MovieCardContainer key={index} style={styles[index]}>
+            {!isLoading && movie ? <ParallaxMovieCard movie={movie} posterOnly={true} /> : <ParallaxMovieCard isLoading={true} />}
+          </MovieCardContainer>
+        ));
+    };
 
     return(
         <Container>
@@ -111,17 +123,10 @@ export default function TrendingSection(){
                 </Content>
                 <MovieCardsContainer>
                     <MovieCardsRow>
-                        <MovieCardContainer style={{transform:'translate(0,20%)'}}>
-                            <MovieCard movie={null}/>
-                        </MovieCardContainer>
-                        <MovieCardContainer>
-                            <MovieCard movie={null}/>
-                        </MovieCardContainer>
+                        {renderMovieCards(trendingMovies.slice(0, 2), isLoading, [{transform:'translate(0,10%)'},{}])}
                     </MovieCardsRow>
-                    <MovieCardsRow style={{margin:"-15% 0"}}>
-                        <MovieCardContainer style={{transform:'translate(20%,-30%)'}}>
-                            <MovieCard movie={null}/>
-                        </MovieCardContainer>
+                    <MovieCardsRow style={{margin: "-20% 0%", width:'50%', transform:"translate(20%,0)"}}>
+                        {renderMovieCards(trendingMovies.slice(2), isLoading, [{}])}
                     </MovieCardsRow>
                 </MovieCardsContainer>
             </ContentContainer>

@@ -1,11 +1,24 @@
-import React from "react";
-import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import {motion, useScroll, useTransform} from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import styled, {keyframes} from 'styled-components';
 
-
+const OnHoverContent = styled.div`
+top:50%;
+left:50%;
+opacity:0;
+width:100%;
+gap: 1rem;
+display: flex;
+position: absolute;
+align-items: center;
+flex-direction: column;
+transition:opacity .3s;
+transform: translate(-50%,-50%);
+`
 const PosterContainer = styled.div`
 width: 100%;
-aspect-ratio: 1/1.35;
+aspect-ratio: 1/1.5;
 border-radius: 8px;
 overflow: hidden;
 min-width:0;
@@ -22,24 +35,22 @@ position: relative;
     transition:opacity .3s;
 }
 `
-
 const Container = styled(Link)`
 gap:.5rem;
+width: 100%;
+height:100%;
+min-width:0;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 text-decoration: none;
-width: 100%;
-height:100%;
-min-width:0;
 &:hover p{
     color:orange;
 }
-
 &:hover ${PosterContainer}::before{
     opacity:.3;
 }
-&:hover i{
+&:hover ${OnHoverContent}{
     opacity:1;
 }
 `
@@ -48,38 +59,66 @@ width:100%;
 height:100%;
 object-fit: cover;
 border-radius: 8px;
+will-change: transform;
 `
-
 const Play = styled.i`
-position: absolute;
 font-size:3.5rem;
 color:orange;
-top:50%;
-left:50%;
-transform: translate(-50%,-50%);
-transition:opacity .3s;
-opacity:0;
 `
-
 const Title = styled.p`
 margin:0;
-width:80%;
+width:90%;
 color:white;
-overflow: hidden;
 font-size:1rem;
 font-weight:600;
+overflow: hidden;
 white-space: nowrap;
 text-overflow:ellipsis;
 `
-export default function MovieCard(props){
+
+export default function MovieCard({movie={}, isLoading=false, posterOnly=false, imageStyle={}}){
+    if (isLoading) 
     return(
-        <Container to={`/movies/${props.id}`}>
+        <LoadingMovieCard />
+    )
+
+    return(
+        <Container to={`/movies/${movie.id}`}>
             <PosterContainer>
-                <Poster src={props.poster}/>
-                <Play className="fa-regular fa-circle-play"/>
+                <Poster as={motion.img} style={imageStyle} src={movie.poster}/>
+                <OnHoverContent>
+                    {posterOnly && <Title style={{textAlign:"center"}}>{movie.title}</Title>}
+                    <Play className="fa-regular fa-circle-play"/>
+                </OnHoverContent>
             </PosterContainer>
-            <Title>{props.title}</Title>
+            {!posterOnly && <Title>{movie.title}</Title>}
         </Container>
     );
 }
 
+
+
+const pulseAnimation = keyframes`
+0% {opacity: 0.5;}
+100% { opacity: 1;}
+`
+const LoadingContainer = styled(Container)`
+color: #fff; 
+background-color: #333;
+aspect-ratio: 1/1.5;
+`
+const LoadingAnimation = styled.div`
+width: 100%;
+height: 100%; 
+background-color: var(--main-color); 
+animation: ${pulseAnimation} 1s infinite alternate;
+`
+
+function LoadingMovieCard(){
+
+    return (
+        <LoadingContainer>
+            <LoadingAnimation/>
+        </LoadingContainer>
+    )
+}

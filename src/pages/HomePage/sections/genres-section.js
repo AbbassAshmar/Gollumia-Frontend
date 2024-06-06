@@ -51,7 +51,7 @@ flex-direction: column;
 }
 `
 
-const GENRES = [{id:1, name:"Horror", image:horror, colors:['#787270','#E6E3DD']},{id:1, name:"Action", image:action, colors:['#B04206','#FFB03A']},{id:1, name:"Adventure", image:adventure, colors:['#35A7D9','#5DB4CF']}]
+const GENRES = [{id:1, name:"Horror", image:horror, colors:['#787270','#E6E3DD']},{id:2, name:"Action", image:action, colors:['#B04206','#FFB03A']},{id:3, name:"Adventure", image:adventure, colors:['#35A7D9','#5DB4CF']}]
 
 export default function GenresSection(){
     
