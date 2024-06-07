@@ -2,9 +2,26 @@ import { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {motion, useTransform, useScroll} from "framer-motion";
+import MovieCard from "../../../components/MovieCard/movie-card";
+
 
 const Container = styled.div`
+width: 100%;
+display: flex;
+justify-content: flex-end;
+padding-bottom: 5rem;
+position: relative;
+&:last-child{
+    padding-bottom: 0;
+}
+@media screen and (max-width:800px){
+    padding-bottom: 2rem;
+}
+`
+const GenreCardContainer = styled.div`
 gap:3rem;
+z-index:1;
+width: 100%;
 display: flex;
 position:relative;
 align-items: flex-end;
@@ -67,22 +84,30 @@ transition: color .3s;
 }
 `
 const BluredCircle = styled.div`  
-width:100%;
-height:90%;
-z-index:-2;
+left: 40%;
+opacity: .4;
+top: 10%;
+height: 70%;
+width: 100%;
+z-index:0;
 position:absolute;
 bottom:10%;
-filter:blur(180px);
-opacity:.8;
-left:-80%;
+filter:blur(200px);
+left: -75%;
 background-color: ${({$color})=>$color};
+@media screen and (max-width:800px) {
+    height: 100%;
+    width: 100%;
+    top: -8%;
+}
 `
+
 const BluredCircle2= styled(BluredCircle)`
 left:50%;
 background-color: ${({$color})=>$color};
 `
 
-export default function GenreBox({name, image, colors, style}){
+export default function GenreBox({name, image, colors, style, movie, isLoading}){
     const imageContainerRef = useRef();
 
     const {scrollYProgress} = useScroll({
@@ -94,18 +119,20 @@ export default function GenreBox({name, image, colors, style}){
     const imageScale = useTransform(scrollYProgress, [0,1], [1, 1.15]);
 
     return(
-        <Container style={style}>
+        <Container>
             <BluredCircle $color={colors[0]}/>
-            <ImageContainer ref={imageContainerRef}>
-                <Image as={motion.img} src={image} style={{y:imageY,scale:imageScale}}/>
-            </ImageContainer>
-            <TextContainer>
-                <GenreName>{name}</GenreName>
-                <ViewAllLink to={`/movies?genre=${name}`}>
-                    View all 
-                    <i style={{marginLeft:".5rem"}} className="fa-solid fa-arrow-right"/>
-                </ViewAllLink>
-            </TextContainer>
+            <GenreCardContainer>
+                <ImageContainer ref={imageContainerRef}>
+                    <Image as={motion.img} src={image} style={{y:imageY,scale:imageScale}}/>
+                </ImageContainer>
+                <TextContainer>
+                    <GenreName>{name}</GenreName>
+                    <ViewAllLink to={`/movies?genre=${name}`}>
+                        View all 
+                        <i style={{marginLeft:".5rem"}} className="fa-solid fa-arrow-right"/>
+                    </ViewAllLink>
+                </TextContainer>
+            </GenreCardContainer>
             <BluredCircle2 $color={colors[1]}/>
         </Container>
     )

@@ -131,7 +131,6 @@ export default function Section1(){
 
                 <Image as={width >768 ? motion.img : ""} style={{ y: imageY, scale: imageScale }} src={Garfield} alt="garfield movie image"/>
             </ContentContainer>
-
         </Container>
 
     )
