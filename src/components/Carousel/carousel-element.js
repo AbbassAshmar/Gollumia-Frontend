@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import {useCookies} from "react-cookie";
 
 const Container = styled.div`
@@ -10,7 +10,7 @@ background:url(${({$background})=>$background});
 background-size:cover;
 background-repeat: no-repeat;
 background-position:center;
-min-height: 100vh;
+height: min(100vh, 1000px);
 width:100vw;
 display: flex;
 align-items: flex-end;
@@ -27,6 +27,10 @@ z-index: 2;
     z-index:-1;
     background:radial-gradient(circle, rgba(0,0,0,.4) 50%, rgba(0,0,0,.8) 100%);
 }
+
+@media screen and (max-width:800px){
+    height: min(70vh, 700px);
+}
 `
 const ContentContainer=  styled.div`
 padding:2rem;
@@ -35,21 +39,36 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 gap:2.5rem;
+
+@media screen and (max-width:500px){
+   padding:2rem 1rem;
+   padding-bottom: 4rem;
+   gap:1rem;
+}
 `
 const TextContainer = styled.div`
 gap: 1rem;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
+@media screen and (max-width:500px){
+   gap:.5rem;
+}
 `
-const Title = styled.h1`
-font-size: 3rem;
+const Title = styled.h2`
+font-size: var(--heading-2);
 font-weight:600;
 letter-spacing: -0.05em;
 margin:0;
 border-left:4px solid orange;
 padding-left:1rem;
 text-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+@media screen and (max-width:800px){
+    font-size: var(--heading-2-mobile);
+}
+@media screen and (max-width:500px){
+    font-size: var(--heading-3-mobile);
+}
 `
 const RatingAndGenres = styled.div`
 gap:2rem;
@@ -62,9 +81,13 @@ display: flex;
 align-items: center;
 text-shadow: 0px 0px 6px rgba(0,0,0,.9);
 letter-spacing: 0.02em;
+@media screen and (max-width:500px){
+    font-size:var(--small-1);
+}
 `
 const Genres = styled.div`
 gap:.5rem;
+text-align: center;
 display: flex;
 align-items: center;
 text-shadow: 0px 0px 4px rgba(0,0,0,.9);
@@ -77,9 +100,12 @@ letter-spacing: 0.02em;
 &:hover{
     color:orange;
 }
+@media screen and (max-width:500px){
+    font-size:var(--small-1);
+}
 `
 const Plot = styled.h5`
-font-size:1rem;
+font-size:var(--body);
 color:#C0C3C7;
 margin:0;
 max-width: 60%;
@@ -92,16 +118,22 @@ display: -webkit-box;
 line-height: 1.3em;
 letter-spacing: 0.02em;
 text-shadow:0px 0px 6px rgba(0,0,0,0.8);
+@media screen and (max-width:800px){
+    display: none;
+}
 `
 const ButtonsContainer = styled.div`
 gap:1.5rem;
 display: flex;
 align-items: center;
 justify-content: flex-start;
+@media screen and (max-width:500px){
+    gap:1rem;
+}
 `
 const WatchNow = styled(Link)`
 padding:.75rem 1.25rem;
-font-size:1rem;
+font-size:var(--body);
 background-color: orange;
 color:black;
 border-radius: 50px;
@@ -112,12 +144,15 @@ transition:background-color .3s;
     background-color: darkorange;
     color:black;
 }
+@media screen and (max-width:500px){
+    padding:.5rem 1rem;
+    font-size:var(--small-1);
+}
 `
 
 const AddToFavorites = styled.button`
-padding:.5rem 1rem;
 transition:color .3s;
-font-size:1rem;
+font-size:var(--body);
 font-weight: 700;
 cursor:pointer;
 &:hover{
@@ -126,21 +161,24 @@ cursor:pointer;
 &:hover i{
     color:red;
 }
+@media screen and (max-width:500px){
+    font-size:var(--small-1);
+}
 `
 const HeartIcon = styled.i`
 
 `
-export default function CarouselElement({movie}){
+export default function CarouselElement({movie, isLoading}){
     const [addToFavoritesHover, setAddToFavoritesHover] = useState(false);
     const [cookies, setCookies] = useCookies(['token']);
-    const [isLoading,setIsLoading] = useState(false);
+    const [favoriteIsLoading,setFavoriteIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if (isLoading)
+        if (favoriteIsLoading)
         requestAddOrRemoveFavorite();
-    },[isLoading])
+    },[favoriteIsLoading])
 
     function heartIconSolidOrRegular (){
         if (addToFavoritesHover) return "solid";
@@ -150,7 +188,7 @@ export default function CarouselElement({movie}){
    
     async function heartIconClick(e){
         if (!cookies.token) navigate('/login')
-        setIsLoading(true)
+        setFavoriteIsLoading(true)
     }
 
     async function requestAddOrRemoveFavorite(){
@@ -173,8 +211,13 @@ export default function CarouselElement({movie}){
             movie.is_favorite = true;
         }
 
-        setIsLoading(false)
+        setFavoriteIsLoading(false)
     }
+
+    if(isLoading)
+    return(
+        <LoadingCarouselElement />
+    )
 
     return(
         <Container $background={movie.image}>
@@ -202,12 +245,45 @@ export default function CarouselElement({movie}){
                         <i style={{marginRight:'.5rem'}} className="fa-regular fa-circle-play"/>
                         Watch Now
                     </WatchNow>
-                    <AddToFavorites disabled={isLoading} onClick={heartIconClick} onMouseEnter={()=>setAddToFavoritesHover(true)}  onMouseLeave={()=>setAddToFavoritesHover(false)}>
+                    <AddToFavorites disabled={favoriteIsLoading} onClick={heartIconClick} onMouseEnter={()=>setAddToFavoritesHover(true)}  onMouseLeave={()=>setAddToFavoritesHover(false)}>
                         <HeartIcon style={{marginRight:'.5rem'}} className={`fa-${heartIconSolidOrRegular()} fa-heart`}/>
-                        Add to favorites
+                        Favorite
                     </AddToFavorites>
                 </ButtonsContainer>
             </ContentContainer> 
         </Container>
+    )
+}
+
+
+
+const pulseAnimation = keyframes`
+0% {opacity: 0.5;}
+100% { opacity: 1;}
+`
+const LoadingContainer = styled(Container)`
+color: #fff; 
+min-height:0;
+background-color: #333;
+width: 100%;
+padding:2rem;
+padding-top: 4rem;
+display: flex;
+align-items: flex-start;
+`
+const LoadingAnimation = styled.div`
+width: 100%;
+border-radius:8px;
+height: 70vh; 
+background-color: var(--main-color); 
+animation: ${pulseAnimation} 1s infinite alternate;
+`
+
+function LoadingCarouselElement(){
+
+    return (
+        <LoadingContainer>
+            <LoadingAnimation/>
+        </LoadingContainer>
     )
 }

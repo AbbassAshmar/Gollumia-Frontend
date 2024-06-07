@@ -12,6 +12,7 @@ import MoviesCollection from './pages/MoviesCollectionPage/movies-collection-pag
 import FavoritesPage from './pages/FavouritesPage/favorite-movies-page';
 import TopImdbPage from './pages/TopImdbPage/top-imdb-page';
 import DefaultPage from './pages/DefaultPage/default-page';
+import SimpleNavbarFooterDefault from './pages/DefaultPage/simple-navbar-footer';
 
 function App() {
   const location = useLocation()
@@ -20,11 +21,13 @@ function App() {
     <GoogleOAuthProvider clientId="798671795051-c95amd54jght2rvvkbnqog71ilut2kch.apps.googleusercontent.com">
       <div className="App">
         <Routes location={location} key={location.pathname}>
-          
-          <Route path='/' element={<Home />}></Route>
-          <Route path='register' element={<Register />}></Route>
-          <Route path="login" element={<LoginPage />}></Route>
-          
+
+          <Route path="/" element={<SimpleNavbarFooterDefault/>}>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='register' element={<Register />}></Route>
+            <Route path="login" element={<LoginPage />}></Route>
+          </Route>
+
           <Route path="/" element={<DefaultPage navbarStyle={{position:"absolute",top:"0", left:"0", background:"none"}}/>}>
             <Route path="home" element={<MoviesPage />}/>
           </Route>

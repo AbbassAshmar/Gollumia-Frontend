@@ -11,12 +11,10 @@ import UpcomingMovies from "../../components/UpcomingMovies/upcoming-movies";
 import styled from "styled-components";
 
 const Container = styled.div`
-min-height: 100vh;
 width: 100%;
 background-color: black;
 overflow: hidden;
 `
-
 
 const MoviesGrids = styled.section`
 gap:4rem;

@@ -3,7 +3,8 @@ import MoviesGridContainer from "../MoviesGridContainer/movies-grid-container";
 
 
 export function TrendingMovies(){
-    const [trendingMovies , setTrendingMovies] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+    const [trendingMovies , setTrendingMovies] = useState([]);
 
     async function fetchTrendingMovies(){
         const URL = `${process.env.REACT_APP_API_URL}/api/movies/trending/?limit=17`;
@@ -12,6 +13,8 @@ export function TrendingMovies(){
         
         if (request.status == 200)
         setTrendingMovies(response.data.movies);
+        
+        setIsLoading(false);
     }
 
     useEffect(()=>{
@@ -19,7 +22,7 @@ export function TrendingMovies(){
     },[])
     
     return(
-        <MoviesGridContainer movies={trendingMovies}/>
+        <MoviesGridContainer isLoading={isLoading} movies={trendingMovies}/>
     )
 
 }

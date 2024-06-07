@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import MoviesGridContainer from "../MoviesGridContainer/movies-grid-container";
 
 function UpcomingMovies(){
+    const [isLoading, setIsLoading] = useState(true);
     const [upcomingMovies, setUpcomingMovies] = useState([])
     
     async function fetchUpcomingMovies(){
@@ -11,6 +12,8 @@ function UpcomingMovies(){
 
         if (request.status == 200)
         setUpcomingMovies(response.data.movies);
+
+        setIsLoading(false);
     }
 
     useEffect(()=>{
@@ -18,7 +21,7 @@ function UpcomingMovies(){
     },[])
     
     return(
-        <MoviesGridContainer movies={upcomingMovies} />
+        <MoviesGridContainer isLoading={isLoading} movies={upcomingMovies} />
     )
 
 }

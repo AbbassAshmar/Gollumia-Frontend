@@ -2,6 +2,7 @@ import React ,{useEffect,useState} from "react";
 import MoviesGridContainer from "../MoviesGridContainer/movies-grid-container";
 
 function LatestMovies(){
+    const [isLoading, setIsLoading] = useState(true);
     const [latestMovies, setLatestMovies] = useState([]);
     
     async function fetchLatestMovies(){
@@ -11,6 +12,8 @@ function LatestMovies(){
 
         if(request.status == 200)
         setLatestMovies(response.data.movies)
+
+        setIsLoading(false);
     }
 
     useEffect(()=>{
@@ -18,7 +21,7 @@ function LatestMovies(){
     },[])
 
     return(
-        <MoviesGridContainer movies={latestMovies}/>
+        <MoviesGridContainer isLoading={isLoading} movies={latestMovies}/>
     )
 }
 

@@ -5,7 +5,8 @@ import MoviesGridContainer from "../MoviesGridContainer/movies-grid-container";
 
 
 export default function SimilarMovies({movie_id}){
-    const [similarMovies, setSimilarMovies] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+    const [similarMovies, setSimilarMovies] = useState([]);
     
     useEffect(()=>{
         fetchSimilaryMovies()
@@ -18,11 +19,12 @@ export default function SimilarMovies({movie_id}){
         if (request_similar_movies.status==200){
             setSimilarMovies(similar_movies_list.data.movies)
         }
+
+        setIsLoading(false);
     }
    
     
     return(
-        <MoviesGridContainer movies={similarMovies} />
-           
+        <MoviesGridContainer isLoading={isLoading} movies={similarMovies} />
     )
 }

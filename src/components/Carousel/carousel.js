@@ -3,6 +3,21 @@ import { useState } from "react";
 import styled from "styled-components";
 import CarouselElement from "./carousel-element";
 
+// slide right
+// activate animation
+// move to 1 
+// deactivate animation 
+// transfer first element to the end
+// move to 0
+
+// slide left
+// deactivate animation
+// transfer last element to the beginning
+// move to 1
+// activate animation
+// move to 0 
+
+
 const Container = styled.div`
 width:100%;
 overflow: hidden;
@@ -21,6 +36,10 @@ gap:.75rem;
 bottom:4.5rem;
 right:2rem;
 z-index:20;
+@media screen and (max-width:500px){
+    bottom:1rem;
+    right:1rem;
+}
 `
 const NavgateButton = styled.div`
 width:32px;
@@ -38,6 +57,7 @@ transition: background-color .3s;
 }
 `
 export default function Carousel(){
+    const [isLoading, setIsLoading] = useState(true);
     const [latestMovies, setLatestMovies] = useState([]);
     const [currentElement, setCurrentElement] = useState(0);
 
@@ -135,22 +155,17 @@ export default function Carousel(){
 
         if(request.status == 200)
         setLatestMovies(response.data.movies)
+
+        setIsLoading(false);
     }
 
-    // right
-    // activate animation
-    // move to 1 
-    // deactivate animation 
-    // transfer first element to the end
-    // move to 0
-
-    // left
-    // deactivate animation
-    // transfer last element to the beginning
-    // move to 1
-    // activate animation
-    // move to 0 
-
+    if (isLoading)
+    return(
+        <Container>
+            <CarouselElement isLoading={true} />
+        </Container>
+    )
+    
     return(
         <Container>
             <ElementsContainer $transition={isAnimationActive?"transform .3s" : "none"} style={{transform:`translateX(-${currentElement * 100}vw)`}}>

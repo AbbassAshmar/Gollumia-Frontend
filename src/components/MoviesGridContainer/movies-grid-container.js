@@ -24,27 +24,27 @@ const Container = styled.div`
     }
 `
 
-function MoviesGridContainer({movies}){
+function MoviesGridContainer({movies,isLoading}){
+
+    if (isLoading) 
     return (
         <Container>
-            {movies && movies.length >= 1?movies.map((movie)=>{
-                return <MovieCard 
-                    hoverScale={true}
-                    page_id={movie.id} 
-                    duration={movie.duration}
-                    genres={movie.genre}
-                    key={movie.id} 
-                    id={movie.id} 
-                    rated={movie.contentRate} 
-                    title={movie.title} 
-                    imdb={movie.ratings.imdb}
-                    meta={movie.ratings.meta} 
-                    plot={movie.plot} 
-                    director={movie.director} 
-                    poster={movie.poster} 
-                    released={movie.released}
-                />
-            }):<div style={{color:"white",fontSize:"2rem"}}>No Movies available</div>}
+            {Array.from({length:17}).map((_, index)=>(
+                <MovieCard key={index} isLoading={true} />
+            ))}
+        </Container>
+    )
+
+    if (movies.length === 0)
+    return(
+        <div style={{color:"white",fontSize:"2rem"}}>No Movies available</div>
+    )
+    
+    return (
+        <Container>
+            {movies && movies.length >= 1 && movies.map((movie)=>(
+                <MovieCard key={movie.id} movie={movie}/>
+            ))}
         </Container>
     )
 }

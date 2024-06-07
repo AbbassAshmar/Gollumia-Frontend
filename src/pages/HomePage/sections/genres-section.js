@@ -40,16 +40,6 @@ const PosterContainer = styled.div`
 flex:1;
 clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
 `
-const Title =  styled.h4`
-margin: 0;
-padding:0;
-font-weight: bold;
-color:var(--main-color);
-font-size:var(--heading-4);
-@media screen and (max-width:800px) {
-    font-size:var(--heading-4-mobile);
-}
-`
 const MovieCardWrapper = styled.div`
 top:0;
 left:0;

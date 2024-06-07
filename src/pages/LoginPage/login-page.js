@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import "./login.css"
 import styled from 'styled-components'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import Facebook from "../../components/socialMedia/facebook";
@@ -135,17 +135,27 @@ const SignUpInstead = styled.div`
 `
 function LoginPage(){
     let navigate = useNavigate();
-    
+    const {state}= useLocation();
+
     const [email, setEmail] = useState("")
     const [password, setPass] = useState("")
 
     const [cookies,setCookies,removeCookie] = useCookies(["token"])
     const [errors, setErrors] = useState({error_fields:[], messages:{}});
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+      
     useEffect(()=>{
         if(cookies.token) 
         navigate('/home',{replace:true})
     },[])
+
+    useEffect(()=>{
+        if(state !=null)
+        setEmail(state.email);
+    })
 
     async function requestLogin(user){
         const url = `${process.env.REACT_APP_API_URL}/login/`;
@@ -197,7 +207,6 @@ function LoginPage(){
     return(
         <Container>
             <ContentContainer>
-                <SimplifiedNavbar />
                 <Main>
                     <FormContainer>
                         <TextContainer>
@@ -207,11 +216,11 @@ function LoginPage(){
                         <Form onSubmit={handleSubmit}>
                             <Inputs>
                                 <InputContainer>
-                                    <Input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
+                                    <Input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
                                     {errors.messages['email'] && <Message>{errors.messages['email']}</Message>}
                                 </InputContainer>
                                 <InputContainer>        
-                                    <Input onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
+                                    <Input value={password} onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
                                     {errors.messages['password'] && <Message>{errors.messages['password']}</Message>}
                                 </InputContainer>
                             </Inputs>

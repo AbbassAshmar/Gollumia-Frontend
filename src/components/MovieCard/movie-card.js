@@ -112,6 +112,7 @@ aspect-ratio: 1/1.5;
 const LoadingAnimation = styled.div`
 width: 100%;
 height: 100%; 
+border-radius: 8px;
 background-color: var(--main-color); 
 animation: ${pulseAnimation} 1s infinite alternate;
 `

@@ -18,6 +18,7 @@ const inputNostate = {
 function Register(){
     let navigate = useNavigate()
     const {state}= useLocation();
+    
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,12 +27,12 @@ function Register(){
     const [errorMessage, setErrorMessage] = useState({})
     
     useEffect(()=>{
-        if (cookies.token){
-            navigate("/movies", {replace:true})
-        }
-        if(state !=null){
-            setEmail(state.text);
-        }},[])
+        if (cookies.token)
+        navigate("/movies", {replace:true})
+        
+        if(state !=null)
+        setEmail(state.email);
+    },[])
 
 
     async function handleRegisterSubmit(e){
@@ -77,9 +78,6 @@ function Register(){
     return(
         
         <div className='register-page'>
-            <header>
-                <SimplifiedNavbar />
-            </header>
             <div className='register-form-container'>
                 <h2>Sign up</h2>
                 <form onSubmit={handleRegisterSubmit}>

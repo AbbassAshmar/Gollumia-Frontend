@@ -1,8 +1,7 @@
 import styled from "styled-components"
-import SimplifiedNavbar from "../../../components/SimplifiedNavbar/simplified-navbar";
 import { Link } from "react-router-dom";
 import Garfield from "../../../photos/Garfield.jpg";
-import {motion, useMotionValueEvent, useScroll, useTransform} from "framer-motion";
+import {motion, useScroll, useTransform} from "framer-motion";
 import { useRef } from "react";
 import useWindowDimensions from "../../../hooks/use-window-dimensions";
 
@@ -13,17 +12,6 @@ flex-direction: column;
 background-color: black;
 @media screen and (max-width:500px){
     height:55vh;
-}
-`
-
-const NavbarContainer = styled.div`
-top:0;
-left:0;
-width:100%;
-z-index: 100;
-position: absolute;
-@media screen and (max-width:1024px){
-    position: static;
 }
 `
 const ContentContainer = styled.div`
@@ -46,7 +34,6 @@ justify-content: center;
     z-index: 1;
     background:radial-gradient(circle, rgba(0,0,0,.5) 13%, rgba(0,0,0,.3) 70%, rgba(0,0,0,.7) 100%);   
 } 
-
 `
 const Content = styled.div`
 top:48%;
@@ -109,17 +96,12 @@ export default function Section1(){
         offset: ['start start' , 'end start']
     })
 
-    const imageY = useTransform(scrollYProgress,[0,1],['0','150px']);
+    const imageY = useTransform(scrollYProgress,[0,1],['0px','150px']);
     const imageScale = useTransform(scrollYProgress, [0,1], [1.1, 1.3]);
     const contentY = useTransform(scrollYProgress,[0,1],['-50%','-0%']);
 
     return(
-
         <Container ref={containerRef}>
-            <NavbarContainer>
-                <SimplifiedNavbar/>
-            </NavbarContainer>
-
             <ContentContainer>
                 <Content as={motion.div} style={{y:contentY,x:"-50%"}}>
                     <Title>
@@ -128,10 +110,8 @@ export default function Section1(){
                     </Title>
                     <JoinUs to="/login">Join Us Now</JoinUs>
                 </Content>
-
                 <Image as={width >768 ? motion.img : ""} style={{ y: imageY, scale: imageScale }} src={Garfield} alt="garfield movie image"/>
             </ContentContainer>
         </Container>
-
     )
 }
