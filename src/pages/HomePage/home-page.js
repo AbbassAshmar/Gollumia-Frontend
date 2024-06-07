@@ -14,12 +14,21 @@ display: flex;
 flex-direction: column;
 background-color: black;
 @media screen and (max-width:1024px){
-    overflow: hidden;
+    /* overflow: hidden; */
     gap:3rem;
 }
 
 `
-
+const TrendingHighLight = styled.div`
+gap:1rem;
+width: 100%;
+display: flex;
+flex-direction: column;
+background-color: black;
+@media screen and (max-width:1024px){
+    gap:3rem;
+}
+`
 const Section4 = styled.div`
 gap:4rem;
 display:flex;
@@ -51,8 +60,11 @@ function Home(){
         <Container>
             <Section1 />
             <GenresSection />
-            <TrendingSection />
-            <HighLightsSection />
+            <TrendingHighLight>
+                <TrendingSection />
+                <HighLightsSection />
+            </TrendingHighLight>
+            
             <Section4>
                 <Footer />   
             </Section4>

@@ -12,7 +12,7 @@ display: flex;
 flex-direction: column;
 background-color: black;
 @media screen and (max-width:500px){
-    height:50vh;
+    height:55vh;
 }
 `
 

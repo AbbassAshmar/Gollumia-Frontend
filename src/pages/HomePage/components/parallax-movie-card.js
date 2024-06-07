@@ -20,7 +20,7 @@ export default function ParallaxMovieCard({movie={}, isLoading=false, posterOnly
         y : useTransform(scrollYProgress, [0,1], imageY),
         scale : 1.3
     }
-
+    
     const contY = useTransform(scrollYProgress, [0,1], containerY)
 
     return (

@@ -18,12 +18,13 @@ const Content = styled.div`
 width:80%;
 `
 const Header = styled.div`
-width:100%;
 gap:1rem;
+width:100%;
 display: flex;
-justify-content: space-between;
-align-items: center;
 padding:2rem 0;
+flex-wrap: wrap;
+align-items: center;
+justify-content: space-between;
 border-bottom: 2px solid rgba(255,255,255,0.5);
 `
 const Company = styled.p`
@@ -58,7 +59,8 @@ const Body = styled.div`
 width:100%;
 padding:4rem 0;
 display: flex;
-gap:10%;
+gap:max(2rem, 10%);
+flex-wrap: wrap;
 `
 const Column = styled.div`
 display:flex;
@@ -111,7 +113,7 @@ export default function Footer(){
 			<Content>
 				<Header>
 					<Logo />
-					<Company>© 1986-2024 DISNEY / PIXAR</Company>
+					<Company>© 1982-2025 AFLIX</Company>
 					<Socials>
 						<SocialMedia><LinkedInIcon className="fa-brands fa-linkedin-in"/></SocialMedia>
 						<SocialMedia rel="noopener noreferrer" target="_blank" href="https://github.com/AbbassAshmar" style={{background:"white"}}><GithubIcon className="fa-brands fa-github"/></SocialMedia>
@@ -141,7 +143,7 @@ export default function Footer(){
 							<Element>Laravel</Element>
 							<Element>React js</Element>
 							<Element>Docker</Element>
-							<Element>Favorites</Element>
+							<Element>System Design</Element>
 						</ElementsContainer>
 					</Column>
 					<Column>

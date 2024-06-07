@@ -7,10 +7,9 @@ import curvedArrow from "../../../photos/curvedArrow.png";
 
 const Container = styled.div`
 width:100%;
-overflow: hidden;
 display: flex;
-flex-direction: column;
 align-items: center;
+flex-direction: column;
 `
 const ContentContainer = styled.div`
 gap:3rem;
@@ -34,6 +33,12 @@ flex-direction: column;
 align-items: flex-start;
 position:relative;
 z-index: 1;
+@media screen and (max-width:1024px){
+    width:45%;
+}
+@media screen and (max-width:930px){
+    margin-top: 0%;
+}
 @media screen and (max-width:768px){
     width:100%;
 }
@@ -50,6 +55,10 @@ z-index: 1;
     top:50%;
     left:50%;
     transform: translate(-60%,-60%);
+    @media screen and (max-width:768px) {
+        top: 60%;
+        left: 20%;
+    }
 }
 `
 const TextContainer = styled.div`
@@ -60,19 +69,26 @@ align-items: flex-start;
 `
 const Title = styled.h3`
 color:white;
-margin-bottom:2rem;
+margin-bottom:1rem;
 font-size: var(--heading-3);
 font-weight: bold;
 position: relative;
 letter-spacing: -0.01em;
+padding-bottom: calc(1rem + 4px);
 &::before{
     content:"";
     width:25%;
     height:4px;
     position:absolute;
-    bottom:-1rem;
+    bottom:0;
     left:0;
     background-color: var(--main-color);
+}
+@media screen and (max-width:1024px){
+    font-size: var(--heading-4);
+}
+@media screen and (max-width:500px){
+    font-size: var(--heading-3-mobile);
 }
 `
 const Subtitle = styled.h6`
@@ -80,6 +96,13 @@ margin:0;
 padding:0;
 color:var(--main-color);
 font-size: var(--heading-6);
+letter-spacing: 0.02em;
+@media screen and (max-width:1024px){
+    font-size: var(--heading-6-mobile);
+}
+@media screen and (max-width:500px){
+    font-size: var(--heading-6-mobile);
+}
 `
 const Subtitle2 = styled.h6`
 margin:0;
@@ -88,6 +111,12 @@ color:#D0D0D0;
 font-size: var(--heading-6);
 line-height: 26px;
 letter-spacing: 0.02em;
+@media screen and (max-width:1024px){
+    font-size: var(--heading-6-mobile);
+}
+@media screen and (max-width:500px){
+    font-size: var(--heading-6-mobile);
+}
 `
 const ViewTrendingButton = styled.button`
 color:white;
@@ -102,9 +131,12 @@ width:40%;
 position:absolute;
 bottom:-4rem;
 right:0;
+@media screen and (max-width: 1024px){
+    display: none;
+}
 `
 const MovieCardsContainer = styled.div`
-width:40%;
+width:50%;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -120,16 +152,38 @@ display: flex;
 align-items: center;
 justify-content: center;
 `
+const MovieCardsRow2 = styled(MovieCardsRow)`
+width:50%; 
+z-index:4;
+margin:-20% 0%;
+transform:translate(20%,0);
+@media screen and (max-width:900px){
+    margin:-8% 0;
+}
+@media screen and (max-width:768px){
+    margin:-20% 0;
+}
+`
 const MovieCardContainer = styled.div`
 flex:1;
 z-index:1;
 `
-const BigImageContainer = styled.div`
-width:120%;
+const BigImageWrapper = styled.div`
+width:100%;
 overflow: hidden;
+display:flex;
+align-items: center;
+justify-content:center;
+`
+const BigImageContainer = styled.div`
+flex:0 0 130%;
 z-index:2;
+overflow: hidden;
 position: relative;
 will-change: transform;
+@media screen and (max-width:768px){
+    flex: 0 0 180%;
+}
 `
 const BigImage = styled.img`
 width:100%;
@@ -152,12 +206,16 @@ export default function TrendingSection(){
     },[])
 
     async function fetchTrendingMovies(url){
-        const request = await fetch(url);
-        if (request.status == 200){
-            const moviesList = await request.json()
-            setTrendingMovies(moviesList.data.movies)
-        }
+        try{
+            const request = await fetch(url);
+            if (request &&  request.status == 200){
+                const moviesList = await request.json()
+                setTrendingMovies(moviesList.data.movies)
+            }
 
+        }catch(error){
+        }
+        
         setIsLoading(false);
     }
 
@@ -167,9 +225,13 @@ export default function TrendingSection(){
         offset : ['start end' , 'end start']
     })
 
-    const bigImageContainerY = useTransform(scrollYProgress, [0,1], ['50px', '-160px']);
-    const bigImageY = useTransform(scrollYProgress, [0,0.4,1], ['0px',"40px", '160px']);
-    const bigImageScale = useTransform(scrollYProgress, [0.3,0.75,1], [1.2, 1,.97]);
+    // const bigImageContainerY = useTransform(scrollYProgress, [0,1], ['50px', '-160px']);
+    // const bigImageY = useTransform(scrollYProgress, [0,0.2,1], ['0px','30px', '170px']);
+
+    const bigImageContainerY = useTransform(scrollYProgress, [0,1], ['0%', '-10%']);
+    const bigImageY = useTransform(scrollYProgress, [0,1], ['-6%', '28%']);
+
+    const bigImageScale = useTransform(scrollYProgress, [0.2,0.9], [1.25, 1.15]);
 
     const contentContainerRef = useRef();
     const {scrollYProgress:contentScrollYProgress} = useScroll({
@@ -184,6 +246,7 @@ export default function TrendingSection(){
             {!isLoading && movie ? <ParallaxMovieCard movie={movie} posterOnly={true} imageY={imageY} containerY={containerY}/> : <ParallaxMovieCard isLoading={true} />}
         </MovieCardContainer>
     )
+    useEffect(()=>{console.log(isLoading)},[isLoading])
 
     return(
         <Container>
@@ -199,17 +262,21 @@ export default function TrendingSection(){
                 </Content>
                 <MovieCardsContainer>
                     <MovieCardsRow>
-                        {renderMovieCard(trendingMovies[0], isLoading, {transform:'translate(0,10%)'}, ['-100px','20px'], ['140px','-140px'])}
-                        {renderMovieCard(trendingMovies[1], isLoading, {}, ['50px','-20px'], ['-0px','20px'] )}
+                        {/* {renderMovieCard(trendingMovies[0], isLoading, {transform:'translate(0,10%)'}, ['-100px','20px'], ['140px','-140px'])} */}
+                        {renderMovieCard(trendingMovies[0], isLoading, {transform:'translate(0,10%)'}, ['-15%','20%'], ['20%','-10%'])}
+                        {renderMovieCard(trendingMovies[1], isLoading, {}, ['-15%','15%'], ['18%','-18%'] )}
                     </MovieCardsRow>
-                    <MovieCardsRow style={{margin: "-20% 0%", width:'50%', transform:"translate(20%,0)", zIndex:"4"}}>
-                        {renderMovieCard(trendingMovies[2], isLoading, {}, ['-80px','20px'], ['140px','-140px'] )}
-                    </MovieCardsRow>
+                    <MovieCardsRow2>
+                        {renderMovieCard(trendingMovies[2], isLoading, {}, ['-23%','23%'], ['0%','-20%'])}
+                    </MovieCardsRow2>
                 </MovieCardsContainer>
             </ContentContainer>
-            <BigImageContainer as={motion.div} ref={bigImageContainerRef} style={{y:bigImageContainerY}}>
-                <BigImage src={Up} as={motion.img} style={{y:bigImageY, scale:bigImageScale}}/>
-            </BigImageContainer>
+            <BigImageWrapper>
+                <BigImageContainer as={motion.div} ref={bigImageContainerRef} style={{y:bigImageContainerY}}>
+                    <BigImage src={Up} as={motion.img} style={{y:bigImageY, scale:bigImageScale}}/>
+                </BigImageContainer>
+            </BigImageWrapper>
+
         </Container>
     )
 }
