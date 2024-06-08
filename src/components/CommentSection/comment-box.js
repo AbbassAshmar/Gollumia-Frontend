@@ -3,6 +3,7 @@ import ProfilePicture from "../ProfilePicture/profile-picture";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
+import ReplyInputField from "./reply-input-field";
 
 const Container = styled.div`
 gap:1rem;
@@ -119,12 +120,15 @@ align-items: center;
 const ReplyButton= styled.div`
 color:white;
 font-size:14px;
+cursor: pointer;
 `
 
 const actionsList = [{name : <span>Edit</span>, icon : <i className="fa-solid fa-pen-to-square"/>}, {name: <span>Delete</span>, icon : <i className="fa-solid fa-trash"/>}];
 
-export default function CommentBox({text, user, createdAt,  likes, dislikes, id,isReply,replyingTo}){
+export default function CommentBox({text, user, createdAt,  likes, dislikes, id, movie, isReply, replyingTo, parentComment,setCommentsReplies, setCommentsRepliesCount}){
     const [showActionsList, setShowActionsList] = useState(true);
+    const [showReplyInput, setShowReplyInput] = useState(false);
+
     const [cookies] = useCookies()
 
     function handleEllipsisClick (){
@@ -147,8 +151,8 @@ export default function CommentBox({text, user, createdAt,  likes, dislikes, id,
 
     }
 
-    function replyToComment(){
-
+    function handleReplyButtonClick(){
+        setShowReplyInput(true);
     }
     
     return(
@@ -198,8 +202,24 @@ export default function CommentBox({text, user, createdAt,  likes, dislikes, id,
                         <i className="fa-regular fa-thumbs-down"/>
                         <span>{likes}</span>
                     </LikeDislikeButton>
-                    <ReplyButton>Reply</ReplyButton>
+                    <ReplyButton onClick={handleReplyButtonClick}>Reply</ReplyButton>
                 </InteractionsContainer>
+                {showReplyInput && !isReply && (
+                    <ReplyInputField 
+                    setShow={setShowReplyInput} 
+                    setCommentsRepliesCount={setCommentsRepliesCount} 
+                    setCommentsReplies={setCommentsReplies} movie={movie}
+                    parentComment={id}
+                    replyingTo={id}/>
+                )}
+                {showReplyInput && isReply && (
+                    <ReplyInputField 
+                    setShow={setShowReplyInput} 
+                    setCommentsRepliesCount={setCommentsRepliesCount} 
+                    setCommentsReplies={setCommentsReplies}
+                    movie={movie} replyingTo={replyingTo.id} 
+                    parentComment={parentComment}/>
+                )}
             </Content>
         </Container>
     )

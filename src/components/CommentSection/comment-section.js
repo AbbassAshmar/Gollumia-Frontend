@@ -3,7 +3,7 @@ import styled from "styled-components";
 import InputField from "./input-field";
 import ProfilePicture from "../ProfilePicture/profile-picture";
 import { useCookies } from "react-cookie";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import CommentRepliesBox from "./comment-replies-box";
 
 const Container = styled.div`
@@ -128,8 +128,11 @@ object-fit: contain;
 `
 
 const sortList = [{name : <span>Newest</span>, icon : <i className="fa-solid fa-clock"/>}, {name: <span>Hot</span>, icon : <i className="fa-solid fa-fire"/>}];
-export default function CommentSection({movie_id}){
+
+export default function CommentSection(){
+    const { id } = useParams()    
     const [cookies,setCookies] = useCookies()
+
     const [commentsReplies, setCommentsReplies] = useState(RESPONSE.data.comments_replies);
     const [commentsRepliesCount,setCommentsRepliesCount] = useState(RESPONSE.metadata.comments_replies_count);
 
@@ -139,15 +142,15 @@ export default function CommentSection({movie_id}){
    
     async function fetchCommentsAndReplies (id){
         const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/${id}/comments-and-replies/`);
-        const movie_data = await request.json();
+        const response = await request.json();
 
         if (request.status == 200){
-            setCommentsReplies(movie_data.data.comments_replies);
+            setCommentsReplies(response.data.comments_replies);
         }
     }
 
     useEffect(()=>{
-        fetchCommentsAndReplies(movie_id)
+        fetchCommentsAndReplies(id)
     },[])
 
     function handleSortButtonClick(e){
@@ -200,13 +203,15 @@ export default function CommentSection({movie_id}){
                     </DetailsCountContainer>
                     <InputContainer>
                         {renderAvatar()}
-                        <InputField />
+                        <InputField setCommentsRepliesCount={setCommentsRepliesCount} setCommentsReplies={setCommentsReplies}/>
                     </InputContainer>
                 </Header>
                 <Content>
                     <CommentsRepliesContainer>
                         {commentsReplies.length > 0 ? commentsReplies.map((comment)=>(
                             <CommentRepliesBox
+                            setCommentsRepliesCount={setCommentsRepliesCount}
+                            setCommentsReplies={setCommentsReplies}
                             key={comment.id} 
                             comment={{...comment}} 
                             repliesList={comment.replies}/>
@@ -229,52 +234,52 @@ const MOVIES  = {
     data : {
         movies: [
             {
-                    id: 88,
-                    title: "Atlas",
-                    ratings: {
-                        imdb: "7.3",
-                        metacritics: "N/A"
+                id: 88,
+                title: "Atlas",
+                ratings: {
+                    imdb: "7.3",
+                    metacritics: "N/A"
                 },
-                    released: "2024-05-23",
-                    plot: "A brilliant data analyst with a deep distrust of artificial intelligence joins a mission to capture a renegade robot with whom she shares a mysterious past.",
-                    contentRate: "N/A",
-                    duration: "99 min",
-                    trailer: "https://www.youtube.com/watch?v=https://imdb-api.com/images/128x176/nopicture.jpg",
-                    poster: "http://image.tmdb.org/t/p/w342//bcM2Tl5HlsvPBnL8DKP9Ie6vU4r.jpg",
-                    image: "http://image.tmdb.org/t/p/w300//beiWmXAZF5I557WgyMbAQTDGXli.jpg",
-                    thumbnail: null,
-                    imdbId: "tt5545880",
-                    director: {
-                        id: 74,
-                        name: "David Nawrath"
+                released: "2024-05-23",
+                plot: "A brilliant data analyst with a deep distrust of artificial intelligence joins a mission to capture a renegade robot with whom she shares a mysterious past.",
+                contentRate: "N/A",
+                duration: "99 min",
+                trailer: "https://www.youtube.com/watch?v=https://imdb-api.com/images/128x176/nopicture.jpg",
+                poster: "http://image.tmdb.org/t/p/w342//bcM2Tl5HlsvPBnL8DKP9Ie6vU4r.jpg",
+                image: "http://image.tmdb.org/t/p/w300//beiWmXAZF5I557WgyMbAQTDGXli.jpg",
+                thumbnail: null,
+                imdbId: "tt5545880",
+                director: {
+                    id: 74,
+                    name: "David Nawrath"
                 },
-                    genre: [
-                        "Action",
-                        "Science",
-                         "Fiction"
+                genre: [
+                    "Action",
+                    "Science",
+                    "Fiction"
                 ]
             },
             {
-                    id: 122,
-                    title: "Marvel Studios Assembled: The Making of X-Men '97",
-                    ratings: {
-                        imdb: "N/A",
-                        metacritics: "N/A"
+                id: 122,
+                title: "Marvel Studios Assembled: The Making of X-Men '97",
+                ratings: {
+                    imdb: "N/A",
+                    metacritics: "N/A"
                 },
-                    released: "2024-05-22",
-                    plot: "In the early 1990s, few beyond those who journeyed into the pages of Marvel comics had ever heard of \"Rogue,\" \"Beast,\" \"Gambit,\" or even \"Wolverine.\" But that sad state of affairs changed forever when \"X-Men: The Animated Series\" debuted on television and touched millions hungry for something different. The series was unlike any cartoon that had come before it, exploring themes of prejudice and social justice. The characters were super, but they were also outsiders and underdogs. Kids everywhere could relate, as well as adults. \"Assembled\" recalls the birth of \"X-Men: The Animated Series\" and its revival thirty years later as \"X-Men '97.\" Spend time with the original cast members, along with new voices, as they reveal the stories behind the classic show and its uncompromising continuation.",
-                    contentRate: "N/A",
-                    duration: "N/A",
-                    trailer: null,
-                    poster: "http://image.tmdb.org/t/p/w342//1lHqdqVuyuQR5kMjMuGetN1Yy0b.jpg",
-                    image: "https://imdb-api.com/images/128x176/nopicture.jpg",
-                    thumbnail: null,
-                    imdbId: null,
-                    director: {
-                        name: ""
+                released: "2024-05-22",
+                plot: "In the early 1990s, few beyond those who journeyed into the pages of Marvel comics had ever heard of \"Rogue,\" \"Beast,\" \"Gambit,\" or even \"Wolverine.\" But that sad state of affairs changed forever when \"X-Men: The Animated Series\" debuted on television and touched millions hungry for something different. The series was unlike any cartoon that had come before it, exploring themes of prejudice and social justice. The characters were super, but they were also outsiders and underdogs. Kids everywhere could relate, as well as adults. \"Assembled\" recalls the birth of \"X-Men: The Animated Series\" and its revival thirty years later as \"X-Men '97.\" Spend time with the original cast members, along with new voices, as they reveal the stories behind the classic show and its uncompromising continuation.",
+                contentRate: "N/A",
+                duration: "N/A",
+                trailer: null,
+                poster: "http://image.tmdb.org/t/p/w342//1lHqdqVuyuQR5kMjMuGetN1Yy0b.jpg",
+                image: "https://imdb-api.com/images/128x176/nopicture.jpg",
+                thumbnail: null,
+                imdbId: null,
+                director: {
+                    name: ""
                 },
-                    genre: [
-                        "Documentary"
+                genre: [
+                    "Documentary"
                 ]
             },
             {
@@ -850,6 +855,7 @@ const RESPONSE = {
                         movie: 7,
                         parent_comment: 1,
                         replying_to: {
+                            id:2,
                             text: "comment1",
                             movie: 7,
                             user: {
@@ -882,6 +888,7 @@ const RESPONSE = {
                         movie: 7,
                         parent_comment: 1,
                         replying_to: {
+                            id:2,
                             text: "comment1",
                             movie: 7,
                             user: {
@@ -914,6 +921,7 @@ const RESPONSE = {
                         movie: 7,
                         parent_comment: 1,
                         replying_to: {
+                            id:2,
                             text: "reply_comment_1",
                             movie: 7,
                             user: {

@@ -1,8 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import "./moviesPage.css"
 import Crousel from "../../components/Carousel/carousel";
 import Title from "../../components/Title/title"
 import {TrendingMovies} from "../../components/TrendingMovies/trending-movies"
@@ -28,14 +25,15 @@ align-items: flex-start;
     padding:1rem;
 }
 `
-
 const MoviesGrid = styled.div`
-gap:2rem;
+gap:3rem;
 width:100%;
 display:flex;
 flex-direction: column;
 align-items: flex-start;
 `
+
+
 export function MoviesPage(){
     const[carouselMovies, setCarouselMovies]= useState([])
 
@@ -59,15 +57,15 @@ export function MoviesPage(){
 
             <MoviesGrids>
                 <MoviesGrid>
-                    <Title viewall={true} ctg="Trending" />
+                    <Title text="Trending" />
                     <TrendingMovies />
                 </MoviesGrid>
                 <MoviesGrid>
-                    <Title viewall={true}  ctg="Latest" />
+                    <Title text="Latest" />
                     <LatestMovies />
                 </MoviesGrid>
                 <MoviesGrid>
-                    <Title viewall={true}  ctg="Upcoming" />
+                    <Title text="Upcoming" />
                     <UpcomingMovies />
                 </MoviesGrid>
             </MoviesGrids>

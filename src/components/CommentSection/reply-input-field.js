@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Form = styled.form`
 width:100%;
 position:relative;
+padding-top:1.5rem;
 `
-
 const TextArea = styled.textarea`
 width: 100%;
-height: 300px;
-max-height:60px;
+height: 200px;
 background-color: white;
 padding: 14px 14px 30px 14px;
 border-radius: 17px;
@@ -25,17 +24,13 @@ transition: max-height 0.3s;
 z-index: 2;
 padding-bottom: 4rem;
 scroll-padding: 4rem;
-&:focus{
-    max-height:300px;
-    outline:2px solid var(--main-color);
-}
 
-&:focus + button {
-    opacity:1;
+&:focus{
+    outline:2px solid var(--main-color);
 }
 `
 const SubmitButton = styled.button`
-opacity:0;
+opacity:1;
 z-index:2;
 bottom:1rem;
 right:1rem;
@@ -46,14 +41,11 @@ width:fit-content;
 padding:.3rem 1rem;
 border-radius: 3000px;
 background:var(--main-color);
-transition: opacity .3s;
-transition-delay: .3s;
 `
 
-export default function InputField({setCommentsReplies, setCommentsRepliesCount}){
-    const { id } = useParams()    
+export default function ReplyInputField({replyingTo,parentComment,movie, setCommentsReplies, setCommentsRepliesCount, setShow}){
+    const [isLoading , setIsLoading] = useState(false);
     const [cookies, setCookies] = useCookies();
-    const [isLoading, setIsLoading] = useState(false);
     let navigate = useNavigate();
 
     function handleFormSubmit(e){
@@ -67,25 +59,26 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
         let text = formData.get('text')?.trim();
 
         if (text&& text.length > 0){
-            console.log(text)
-            requestCreateComment(text,id)
+            requestCreateReply(text,parentComment,replyingTo,movie)
         }
     }
 
-    async function requestCreateComment(text,movieID){
+    async function requestCreateReply(text,parentComment,replyingTo,movie){
         setIsLoading(true);
 
-        const URL =`${process.env.REACT_APP_API_URL}/api/comments/`;
+        const URL =`${process.env.REACT_APP_API_URL}/api/replies/`;
         const payload = {
             text : text,
-            movie : movieID,
+            parent_comment : parentComment,
+            replying_to : replyingTo,
+            movie : movie,
         }
         const INIT = {
             method:"POST",
             body : JSON.stringify(payload),
             headers : {
                 'Authorization' : "Token " + cookies.token,
-                'content-type' :'application/json'
+                'content-type' : 'application/json'
             }
         }
 
@@ -93,8 +86,13 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
         const response = await request.json();
 
         if(request?.status == 201){
-            setCommentsReplies((prev) => {return [response.data.comment, ...prev]});
+            setCommentsReplies((prev) => {
+                let parentCommentOfNewReply = prev.findIndex(comment => comment.id == parentComment);
+                prev[parentCommentOfNewReply].replies.push(response.data.reply);
+                return prev;
+            })
             setCommentsRepliesCount(response.metadata.comments_replies_count)
+            setShow(false)
         }
 
         if(request?.status == 401){
@@ -106,8 +104,8 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
 
     return(
         <Form onSubmit={handleFormSubmit}>
-            <TextArea name="text" placeholder="New comment..."/>
-            <SubmitButton type='submit'>Comment</SubmitButton>
+            <TextArea name="text" placeholder="Write your reply..."/>
+            <SubmitButton>reply</SubmitButton>
         </Form>
     )
 }

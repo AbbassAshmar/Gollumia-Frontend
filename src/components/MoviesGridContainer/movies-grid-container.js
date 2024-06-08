@@ -29,7 +29,7 @@ function MoviesGridContainer({movies,isLoading}){
     if (isLoading) 
     return (
         <Container>
-            {Array.from({length:17}).map((_, index)=>(
+            {Array.from({length:13}).map((_, index)=>(
                 <MovieCard key={index} isLoading={true} />
             ))}
         </Container>

@@ -56,10 +56,11 @@ z-index: 1;
 }
 `
 const PosterContainer = styled.div`
-width:50%;
+flex:1.25;
 min-width:250px;
 border-radius:8px;
 aspect-ratio: 1/1.4;
+overflow: hidden;
 @media screen and (max-width:800px){
     width:100%;
 }
@@ -71,6 +72,7 @@ object-fit: cover;
 border-radius: 8px;
 `
 const InformationContainer = styled.div`
+flex:4;
 gap:2rem;
 display: flex;
 flex-direction: column;
@@ -79,7 +81,7 @@ const GenresTitleContainer = styled.div`
 
 `
 const GenresContainer = styled.div`
-gap:1rem;
+gap:.5rem;
 display: flex;
 align-items: center;
 `
@@ -154,7 +156,17 @@ font-size: var(--small-1);
     color:var(--main-color-dark);
 }
 `
-const PlayTrailer = styled(FavoriteButton)`
+const PlayTrailer = styled.div`
+width: 40px;
+height: 40px;
+display: flex;
+border-radius: 50%;
+align-items: center;
+color:var(--main-color);
+justify-content: center;
+border:2px solid var(--main-color);
+transition:border .3s, color .3s;
+
 ${TrailerButton}:hover &{
     color:var(--main-color-dark);
     border:2px solid var(--main-color-dark);
@@ -215,10 +227,10 @@ export default function AboveTheFolds({movie}){
                         {movie.genres?.length>0 && (
                             <GenresContainer>
                                 {movie.genres.map((genre,index)=>(
-                                    <>
-                                        <Genre key={genre.id} to={`/movies?genre=${genre.name}`}>{genre.name}</Genre>
-                                        {index !== movie.genres.length - 1 && <span style={{cursor:"default"}}>.</span>}
-                                    </>
+                                    <div key={genre.id} style={{display:"flex",gap:".5rem"}}>
+                                        <Genre to={`/movies?genre=${genre.name}`}>{genre.name}</Genre>
+                                        {index !== movie.genres.length - 1 && <span style={{cursor:"default", color:"var(--main-color)"}}>.</span>}
+                                    </div>
                                 ))}
                             </GenresContainer>
                         )}

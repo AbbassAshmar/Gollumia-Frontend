@@ -1,8 +1,5 @@
 import styled from "styled-components"; 
 import CommentBox from "./comment-box";
-import ReplyBox from "./reply-box";
-
-
 
 const Container = styled.div`
 display: flex;
@@ -17,12 +14,15 @@ flex-direction: column;
 gap:1.5rem;
 `
 
-export default function CommentRepliesBox({comment, repliesList}){
+export default function CommentRepliesBox({comment, repliesList, setCommentsReplies, setCommentsRepliesCount}){
     return(
         <Container>
             <CommentBox 
+            setCommentsRepliesCount={setCommentsRepliesCount}
+            setCommentsReplies={setCommentsReplies}
             id={comment.id}
             text={comment.text} 
+            movie={comment.movie}
             user={comment.user} 
             likes={comment.likes} 
             dislikes={comment.dislikes}
@@ -30,16 +30,20 @@ export default function CommentRepliesBox({comment, repliesList}){
             
             {(repliesList && repliesList.length>0) && (
                 <RepliesContainer>
-                    { repliesList.map(reply => (
+                    {repliesList.map(reply => (
                         <CommentBox
+                        setCommentsRepliesCount={setCommentsRepliesCount}
+                        setCommentsReplies={setCommentsReplies}
                         isReply={true}
                         key={reply.id}
                         id={reply.id}
                         text={reply.text} 
+                        movie={reply.movie}
                         user={reply.user} 
                         likes={reply.likes} 
                         dislikes={reply.dislikes}
                         createdAt={reply.created_at}
+                        parentComment = {reply.parent_comment}
                         replyingTo={reply.replying_to}/>
                     ))}
                 </RepliesContainer>
