@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 import Garfield from "../../../photos/Garfield.jpg";
-import {motion, useScroll, useTransform} from "framer-motion";
-import { useRef } from "react";
+import {motion, useMotionValueEvent, useScroll, useTransform} from "framer-motion";
+import { useEffect, useRef } from "react";
 import useWindowDimensions from "../../../hooks/use-window-dimensions";
 
 const Container = styled.div`
@@ -85,6 +85,7 @@ const Image = styled.img`
 width: 100%;
 height: 100%;
 object-fit: cover;
+transform:translateY(0px);
 will-change:transform;
 `
 
@@ -93,12 +94,18 @@ export default function Section1(){
     const containerRef = useRef();
     const {scrollYProgress} =  useScroll({
         target: containerRef,
-        offset: ['start start' , 'end start']
+        offset: ['0' , 'end start']
     })
 
-    const imageY = useTransform(scrollYProgress,[0,1],['0px','150px']);
+    const imageY = useTransform(scrollYProgress,[0,1],['-0.1%','-12%']);
     const imageScale = useTransform(scrollYProgress, [0,1], [1.1, 1.3]);
     const contentY = useTransform(scrollYProgress,[0,1],['-50%','-0%']);
+
+
+    useEffect(()=>{
+        imageY.set("-0%")
+        imageScale.set(1.1)
+    }, [])
 
     return(
         <Container ref={containerRef}>

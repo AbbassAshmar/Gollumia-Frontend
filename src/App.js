@@ -30,10 +30,10 @@ function App() {
 
           <Route path="/" element={<DefaultPage navbarStyle={{position:"absolute",top:"0", left:"0", background:"none"}}/>}>
             <Route path="home" element={<MoviesPage />}/>
+            <Route path="movies/:id" element={<Movie />}></Route>
           </Route>
 
           <Route path="/" element={<DefaultPage/>}>
-            <Route path="movies/:id" element={<Movie />}></Route>
             <Route path="user/:username" element={<UserPage />}></Route>
             <Route path="movies" element={<MoviesCollection/>}></Route>
             <Route path='favorites' element={<FavoritesPage/>}> </Route>
