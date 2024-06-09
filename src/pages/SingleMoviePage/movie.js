@@ -8,6 +8,7 @@ import AboveTheFolds from "./sections/above-the-folds";
 import imdbLogo from "../../photos/imdbLogo.png";
 import metaLogo from "../../photos/metaLogo.png";
 import Title from "../../components/Title/title";
+import { useCookies } from "react-cookie";
 
 const Container  = styled.div`
 min-height:100%;
@@ -63,19 +64,30 @@ height:36px;
 
 function Movie(){
     const {id} = useParams();
+    const [cookies, setCookies] = useCookies();
     const [movieData, setMovieData ] = useState({})
+    
+    useEffect(()=>{
+        fetchMovieData(id)
+    },[id])
 
     async function fetchMovieData (id){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/${id}/`);
+        const URL = `${process.env.REACT_APP_API_URL}/api/movies/${id}/`;
+        const INIT = {
+            method:"GET",
+            headers:{
+                "Authorization":"Token " + cookies.token,
+                "content-type":"application/json"
+            },
+        }
+
+        const request = await fetch(URL,INIT);
         const response = await request.json();
+
         if (request.status == 200){
             setMovieData(response)
         }
     }
-
-    useEffect(()=>{
-        fetchMovieData(id)
-    },[id])
     
     function getAverageRating (){
         if (!movieData.ratings) return "N/A";

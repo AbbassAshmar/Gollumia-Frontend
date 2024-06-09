@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import ReplyInputField from "./reply-input-field";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 gap:1rem;
@@ -41,7 +42,7 @@ display: flex;
 align-items:flex-start;
 justify-content: space-between;
 `
-const NameDataContainer= styled.div`
+const NameAndDate= styled.div`
 gap:.25rem;
 display: flex;
 flex-direction: column;
@@ -67,7 +68,7 @@ color:white;
 position:relative;
 `
 const ActionsList = styled.div`
-left:0;
+right:0;
 top: 115%;
 z-index: 3;
 overflow: hidden;
@@ -83,7 +84,7 @@ display: flex;
 font-size:14px;
 cursor: pointer;
 align-items: center;
-padding: .5rem 1.25rem;
+padding: .75rem 1.25rem;
 background-color: black;
 border: 2px solid #878787;
 justify-content: flex-start;
@@ -98,12 +99,14 @@ justify-content: flex-start;
     background:#878787;
 }
 `
-const TextContainer = styled.div`
+const TextContainer = styled.p`
 gap:.5rem;
 color:white;
-display: flex;
-flex-direction: column;
-align-items: flex-start;
+margin:0;
+padding:0;
+width:100%;
+word-break: break-all;
+white-space: normal;
 `
 const InteractionsContainer = styled.div`
 gap:1rem;
@@ -123,38 +126,222 @@ font-size:14px;
 cursor: pointer;
 `
 
-const actionsList = [{name : <span>Edit</span>, icon : <i className="fa-solid fa-pen-to-square"/>}, {name: <span>Delete</span>, icon : <i className="fa-solid fa-trash"/>}];
-
-export default function CommentBox({text, user, createdAt,  likes, dislikes, id, movie, isReply, replyingTo, parentComment,setCommentsReplies, setCommentsRepliesCount}){
-    const [showActionsList, setShowActionsList] = useState(true);
+const EditTextForm = styled.form`
+width:100%;
+position:relative;
+`
+const EditTextInput = styled.textarea`
+width:100%;
+height:100%;
+background: black;
+outline:none;
+border:none;
+overflow:hidden;
+max-height:300px;
+background:white;
+height:250px;
+color:black;
+padding:1rem;
+resize:none;
+padding-bottom:4rem;
+scroll-padding: 4rem;
+border-radius:8px;
+`
+const EditTextButtons = styled.div`
+display: flex;
+gap:1rem;
+align-items:center;
+position:absolute;
+bottom:1rem;
+right:1rem;
+z-index:2;
+`
+const EditTextSubmitButton = styled.button`
+color:white;
+width:fit-content;
+padding:.3rem 1rem;
+border-radius: 3000px;
+background:var(--main-color);
+`
+const EditTextCancelButton = styled.button`
+color:black;
+width:fit-content;
+padding:.3rem 1rem;
+border-radius: 3000px;
+background:white;
+`
+export default function CommentBox({text, user, createdAt, interaction,  likes, dislikes, id, movie, isReply, replyingTo, parentComment,setCommentsReplies, setCommentsRepliesCount}){
+    const [currentInteraction, setCurrentInteraction] = useState(0);
+    const [showActionsList, setShowActionsList] = useState(false);
     const [showReplyInput, setShowReplyInput] = useState(false);
+    const [showEditTextForm, setShowEditTextForm] = useState(false);
 
     const [cookies] = useCookies()
+    const navigate = useNavigate();
+    
+    useEffect(()=>{
+        if (interaction != undefined)
+        setCurrentInteraction(interaction);
+    },[interaction])
 
-    function handleEllipsisClick (){
+    async function requestDeleteCommentOrReply(id, isReply, token){
+        const URL =`${process.env.REACT_APP_API_URL}/api/${isReply ? "replies" :"comments"}/${id}`;
+        const INIT = {
+            method:"DELETE",
+            headers : {
+                'Authorization' : "Token " + token,
+            }
+        }
+
+        const request = await fetch(URL , INIT);
+        const response = await request.json();
+
+        if (request.status === 200){
+            setCommentsRepliesCount(response.metadata.comments_replies_count);
+            setCommentsReplies((prev)=>{
+                if (isReply){
+                    let parentCommentIndex = prev.findIndex((comment) => comment.id == parentComment);
+                    prev[parentCommentIndex].replies = prev[parentCommentIndex].replies.filter((reply) => reply.id != id);
+                }else{
+                    prev = prev.filter((comment) => comment.id != id);
+                }
+
+                return [...prev];
+            });
+        }
+
+        if (request.status === 401){
+            navigate("/login")
+        }
+    }
+
+    async function requestEditCommentOrReply(id, isReply, new_text,token){
+        const URL =`${process.env.REACT_APP_API_URL}/api/${isReply ? "replies" :"comments"}/${id}`;
+        const payload = {text : new_text}
+        const INIT = {
+            method:"PATCH",
+            body : JSON.stringify(payload),
+            headers : {
+                'Authorization' : "Token " + token,
+                'content-type' : 'application/json'
+            }
+        }
+
+        const request = await fetch(URL , INIT);
+        const response = await request.json();
+
+        if (request.status === 200){
+            setShowEditTextForm(false);
+            setCommentsReplies((prev)=>{
+                if (isReply){
+                    let parentCommentIndex = prev.findIndex((comment) => comment.id == parentComment);
+                    prev[parentCommentIndex].replies.map((reply) =>{
+                        if (reply.id == id) reply.text = new_text;
+                        return reply
+                    })
+                }else{
+                    let editedCommentIndex = prev.findIndex((comment) => comment.id == id);
+                    prev[editedCommentIndex].text = new_text;
+                }
+
+                return [...prev];
+            });
+        }
+
+        if (request.status === 401){
+            navigate("/login")
+        }
+    }
+
+    async function requestLikeCommentOrReply(isReply, id, token){
+        const resource = isReply?"replies" : "comments";
+        const URL =`${process.env.REACT_APP_API_URL}/api/${resource}/${id}/likes/`;
+
+        const INIT = {
+            method:"POST",
+            headers : {
+                'Authorization' : "Token " + token,
+                'content-type' : 'application/json'
+            }
+        }
+
+        const request = await fetch(URL, INIT);
+        const response = await request.json();
+
+        if (request.status == 200){
+            if (response.data.action == "dislike added") setCurrentInteraction(2);
+            else setCurrentInteraction(0);
+        }
+
+        if (request.status == 401){
+            navigate("/login");
+        }
+    }
+
+    async function requestDislikeCommentOrReply(isReply, id, token){
+        const resource = isReply?"replies" : "comments";
+        const URL =`${process.env.REACT_APP_API_URL}/api/${resource}/${id}/dislikes/`;
+
+        const INIT = {
+            method:"POST",
+            headers : {
+                'Authorization' : "Token " + token,
+                'content-type' : 'application/json'
+            }
+        }
+
+        const request = await fetch(URL, INIT);
+        const response = await request.json();
+
+        if (request.status == 200){
+            if (response.data.action == "dislike added") setCurrentInteraction(2);
+            else setCurrentInteraction(0);
+        }
+
+        if (request.status == 401){
+            navigate("/login");
+        }
+    }
+
+
+    function handleLikeButtonClick(e){
+        requestLikeCommentOrReply(isReply, id, cookies.token);
+    }
+
+    function handleDislikeButtonClick(e){
+        requestDislikeCommentOrReply(isReply, id, cookies.token);
+
+    }
+
+    function handleReplyButtonClick(e){
+        setShowReplyInput(true);
+    }
+
+    function handleEllipsisClick(e){
         setShowActionsList(!showActionsList);
     }
 
-    function deleteComment(){
-
+    function handleEditActionClick(e){
+        setShowEditTextForm(true);
     }
 
-    function editComment(){
-
+    function handleDeleteActionClick(e){
+        requestDeleteCommentOrReply(id, isReply, cookies.token);
     }
 
-    function likeComment(){
+    function handleEditTextFormSubmit(e){
+        e.preventDefault();
+        let formData = new FormData(e.currentTarget);
+        let new_text= formData.get("newText")?.trim();
+        if (!new_text) return;
 
-    }
-
-    function dislikeComment(){
-
-    }
-
-    function handleReplyButtonClick(){
-        setShowReplyInput(true);
+        requestEditCommentOrReply(id, isReply, new_text, cookies.token);
     }
     
+    function handleEditTextCancelClick(e){
+        setShowEditTextForm(false);
+    }
+
     return(
         <Container>
             <UserProfilePicture>
@@ -164,7 +351,7 @@ export default function CommentBox({text, user, createdAt,  likes, dislikes, id,
             </UserProfilePicture>
             <Content>
                 <DetailsContainer>
-                    <NameDataContainer>
+                    <NameAndDate>
                         <Names>
                             <Username>{user.username}</Username>
                             {isReply && replyingTo && (
@@ -175,35 +362,56 @@ export default function CommentBox({text, user, createdAt,  likes, dislikes, id,
                             )}
                         </Names>
                         <CreatedAt>{createdAt}</CreatedAt>
-                    </NameDataContainer>
-                    {cookies?.id && cookies.id === user.id && (
+                    </NameAndDate>
+                    {cookies?.id && parseInt(cookies.id) === user.id && (
                         <ActionsContainer>
-                            <i onClick={handleEllipsisClick} className="fa-solid fa-ellipsis-vertical"/>
+                            <i style={{color:"white",cursor:'pointer'}} onClick={handleEllipsisClick} className="fa-solid fa-ellipsis-vertical"/>
                             <ActionsList show={showActionsList}>
-                                {actionsList.map(option=>(
-                                    <ActionsOption>
-                                        {option.icon}
-                                        {option.name}
-                                    </ActionsOption>
-                                ))}
+                                <ActionsOption onClick={handleEditActionClick}>
+                                    <span>Edit</span>
+                                    <i className="fa-solid fa-pen-to-square"/>
+                                </ActionsOption>
+                                <ActionsOption onClick={handleDeleteActionClick}>
+                                    <span>Delete</span>
+                                    <i className="fa-solid fa-trash"/>                                
+                                </ActionsOption>
                             </ActionsList>
                         </ActionsContainer>
                     )}
                 </DetailsContainer>
-                <TextContainer>
-                    {text}
-                </TextContainer>
+
+                {showEditTextForm ? (
+                    <EditTextForm onSubmit={handleEditTextFormSubmit}>
+                        <EditTextInput
+                        name="newText" 
+                        type="text" 
+                        contenteditable={true}
+                        autoFocus
+                        defaultValue={text}
+                        />
+                        <EditTextButtons>
+                            <EditTextCancelButton type="button" onClick={handleEditTextCancelClick}>Cancel</EditTextCancelButton>
+                            <EditTextSubmitButton type="submit">Apply Edit</EditTextSubmitButton>
+                        </EditTextButtons>
+                    </EditTextForm>
+                ) : (
+                    <TextContainer>
+                        {text}
+                    </TextContainer>
+                )}
+
                 <InteractionsContainer>
-                    <LikeDislikeButton>
-                        <i className="fa-regular fa-thumbs-up"/>
+                    <LikeDislikeButton onClick={handleLikeButtonClick}>
+                        <i className={`fa-${currentInteraction == 1 ? "solid" : "regular"} fa-thumbs-up`}/>
                         <span>{dislikes}</span>
                     </LikeDislikeButton>
-                    <LikeDislikeButton>
-                        <i className="fa-regular fa-thumbs-down"/>
+                    <LikeDislikeButton onClick={handleDislikeButtonClick}>
+                        <i className={`fa-${currentInteraction == 2 ? "solid" : "regular"} fa-thumbs-down`}/>
                         <span>{likes}</span>
                     </LikeDislikeButton>
                     <ReplyButton onClick={handleReplyButtonClick}>Reply</ReplyButton>
                 </InteractionsContainer>
+
                 {showReplyInput && !isReply && (
                     <ReplyInputField 
                     setShow={setShowReplyInput} 
@@ -212,6 +420,7 @@ export default function CommentBox({text, user, createdAt,  likes, dislikes, id,
                     parentComment={id}
                     replyingTo={id}/>
                 )}
+
                 {showReplyInput && isReply && (
                     <ReplyInputField 
                     setShow={setShowReplyInput} 
@@ -220,6 +429,7 @@ export default function CommentBox({text, user, createdAt,  likes, dislikes, id,
                     movie={movie} replyingTo={replyingTo.id} 
                     parentComment={parentComment}/>
                 )}
+
             </Content>
         </Container>
     )

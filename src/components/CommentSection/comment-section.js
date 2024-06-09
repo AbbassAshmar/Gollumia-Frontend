@@ -139,13 +139,13 @@ export default function CommentSection(){
     const [recommendations, setRecommendations] = useState(MOVIES.data.movies);
     const [showSortList, setShowSortList] = useState(false);
 
-   
     async function fetchCommentsAndReplies (id){
         const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/${id}/comments-and-replies/`);
         const response = await request.json();
 
         if (request.status == 200){
             setCommentsReplies(response.data.comments_replies);
+            setCommentsRepliesCount(response.metadata.comments_replies_count)
         }
     }
 

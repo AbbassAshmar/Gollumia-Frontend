@@ -20,6 +20,7 @@ resize: none;
 position: relative;
 outline: none;
 border: none;
+color:black;
 transition: max-height 0.3s;
 z-index: 2;
 padding-bottom: 4rem;
@@ -89,7 +90,7 @@ export default function ReplyInputField({replyingTo,parentComment,movie, setComm
             setCommentsReplies((prev) => {
                 let parentCommentOfNewReply = prev.findIndex(comment => comment.id == parentComment);
                 prev[parentCommentOfNewReply].replies.push(response.data.reply);
-                return prev;
+                return [...prev];
             })
             setCommentsRepliesCount(response.metadata.comments_replies_count)
             setShow(false)

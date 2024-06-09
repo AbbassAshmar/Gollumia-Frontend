@@ -11,7 +11,7 @@ position:relative;
 const TextArea = styled.textarea`
 width: 100%;
 height: 300px;
-max-height:60px;
+max-height:${({$maxHeight}) => $maxHeight};
 background-color: white;
 padding: 14px 14px 30px 14px;
 border-radius: 17px;
@@ -21,10 +21,11 @@ resize: none;
 position: relative;
 outline: none;
 border: none;
+padding-bottom: 4rem;
 transition: max-height 0.3s;
 z-index: 2;
-padding-bottom: 4rem;
 scroll-padding: 4rem;
+
 &:focus{
     max-height:300px;
     outline:2px solid var(--main-color);
@@ -35,8 +36,9 @@ scroll-padding: 4rem;
 }
 `
 const SubmitButton = styled.button`
-opacity:0;
+opacity:${({$opacity}) => $opacity};
 z-index:2;
+
 bottom:1rem;
 right:1rem;
 color:white;
@@ -54,6 +56,8 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
     const { id } = useParams()    
     const [cookies, setCookies] = useCookies();
     const [isLoading, setIsLoading] = useState(false);
+    const [text, setText] = useState("");
+
     let navigate = useNavigate();
 
     function handleFormSubmit(e){
@@ -67,7 +71,6 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
         let text = formData.get('text')?.trim();
 
         if (text&& text.length > 0){
-            console.log(text)
             requestCreateComment(text,id)
         }
     }
@@ -95,6 +98,7 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
         if(request?.status == 201){
             setCommentsReplies((prev) => {return [response.data.comment, ...prev]});
             setCommentsRepliesCount(response.metadata.comments_replies_count)
+            setText("");
         }
 
         if(request?.status == 401){
@@ -106,8 +110,18 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
 
     return(
         <Form onSubmit={handleFormSubmit}>
-            <TextArea name="text" placeholder="New comment..."/>
-            <SubmitButton type='submit'>Comment</SubmitButton>
+            <TextArea 
+            $maxHeight={text.length > 0 ? '300px' : '60px'} 
+            value={text} 
+            onChange={(e)=>setText(e.currentTarget.value)} 
+            name="text" placeholder="New comment..."/>
+
+            <SubmitButton 
+            $opacity={text.length > 0 ? '1' : '0'}
+            disabled={isLoading} 
+            type='submit'>
+                Comment
+            </SubmitButton>
         </Form>
     )
 }

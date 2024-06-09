@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import useFavorites from "../../../hooks/use-favorites";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Container = styled.div`
 z-index: 2;
@@ -199,6 +202,8 @@ font-weight: inherit;
 `
 
 export default function AboveTheFolds({movie}){
+    const {addOrRemoveFavorite, isFavorite} = useFavorites(movie);
+
     const containerRef = useRef();
     const {scrollYProgress} =  useScroll({
         target: containerRef,
@@ -209,8 +214,12 @@ export default function AboveTheFolds({movie}){
     const imageY = useTransform(scrollYProgress,[0,1], ['0%', '28%']);
 
     function heartIconSolidOrRegular(){
-        if (movie.is_favorite) return 'solid';
+        if (isFavorite) return 'solid';
         return 'regular'
+    }
+
+    function handleFavoriteButtonCLick(){
+        addOrRemoveFavorite();
     }
 
     return(
@@ -243,7 +252,7 @@ export default function AboveTheFolds({movie}){
                     </PlotContainer>
                     <ButtonDetailsContainer>
                         <ButtonsContainer>
-                            <FavoriteButton>
+                            <FavoriteButton onClick={handleFavoriteButtonCLick}>
                                 <i style={{color:"inherit"}} className={`fa-${heartIconSolidOrRegular()} fa-heart`}/>
                             </FavoriteButton>
                             <TrailerButton>

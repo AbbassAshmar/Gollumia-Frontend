@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, {keyframes} from "styled-components";
 import {useCookies} from "react-cookie";
+import useFavorites from "../../hooks/use-favorites";
 
 const Container = styled.div`
 text-decoration: none;
@@ -170,48 +171,18 @@ const HeartIcon = styled.i`
 `
 export default function CarouselElement({movie, isLoading}){
     const [addToFavoritesHover, setAddToFavoritesHover] = useState(false);
-    const [cookies, setCookies] = useCookies(['token']);
-    const [favoriteIsLoading,setFavoriteIsLoading] = useState(false);
+    const {addOrRemoveFavorite, isFavorite} = useFavorites(movie);
 
-    const navigate = useNavigate();
 
-    useEffect(()=>{
-        if (favoriteIsLoading)
-        requestAddOrRemoveFavorite();
-    },[favoriteIsLoading])
 
     function heartIconSolidOrRegular (){
         if (addToFavoritesHover) return "solid";
-        if (movie.is_favorite) return "solid";
+        if (isFavorite) return "solid";
         return "regular";
     }
    
     async function heartIconClick(e){
-        if (!cookies.token) navigate('/login')
-        setFavoriteIsLoading(true)
-    }
-
-    async function requestAddOrRemoveFavorite(){
-        const URL =`${process.env.REACT_APP_API_URL}/api/users/user/favorites/`;
-        const INIT = {
-            method:"POST",
-            headers:{
-                "Authorization":"Token " + cookies.token,
-                "content-type":"application/json"
-            },
-            body:JSON.stringify({movie_id : movie.id})
-        }
-
-        const request = await fetch(URL,INIT);
-        if (request.status == 200){
-            movie.is_favorite= false;
-        }
-
-        if(request.status == 201){
-            movie.is_favorite = true;
-        }
-
-        setFavoriteIsLoading(false)
+        addOrRemoveFavorite();
     }
 
     if(isLoading)
@@ -245,7 +216,7 @@ export default function CarouselElement({movie, isLoading}){
                         <i style={{marginRight:'.5rem'}} className="fa-regular fa-circle-play"/>
                         Watch Now
                     </WatchNow>
-                    <AddToFavorites disabled={favoriteIsLoading} onClick={heartIconClick} onMouseEnter={()=>setAddToFavoritesHover(true)}  onMouseLeave={()=>setAddToFavoritesHover(false)}>
+                    <AddToFavorites onClick={heartIconClick} onMouseEnter={()=>setAddToFavoritesHover(true)}  onMouseLeave={()=>setAddToFavoritesHover(false)}>
                         <HeartIcon style={{marginRight:'.5rem'}} className={`fa-${heartIconSolidOrRegular()} fa-heart`}/>
                         Favorite
                     </AddToFavorites>

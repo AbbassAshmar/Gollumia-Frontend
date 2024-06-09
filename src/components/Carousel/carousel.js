@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import CarouselElement from "./carousel-element";
+import { useCookies } from "react-cookie";
 
 // slide right
 // activate animation
@@ -57,10 +58,11 @@ transition: background-color .3s;
 }
 `
 export default function Carousel(){
+    const [cookies, setCookies] = useCookies();
     const [isLoading, setIsLoading] = useState(true);
     const [latestMovies, setLatestMovies] = useState([]);
     const [currentElement, setCurrentElement] = useState(0);
-
+    
     // Right : 0 true, 1 false , Left : 2 true, 3 false, IDLE = 4
     const [activateAnimation, setActivateAnimation] = useState(4);
 
@@ -150,7 +152,15 @@ export default function Carousel(){
 
     async function fetchLatestMovies(){
         const URL =`${process.env.REACT_APP_API_URL}/api/movies/latest/?limit=5`;
-        const request = await fetch(URL);
+        const INIT = {
+            method:"GET",
+            headers:{
+                "Authorization":"Token " + cookies.token,
+                "content-type":"application/json"
+            },
+        }
+
+        const request = await fetch(URL,INIT);
         const response = await request.json()
 
         if(request.status == 200)
