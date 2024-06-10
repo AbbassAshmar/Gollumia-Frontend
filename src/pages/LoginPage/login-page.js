@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import "./login.css"
 import styled from 'styled-components'
 import { Link, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -9,64 +8,102 @@ import Facebook from "../../components/socialMedia/facebook";
 import Twitter from "../../components/socialMedia/twitter";
 import Google from "../../components/socialMedia/google";
 import MoviesBackground from "../../photos/wallpaperflare.com_wallpaper.jpg";
-import SimplifiedNavbar from "../../components/SimplifiedNavbar/simplified-navbar";
+import { motion, useScroll, useTransform } from "framer-motion";
+import TextInput from "../../components/TextInput/text-input";
 
-const Container =styled.div`
+export const Container =styled.div`
 color:white;
 width: 100%;
-background-image: url(${MoviesBackground});
-background-position: center;
-background-size: cover;
-background-repeat: no-repeat;
+padding:6rem 0 4rem 0;
 position: relative;
 &::before{
     content:"";
-    position:absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5));
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    position: absolute;
+    background : rgba(0,0,0,0.6);
+}
+@media screen and (max-width:500px){
+    padding:0;
 }
 `
-const ContentContainer = styled.div`
+
+export const BackgroundImageContainer = styled.div`
+width:100%;
+height:100%;
+position: absolute;
+top:0;
+left:0;
+z-index:-2;
+background-color: transparent;
+@media screen and (max-width:500px){
+    display: none;
+}
+`
+export const BackgroundImage = styled.img`
+width:100%;
+height:100%;
+object-fit:cover;
+`
+export const ContentContainer = styled.div`
 position: relative;
 z-index: 10000;
 width:100%;
 height: 100%;
-`
-const Main = styled.div`
-width: 100%;
 display: flex;
 justify-content: center;
 align-items: center;
-padding:2rem;
 `
-const Logo = styled.h1`
-font-family: 'Kanit', sans-serif;
-font-family: 'Open Sans', sans-serif;
-color:orange;
-font-weight:700;
-margin-left:2rem;
-margin-top :7px;
-`
-const FormContainer = styled.div`
+
+export const FormContainer = styled.div`
 border-radius: 8px;
-padding:2rem;
+padding:4rem;
 gap:2rem;
+max-width: 530px;
+width:60%;
+min-width: 450px;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-background-color: rgba(41, 39, 39, 0.5);   
-box-shadow: 0 5px 30px black,0 5px 30px black;
+background:black;
+
+@media screen and (max-width:600px){
+    padding:2rem;
+}
+@media screen and (max-width:500px){
+    width: 100%;
+    min-width: 0;
+    padding:1rem;
+    border-radius: 0;
+}
 `
-const TextContainer = styled.div`
+export const TextContainer = styled.div`
 gap: .5rem;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 `
-const Form = styled.form`
+
+export const Title = styled.h3`
+font-size: var(--heading-3);
+font-weight:bold;
+color:white;
+@media screen and (max-width:800px){
+    font-size: var(--heading-3-mobile);
+}
+`
+export const Subtitle = styled.p`
+font-size: var(--body);
+color:#D0D0D0;
+text-align: center;
+padding: 0;
+margin:0;
+`
+export const Form = styled.form`
 gap:2rem;
 width: 100%;
 display: flex;
@@ -74,7 +111,7 @@ flex-direction:column;
 align-items: center;
 justify-content: center;
 `
-const Inputs = styled.div`
+export const Inputs = styled.div`
 width: 100%;
 gap:1rem;
 display: flex;
@@ -83,7 +120,7 @@ align-items: center;
 justify-content: center;
 `
 
-const SubmitButtonContainer = styled.div`
+export const SignInButtonContainer = styled.div`
 width: 100%;
 gap:.5rem;
 display: flex;
@@ -91,32 +128,18 @@ flex-direction:column;
 align-items: center;
 justify-content: center;
 `
-
-const InputContainer = styled.div`
-width:100%;
-display: flex;
-flex-direction: column;
-gap: 0.5rem;
-`
-const Input = styled.input`
-width:100%;
-border-radius:5px;
-height:45px;
-border :none;
-outline:none;
-color:black;
-padding-left:.5rem;
-`
-const Message = styled.p`
-font-size:14px;
-color:red;
-`
-const SignInButton =styled.button`
+export const SignInButton =styled.button`
 border:none;
 background:orange;
-width:fit-content;
-padding: 0.5rem 1rem;
+padding: .75rem 1rem;
+font-size: var(--body);
 border-radius: 6px;
+width:100%;
+background-color:orange;
+
+&:hover{
+    background-color: var(--main-color-dark);
+}
 `
 const SocialMediaContainer = styled.div`
 width: 100%;
@@ -130,18 +153,37 @@ const SocialMediaButtons = styled.div`
 display: flex;
 gap:1rem;
 `
-const SignUpInstead = styled.div`
 
-`
+export function setCookies(cookieObject, setCookie){
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1);
+
+    Object.entries(cookieObject).forEach(([key, value]) => {
+        setCookie(key, value, { path: "/", expires: tomorrow });
+    });
+}
+
+const SUBTITLE = 'Enter your details to sign in to your account and join us';
 function LoginPage(){
     let navigate = useNavigate();
     const {state}= useLocation();
 
-    const [email, setEmail] = useState("")
-    const [password, setPass] = useState("")
+    const [formData, setFormData] = useState({
+        email : "",
+        passowrd : "",
+    })
 
-    const [cookies,setCookies,removeCookie] = useCookies(["token"])
+    const [cookies,setCookie,removeCookie] = useCookies(["token"])
     const [errors, setErrors] = useState({error_fields:[], messages:{}});
+
+    const imageContainerRef = useRef();
+    const {scrollYProgress} =  useScroll({
+        target: imageContainerRef,
+        offset: ['0' , 'end start']
+    })
+    
+    const imageContainerY =useTransform(scrollYProgress, [0,1], ['0%', '-10%']);
+    const imageY = useTransform(scrollYProgress,[0,1], ['0%', '28%']);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -154,17 +196,16 @@ function LoginPage(){
 
     useEffect(()=>{
         if(state !=null)
-        setEmail(state.email);
+        setFormData((prev) => ({...prev, email : state.email}));
     })
 
     async function requestLogin(user){
-        const url = `${process.env.REACT_APP_API_URL}/login/`;
+        const url = `${process.env.REACT_APP_API_URL}/api/login/`;
         const request = await fetch(url,{
             method:"POST",
             body:JSON.stringify(user),
             headers :{
                 'Content-Type': 'application/json',
-                'Authorization': ''
             },
         })
 
@@ -174,22 +215,21 @@ function LoginPage(){
 
     async function handleSubmit(e){
         e.preventDefault()
-        const user = {email,password}
-        const [request, response] = await requestLogin(user);
+        const [request, response] = await requestLogin(formData);
 
         if (request?.status == 200){
             const data = response.data
             const pfp = data.user.pfp && data.user.pfp != "null" ? 'http://127.0.0.1:8000' + data.user.pfp : null 
 
-            let tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate()+1);
+            const cookiesToSet = {
+                token: data.token,
+                email: data.user.email,
+                username: data.user.username,
+                id: data.user.id,
+                pfp: pfp
+            };
 
-            setCookies("token", data.token, {path :"/",expires:tomorrow})
-            setCookies("email", data.user.email, {path :"/",expires:tomorrow})
-            setCookies("username", data.user.username, {path :"/",expires:tomorrow})
-            setCookies("id", data.user.id, {path :"/",expires:tomorrow})
-            setCookies("pfp", pfp, {path :"/",expires:tomorrow})
-
+            setCookies(cookiesToSet,setCookie);
             setErrors({error_fields:[], messages:{}});
             navigate('/movies')
         }
@@ -206,43 +246,37 @@ function LoginPage(){
   
     return(
         <Container>
+            <BackgroundImageContainer as={motion.div} style={{y:imageContainerY}} ref={imageContainerRef}>
+                <BackgroundImage as={motion.img} style={{y:imageY}} src={MoviesBackground} alt="movies posters grid background"/>
+            </BackgroundImageContainer>
             <ContentContainer>
-                <Main>
-                    <FormContainer>
-                        <TextContainer>
-                            <h2>Sign In</h2>
-                            <p style={{margin:'0',maxWidth:'270px',textAlign:"center"}}>Enter Your details to sign in to your account and join us</p>
-                        </TextContainer>
-                        <Form onSubmit={handleSubmit}>
-                            <Inputs>
-                                <InputContainer>
-                                    <Input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Email"/>
-                                    {errors.messages['email'] && <Message>{errors.messages['email']}</Message>}
-                                </InputContainer>
-                                <InputContainer>        
-                                    <Input value={password} onChange={(e)=>{setPass(e.target.value)}} type="password" placeholder="Password"/>
-                                    {errors.messages['password'] && <Message>{errors.messages['password']}</Message>}
-                                </InputContainer>
-                            </Inputs>
-                            <SubmitButtonContainer>
-                                <Link id="login-forgot-password" to="#">Forgot password ?</Link>
-                                <SignInButton style={{width:"80%", backgroundColor:"orange", border:"none"}}>Sign in</SignInButton>
-                            </SubmitButtonContainer>
-                            <SocialMediaContainer>
-                                <p style={{margin:'0'}}>Or login with</p>
-                                <SocialMediaButtons>
-                                    <Twitter />
-                                    <Facebook />
-                                    <Google />
-                                </SocialMediaButtons>
-                            </SocialMediaContainer>
-                            <SignUpInstead>
-                                <p style={{marginRight:'5px',display:"inline"}}>Don't have an account?</p>
-                                <Link to="/register">Sign up !</Link>
-                            </SignUpInstead>
-                        </Form>
-                    </FormContainer>
-                </Main>
+                <FormContainer>
+                    <TextContainer>
+                        <Title>Sign In</Title>
+                        <Subtitle>{SUBTITLE}</Subtitle>
+                    </TextContainer>
+                    <Form onSubmit={handleSubmit}>
+                        <Inputs>
+                            <TextInput errors={errors} formData={formData} setFormData={setFormData} name="email" type="email"/>
+                            <TextInput errors={errors} formData={formData} setFormData={setFormData} name="password" type="password"/>
+                        </Inputs>
+                        <SignInButtonContainer>
+                            <Link id="login-forgot-password" to="#">Forgot password ?</Link>
+                            <SignInButton>Sign in</SignInButton>
+                        </SignInButtonContainer>
+                        <SocialMediaContainer>
+                            <p style={{margin:'0'}}>Or login with</p>
+                            <SocialMediaButtons>
+                                <Google />
+                            </SocialMediaButtons>
+                        </SocialMediaContainer>
+
+                        <div>
+                            <p style={{marginRight:'5px',display:"inline"}}>Don't have an account ?</p>
+                            <Link style={{color:"var(--main-color)"}} to="/register">Sign up !</Link>
+                        </div>
+                    </Form>
+                </FormContainer>
             </ContentContainer>
         </Container>
     )

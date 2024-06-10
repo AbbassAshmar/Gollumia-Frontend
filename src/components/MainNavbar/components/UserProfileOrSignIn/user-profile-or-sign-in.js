@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import ProfilePicture from "../../../ProfilePicture/profile-picture";
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../../../hooks/use-click-outside";
 
 const Container = styled.div`
@@ -95,8 +95,13 @@ export default function UserProfileOrSignIn(){
     const profileContainerRef = useRef();
     useClickOutside([actionsListRef,profileContainerRef], showActionsList, ()=>setShowActionsList(false));
 
+
+    function removeCookies(cookies){
+        cookies.forEach((cookie)=> removeCookie(cookie, {path:"/"}))
+    }
+
     async function signOut(){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/logout/`,{
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/logout/`,{
             method:"POST",
             headers:{
                 'Content-Type': 'application/json',
@@ -105,7 +110,7 @@ export default function UserProfileOrSignIn(){
         })
 
         if (request.status == 200){
-            removeCookie("token",{path:'/'})
+            removeCookies(["token","username", "id", "email", "pfp"]);
             navigate("/",{replace:true})
         }
     }

@@ -1,154 +1,124 @@
-import React, { useEffect,useState} from 'react';
-import { Button } from 'reactstrap';
-import "./Register.css"
+import React, { useEffect,useRef,useState} from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import {useCookies} from "react-cookie";
-import SimplifiedNavbar from '../../components/SimplifiedNavbar/simplified-navbar';
+import { Container, BackgroundImage, BackgroundImageContainer ,ContentContainer, FormContainer, TextContainer, Title, Subtitle, Form, Inputs, SignInButtonContainer, SignInButton} from '../LoginPage/login-page';
+import moviesPosters from "../../photos/moviesPosters.jpg";
+import TextInput from '../../components/TextInput/text-input';
+import styled from 'styled-components';
+import { setCookies } from '../LoginPage/login-page';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-const inputNostate = {
-    cursor: "pointer",
-    border:"none",
-    outline: "none",
-    borderBottom : "none",
-    transform:"translateY(.8rem)",
-}
 
+const RememberMeContainer = styled.div`
+display: flex;
+gap: 0.5rem;
+align-items: center;
+`
 
 function Register(){
-    let navigate = useNavigate()
-    const {state}= useLocation();
-    
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPass, setconfirmPass] = useState("");
-    const [cookies, setCookies] = useCookies(["token"]);
-    const [errorMessage, setErrorMessage] = useState({})
-    
+    let navigate = useNavigate();
+    const [cookies, setCookie] = useCookies();
+
+    const [errors, setErrors] = useState({error_fields:[], messages:{}});
+    const [formData, setFormData] = useState({
+        username : "",
+        email : "",
+        passowrd : "",
+        confirmPassword: "",
+    })
+
     useEffect(()=>{
         if (cookies.token)
         navigate("/movies", {replace:true})
-        
-        if(state !=null)
-        setEmail(state.email);
     },[])
 
+    const imageContainerRef = useRef();
+    const {scrollYProgress} =  useScroll({
+        target: imageContainerRef,
+        offset: ['0' , 'end start']
+    })
+    
+    const imageContainerY =useTransform(scrollYProgress, [0,1], ['0%', '-10%']);
+    const imageY = useTransform(scrollYProgress,[0,1], ['0%', '28%']);
 
-    async function handleRegisterSubmit(e){
-        e.preventDefault();
-        const user = {username , email,password,confirmPass}
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/users/`,{
-            headers :{
-                "Content-type":"application/json"
-            },
+    async function requestRegister(user){
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/users/`,{
+            headers :{"Content-type":"application/json"},
             method: 'POST',
             body: JSON.stringify(user)}
         )
 
         const response = await request.json();
+        return [request, response];
+    }
+
+    async function handleRegisterSubmit(e){
+        e.preventDefault();
+        const [request, response] = await requestRegister(formData);
         
         if (request.status == 201){
-            setErrorMessage({})
-            let token = response.token
-            let id= response.user.id
-            let name =  response.user.username
-            let email = response.user.email
-            const pfp = response.pfp && response.pfp != "null" ? `${process.env.REACT_APP_API_URL}`+response.pfp : null 
-            setCookies("token",token, {path: '/'})
-            setCookies("email",email, {path: '/'})
-            setCookies("username",name, {path: '/'})
-            setCookies("id",id, {path: '/'})
-            setCookies("pfp",pfp, {path: '/'})
-            navigate("/home", { replace: true })
-        }else if (request.status == 400){
-            if (response.error === 'Passwords do not match !') {
-                setErrorMessage({matchError: response.error});
-            } else if (response.error === 'invalid email') {
-                setErrorMessage({emailError: response.error});
-            } else if (response.error === "Your password must be at least 8 characters !") {
-                setErrorMessage({lengthError: response.error});
-            } else if (response.error === "Password must contain numbers and characters !") {
-                setErrorMessage({charError: response.error});
-            }
-        }
+            const data = response.data
+            const pfp = data.user.pfp && data.user.pfp != "null" ? 'http://127.0.0.1:8000' + data.user.pfp : null 
 
+            const cookiesToSet = {
+                token: data.token,
+                email: data.user.email,
+                username: data.user.username,
+                id: data.user.id,
+                pfp: pfp
+            };
+
+            setCookies(cookiesToSet, setCookie);
+            setErrors({error_fields:[], messages:{}});
+            navigate("/home", { replace: true })
+
+        }else if (request.status == 400){
+            setErrors({
+                error_fields:response.metadata.error_fields,
+                messages: response.error.details
+            })
+        }
     }
   
     return(
-        
-        <div className='register-page'>
-            <div className='register-form-container'>
-                <h2>Sign up</h2>
-                <form onSubmit={handleRegisterSubmit}>
-                    <div className='register-form-div'>
-                        <input required type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}}></input>
-                        <label className='register-form-label'>Username</label>
-                    </div>
-                    <div className='register-form-div'>
-                        {state == null ? 
-                        <input
-                            required 
-                            type="email" 
-                            value={email} 
-                            onChange={(e)=>{setEmail(e.target.value)}}
-                            />: 
-                        <input 
-                            required 
-                            style={inputNostate} 
-                            readOnly={true} 
-                            type="email" 
-                            value={state.text}
-                        />}
-                        {
-                            state== null ?
-                            <label className='register-form-label'>Email</label>:
-                            <label className='register-form-label-disabled'>Email</label>
-                        }
-                        <p style={errorMessage.emailError?{display:"block",margin:"1rem 0 0 0"}:null}>
-                            email already used !
-                        </p>
-                    </div>
-                    <div className='register-form-div'>
-                        <input 
-                            style={errorMessage.matchError|| errorMessage.lengthError || errorMessage.charError?{borderBottom:"2px solid red"}:null}  
-                            type="password" 
-                            value={password} 
-                            onChange={(e)=>{setPassword(e.target.value)}} 
-                            required
-                        />
-                        <label className='register-form-label'>Password</label>
-                        <p style={errorMessage.lengthError || errorMessage.charError?{display:"block"}:null} >
-                            {errorMessage.lengthError?errorMessage.lengthError:errorMessage.charError}
-                        </p>
-                    </div>
-                    <div className='register-form-div'>
-                        <input 
-                            style={errorMessage.matchError?{borderBottom:"2px solid red"}:null} 
-                            type="password"  
-                            value={confirmPass} 
-                            onChange={(e)=>{setconfirmPass(e.target.value)}} 
-                            required 
-                        />
-                        <label className='register-form-label'>Confirm Password</label>
-                        <p style={errorMessage.matchError?{display:"block"}:null} >
-                            {errorMessage.matchError}
-                        </p>
-                    </div>
-                    <div className='register-form-div register-page-checkbox'>
-                        <input type="checkbox"></input>
-                        <label>Remember me</label>
-                    </div>
-                    <div className='register-form-div register-page-buttons'>
-                        <Button className='register-page-submit-button' style={{background:"orange",cursor: 'pointer',color:'white'}} type="submit"  id="signin" color="warning">Submit</Button>
-                        <div className='register-page-singIn'>
-                            <p style={{display:"block",color:'white'}}>already have an account ?</p>
-                            <Link className="sign-in" to={'/login'}>Sign in<i id='arrow' className="fa-solid fa-arrow-right"></i></Link>
+        <Container>
+            <BackgroundImageContainer as={motion.div} style={{y:imageContainerY}} ref={imageContainerRef}>
+                <BackgroundImage as={motion.img} style={{y:imageY}} src={moviesPosters} alt="movies posters collection"/>
+            </BackgroundImageContainer>
+            <ContentContainer>
+                <FormContainer>
+                    <TextContainer>
+                        <Title>Sign Up</Title>
+                        <Subtitle>Fill in your information to join our family</Subtitle>
+                    </TextContainer>
+                    <Form onSubmit={handleRegisterSubmit}>
+                        <Inputs>
+                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="text" name="username"/>
+                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="email" name="email"/>
+                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="password" name="password"/>
+                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="passowrd" name="confirm_password"/>
+                        </Inputs>
+
+                        <RememberMeContainer>
+                            <input type="checkbox" />
+                            <label>Remember me</label>
+                        </RememberMeContainer>
+
+                        <SignInButtonContainer>
+                            <Link id="login-forgot-password" to="#">Forgot password ?</Link>
+                            <SignInButton>Sign up</SignInButton>
+                        </SignInButtonContainer>
+
+                        <div>
+                            <p style={{marginRight:'5px',display:"inline"}}>already have an account ?</p>
+                            <Link style={{color:"var(--main-color)"}} to="/login">Sign in !</Link>
                         </div>
-                    </div>    
-                </form>
-            </div>
-        </div>
+                    </Form>
+                </FormContainer>
+            </ContentContainer>
+        </Container>
+            
     )
 
 }

@@ -6,7 +6,6 @@ import { useCookies } from 'react-cookie';
 
 const Container = styled.footer`
 color:white;
-padding:2rem 0;
 width:100%;
 display:flex;
 align-items:center;

@@ -171,7 +171,9 @@ border-radius: 3000px;
 background:white;
 `
 export default function CommentBox({text, user, createdAt, interaction,  likes, dislikes, id, movie, isReply, replyingTo, parentComment,setCommentsReplies, setCommentsRepliesCount}){
-    const [currentInteraction, setCurrentInteraction] = useState(0);
+    const [currentInteraction, setCurrentInteraction] = useState({type:0, likes_count : 0, dislikes_count : 0});
+    
+
     const [showActionsList, setShowActionsList] = useState(false);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [showEditTextForm, setShowEditTextForm] = useState(false);
@@ -181,7 +183,11 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
     
     useEffect(()=>{
         if (interaction != undefined)
-        setCurrentInteraction(interaction);
+            setCurrentInteraction({
+                type: interaction, 
+                likes_count: likes, 
+                dislikes_count: dislikes
+            });
     },[interaction])
 
     async function requestDeleteCommentOrReply(id, isReply, token){
@@ -269,8 +275,18 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
         const response = await request.json();
 
         if (request.status == 200){
-            if (response.data.action == "dislike added") setCurrentInteraction(2);
-            else setCurrentInteraction(0);
+            if (response.data.action == "like added") 
+                setCurrentInteraction({
+                    type: 1, 
+                    likes_count: response.metadata.likes_count, 
+                    dislikes_count:response.metadata.dislikes_count
+                });
+
+            else setCurrentInteraction({
+                type: 0, 
+                likes_count: response.metadata.likes_count, 
+                dislikes_count:response.metadata.dislikes_count
+            });
         }
 
         if (request.status == 401){
@@ -294,8 +310,19 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
         const response = await request.json();
 
         if (request.status == 200){
-            if (response.data.action == "dislike added") setCurrentInteraction(2);
-            else setCurrentInteraction(0);
+            if (response.data.action == "dislike added")
+                setCurrentInteraction({
+                    type: 2, 
+                    likes_count: response.metadata.likes_count, 
+                    dislikes_count:response.metadata.dislikes_count
+                });
+
+            else setCurrentInteraction({
+                type: 0, 
+                likes_count: response.metadata.likes_count, 
+                dislikes_count:response.metadata.dislikes_count
+            });
+
         }
 
         if (request.status == 401){
@@ -402,12 +429,12 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
 
                 <InteractionsContainer>
                     <LikeDislikeButton onClick={handleLikeButtonClick}>
-                        <i className={`fa-${currentInteraction == 1 ? "solid" : "regular"} fa-thumbs-up`}/>
-                        <span>{dislikes}</span>
+                        <i className={`fa-${currentInteraction.type == 1 ? "solid" : "regular"} fa-thumbs-up`}/>
+                        <span>{currentInteraction.likes_count}</span>
                     </LikeDislikeButton>
                     <LikeDislikeButton onClick={handleDislikeButtonClick}>
-                        <i className={`fa-${currentInteraction == 2 ? "solid" : "regular"} fa-thumbs-down`}/>
-                        <span>{likes}</span>
+                        <i className={`fa-${currentInteraction.type == 2 ? "solid" : "regular"} fa-thumbs-down`}/>
+                        <span>{currentInteraction.dislikes_count}</span>
                     </LikeDislikeButton>
                     <ReplyButton onClick={handleReplyButtonClick}>Reply</ReplyButton>
                 </InteractionsContainer>

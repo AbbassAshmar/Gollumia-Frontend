@@ -27,7 +27,6 @@ function FavoritesPage(){
         const response = await request.json();
 
         if (request.status == 200){
-            console.log(response)
             setFavoriteMovies(response.data.movies);
             setTotalPagesCount(response.metadata.pages_count)
         }
