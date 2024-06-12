@@ -151,7 +151,7 @@ export default function CommentSection(){
 
     useEffect(()=>{
         fetchCommentsAndReplies(id)
-    },[])
+    },[id])
 
     function handleSortButtonClick(e){
         setShowSortList(!showSortList);

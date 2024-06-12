@@ -1,253 +1,277 @@
 import {React, useEffect, useState} from 'react'
 import styled from 'styled-components';
-import { Form,FormGroup,Input,Label,Col } from 'reactstrap';
 import {  useCookies } from 'react-cookie';
-import { motion, useAnimate } from 'framer-motion';
+import { setCookies } from '../LoginPage/login-page';
+import TextInput from '../../components/TextInput/text-input';
 
 const Container = styled.div`
 margin:0;
 padding:0;
-font-weight:400;
+width:100%;
 background:black;
 `
-
-const Content = styled.div`
-width:80%;
-display:flex;
-margin:auto;
-flex-direction:column;
-align-items:start;
+const SuccessMessage = styled.div`
+opacity:${({$show}) => $show ? "1" : "0"};
+right:${({$show}) => $show ? "1rem" : "-1rem"};
+transition:opacity .3s, right .3s;
+top:4rem;
+border-radius: 8px;
+font-weight: bold;
+font-size:var(--heading-6);
+padding:.75rem 1.5rem;
+color:	white;
+position: fixed;
+z-index:2;
+background-color: rgba(124,252,0,1);
 `
-const Div = styled.div`
-width:100%;
-max-width:600px;
+const Content = styled.div`
+overflow: hidden;
+position:relative;
+z-index: 1;
+padding: 4rem 0;
+gap:2rem;
+width:60%;
 display:flex;
 margin:auto;
-flex-wrap:wrap;
-@media screen and (max-width:900px){
-    flex-direction:column;
+flex-direction: column;
+align-items: flex-start;
+@media screen and (max-width:1024px) {
+width: 100%;
+padding:4rem 2rem
+}
+@media screen and (max-width:800px) {
+padding:4rem 1rem
 }
 `
-const InputLabel = styled.label`
-border-radius:50%;
+
+const TitleContainer = styled.div`
+font-size:var(--heading-5);
+color:white;
+font-weight:bold;
+`
+
+const Form = styled.form`
+gap:2rem;
+width:100%;
+display:flex;
+margin:auto;
+align-items:flex-start;
+justify-content: flex-end;
+@media screen and (max-width:800px) {
+    flex-direction: column;
+}
+`
+
+const ProfilePictureContainer = styled.label`
+height:200px;
+width:200px;
+display:block;
 cursor: pointer;
-background-size:100% 100%;
-background-repeat:no-repeat;
-background-position:center;
+border-radius: 50%;
+overflow:hidden;
+@media screen and (max-width:500px){
+    width:100%;
+    height:auto;
+    aspect-ratio: 1/1;
+}
+`
+const ProfilePicture = styled.img`
+width:100%;
+height:100%;
+border-radius: 50%;
+object-fit: cover;
+`
+const ProfileLetter = styled.div`
+color:white;
+height:100%;
+width:100%;
 display: flex;
+font-size: 6rem;
+font-weight:bold;
 align-items: center;
 justify-content: center;
-height: 140px;
-width: 140px;
-margin: auto;
-@media screen and (max-width:800px){
-    height: 100px;
-    width: 100px;
+background-color:var(--main-color);
+@media screen and (max-width:500px){
+    font-size: clamp(4rem,40vw,14rem);
 }
 `
-const LabelLetter = styled.div`
-font-size:7rem;
-padding: 0 0 1rem 0;
-@media screen and (max-width:800px){
-    font-size:4.5rem;
-}
+const InputsContainer = styled.div`
+flex:1;
+width:100%;
+display: flex;
+flex-direction: column;
 `
-const H2 = styled.h2`
-width:70%;
-display:flex;
-justify-content:space-between;
-margin:2rem 0 0 20%;
+const EmailUsername = styled.div`
+gap:1rem;
+width:100%;
+display: flex;
+margin-bottom: 2rem;
+flex-direction: column;
+`
+const ChangePassword = styled.p`
 color:white;
-@media screen and (max-width:1200px){
-    margin:2rem 0 0 0;
-    width:80%;
+width:100%;
+cursor:pointer;
+font-size: var(--body);
+margin-bottom: 2rem;
+&:hover{
+    color:var(--main-color);
 }
-@media screen and (max-width:1075px){
-    margin:2rem 0 0 0;
-    width:90%;
-}
-align-items:flex-end;
 `
-const SuccessMessage = styled.p`
-color:green;
-font-size:1.4rem;
-padding :3px;
-border:2px solid green;
-border-radius:7px;
-@media screen and (max-width:1075px){
-    font-size:.9rem;
-    padding :3px;
-    border:1px solid green;
-    border-radius:7px;
-}
+const PasswordsContainer = styled.div`
+width:100%;
+gap:1rem;
+width:100%;
+display: flex;
+flex-direction: column;
+overflow: hidden;
+transition: max-height .4s, margin-bottom .2s;
+margin-bottom:${({$show}) => $show ? "2rem" : "0"};
+max-height:${({$show}) => $show ? "700px" : "0"};
 `
 
+const SubmitButton = styled.button`
+border:none;
+width:100%;
+border-radius: 8px;
+padding:.75rem 1rem;
+font-size: var(--body);
+color:white;
+font-size:bold;
+background-color: var(--main-color);
+&:hover{
+    background-color: var(--main-color-dark);
+}
+
+&:disabled{
+    opacity: .7;
+    background-color: grey;
+}
+`
 function UserPage(){
-    const [display,setDisplay] = useState(false)
-    const [cookie,setCookies] = useCookies(['token','pfp','username','email'])
-    const [info, setInfo] = useState({email:cookie.email, username:cookie.username})
-    const [passwordError , setPasswordError] = useState("")
-    const [successMessage, setSuccessMessage] = useState(false)
-    const [scope, animate] = useAnimate()
-    const [img, setImg] = useState({currentImg:(cookie.pfp !="null" && cookie.pfp?
-    cookie.pfp:cookie.username[0]),newImg:""})
-    
-    async function request_update (data){
-        let send_request = await fetch(`${process.env.REACT_APP_API_URL}/users/${cookie.id}/`,{
-            method:"PATCH",
-            headers:{
-                "Authorization":"Token "+cookie.token
-            },
-            body:data
-        })
+    const [showPasswords, setShowPasswords] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-        let response = await send_request.json()
-        
-        if (send_request.status == 200){
-            setDisplay(false)
-            setSuccessMessage(true)
-            for(let [key,value] of Object.entries(response)){
-                setCookies(key,value,{path:"/"})
+    const [cookie,setCookie] = useCookies([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState({error_fields:[], messages:[]});
+
+    const [displayedPFP, setDisplayedPFP] = useState(cookie.pfp)
+    const [formData, setFormData] = useState({
+        email : cookie.email,
+        username : cookie.username,
+        new_password : "",
+        old_password : "" ,
+        confirm_password : "",
+    })
+
+    useEffect(()=>{
+        return ()=>{
+            if (displayedPFP && displayedPFP != cookie.pfp){
+                URL.revokeObjectURL(displayedPFP);
             }
-        }else{
-            setPasswordError(response["error"])
         }
+    },[])
+
+    useEffect(()=>{
+        if(showSuccessMessage){
+            setTimeout(()=> setShowSuccessMessage(false), 3000)
+        }
+    },[showSuccessMessage])
+
+    async function requestUpdateUser(data){
+        setIsLoading(true);
+        const URL = `${process.env.REACT_APP_API_URL}/api/users/`
+        const INIT = {
+            method:"PATCH",
+            headers:{"Authorization":"Token "+cookie.token},
+            body:data
+        }
+
+        let request = await fetch(URL,INIT);
+        let response = await request.json();
+        
+        if (request.status == 200){
+            setShowSuccessMessage(true);
+            setCookies(response.data.user,setCookie)
+            setErrors({
+                messages: {},
+                error_fields: [], 
+            })
+        }
+
+        if (request.status == 400){
+            setErrors({
+                messages: response.error?.details,
+                error_fields: response.metadata?.error_fields, 
+            })
+        }
+
+        setIsLoading(false);
     }
     
     function handleFormSubmit(e){
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        request_update(formData)
+
+        let formDataObject = new FormData(e.currentTarget);
+        for (let key in formData){
+            formDataObject.append(key, formData[key]);
+        }
+
+        requestUpdateUser(formDataObject)
     }
 
-    function handleImage(e){
-        let image= e.target.files[0] // get the file from the input
-        const reader = new FileReader(); // fileReader instance
-        reader.onload =()=>{ // after the fileReader finishes loading async.
-            setImg({currentImg:"3333",newImg:reader.result}) // update the state to include the uploaded url
+    function handlePfpInputChange(e){
+        if (displayedPFP && displayedPFP != cookie.pfp){
+            URL.revokeObjectURL(displayedPFP);
         }
-        reader.readAsDataURL(image) // read the image as a url representing it
+
+        let image = e.currentTarget.files[0];
+        let src = URL.createObjectURL(image);
+        setDisplayedPFP(src);
     }
 
-    useEffect(()=>{
-        if(successMessage) {
-            animate(scope.current, {opacity:[1,1,1,1,0]},{duration:10})
-            setSuccessMessage(false)
-        }
-    },[successMessage])
-    
-    const ImageStyle ={
-       display:"none"
+   
+
+    function handleChangePasswordTextClick(e){
+        setShowPasswords(!showPasswords);
     }
-    const FormStyle = { 
-        overflow:"hidden",
-        width:"100%",
-        margin:"auto",     
-    }
-    let inputLabelStyle ={
-        position:"relative",
-        margin:"none",
-        backgroundSize:"100% 100% ",
-        backgroundRepeat:"no-repeat",
-        backgroundPosition:"center",
-    }
-    if (img.newImg!=""){
-        inputLabelStyle.backgroundImage=`url(${img.newImg})`
-    }else{
-        if(img.currentImg.length>2){
-            inputLabelStyle.backgroundImage=`url('${img.currentImg}')`
-        }else{
-            inputLabelStyle.background='orange'
-        }
-    }
- 
+
     return(
         <Container>
             <Content>
-                <H2>
-                    <p> 
-                        <i className="fa-solid fa-person-praying"/> Edit Profile
-                    </p>
-                    <SuccessMessage 
-                        ref={scope}
-                        as={motion.h2}
-                        initial={{opacity:0}}
-                    >
-                        <i class="fa-regular fa-circle-check" style={{marginRight:".4rem"}}/>Info Saved
-                    </SuccessMessage>
-                </H2>
-                <Form onSubmit={handleFormSubmit} style={FormStyle} row>
-                    <Div>
-                        <div style={{flex:"1",margin:"2rem 0 0 0"}}>
-                            <div>
-                                <InputLabel style={inputLabelStyle} >
-                                    {img.currentImg.length>2?null:
-                                    <LabelLetter>{cookie.username[0].toUpperCase()}</LabelLetter>
-                                    }
-                                    <Input name="pfp" onChange={handleImage} type="file" accept="image/*" style={ImageStyle}></Input>
-                                </InputLabel>
-                            </div>
-                        </div>
-                        <div style={{flex:"2"}}>
-                            <div style={{padding:"1rem"}}>
-                            <FormGroup>
-                                <Label for="emailInput" sm={2} defaultValue>Email</Label>
-                                <Input 
-                                    value={info.email} 
-                                    onChange={(e)=>{setInfo({...info,email:e.target.value})}} 
-                                    id='emailInput' 
-                                    name='email' 
-                                    type='email'
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label sm={2} for="usernameInput">Username</Label>
-                                <Input  
-                                    name="username" 
-                                    value={info.username} 
-                                    onChange={(e)=>{setInfo({...info,username:e.target.value})}} 
-                                    id="usernameInput"
-                                />
-                            </FormGroup>
-                            <button onClick={()=>{setDisplay(!display)}} type="button" style={{display:"flex",alignItems:"center",gap:".9em",marginBottom:".4em"}}>
-                                <i style={{color:"white"}} className="fa-solid fa-key"/>
-                                <p  style={{margin:"0",color:"white"}}>Change Password</p>
-                            </button>
-                            <div style={{maxHeight:`${display?"30rem":"0"}`,transition:"max-height .5s",overflow:"hidden"}}>
-                                <FormGroup>
-                                    <Label sm={8} id='oldpasswordInput'>Old Password</Label>
-                                    <Input style={{border:`${passwordError[0] =="o" ?"1px solid red":"none"}`}} 
-                                        type="password" 
-                                        for="oldpasswordInput"
-                                        name="oldPassword"
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label sm={7} id="newpasswordInput">New Password</Label>
-                                    <Input style={{border:`${passwordError !="" && passwordError[0]!='o'?"1px solid red":"none"}`}} 
-                                        for="newpasswordInput"
-                                        type='password'
-                                        name='newPassword' 
-                                    />
-                                </FormGroup>
-                                <FormGroup >
-                                    <Label sm={9} id="confirmnewpassword">Confirm New Password</Label>
-                                    <Input style={{border:`${passwordError =="passwords don't match"?"1px solid red":"none"}`}} 
-                                        for="confirmnewpassword"
-                                        type='password'
-                                        name='confirmPassword' 
-                                    />
-                                    <p style={{color:"red",margin:"0",transform:"translateY(70%)"}}>{passwordError}</p>
-                                </FormGroup>
-                            </div>
-                            <FormGroup>
-                                <div  style={{marginTop:"6%",width:"100%"}}> 
-                                    <Input style={{minWidth:"100%"}} type='submit'>Submit</Input>
-                                </div>
-                            </FormGroup>
-                            </div>
-                        </div>
-                    </Div>
+                <SuccessMessage $show={showSuccessMessage}><i style={{marginRight:".5rem"}} className="fa-regular fa-circle-check"/> Profile Updated</SuccessMessage>
+                <TitleContainer>
+                    <i style={{marginRight:".5rem"}} className="fa-regular fa-user"/> Update Profile
+                </TitleContainer>
+                <Form onSubmit={handleFormSubmit}>
+                    <ProfilePictureContainer for="pfp_input_user_page">
+                        <input 
+                        id="pfp_input_user_page" 
+                        onChange={handlePfpInputChange} 
+                        name={"pfp"} type='file' accept=".jpg,.jpeg,.png" 
+                        style={{width:'1px' , position:"absolute", visibility:"hidden"}}/>
+                        
+                        {displayedPFP && displayedPFP != "null"?
+                            <ProfilePicture src={displayedPFP}/>:
+                            <ProfileLetter>
+                                {cookie.username[0].toUpperCase()}
+                            </ProfileLetter>
+                        }
+                    </ProfilePictureContainer>
+                    <InputsContainer>
+                        <EmailUsername>
+                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="username" type="text" placeholder="username"/>
+                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="email" type="email" placeholder="ex. ab@gmail.com"/>
+                        </EmailUsername>
+                        <ChangePassword onClick={handleChangePasswordTextClick}>Change Password</ChangePassword>
+                        <PasswordsContainer $show={showPasswords}>
+                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="old_password" type="password" placeholder="your password"/>
+                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="new_password" type="password" placeholder="ex. Ab43j#245jgi"/>
+                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="confirm_password" type="password" placeholder="re-write new password"/>
+                        </PasswordsContainer>
+                        <SubmitButton type='submit' disabled={isLoading}>Update profile</SubmitButton>
+                    </InputsContainer>
                 </Form>
             </Content>
         </Container>

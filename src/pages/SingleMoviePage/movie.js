@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import {useParams } from "react-router-dom";
 import styled from "styled-components";
 import SimilarMovies from '../../components/SimilarMovies/similar-movies'
@@ -9,11 +9,15 @@ import imdbLogo from "../../photos/imdbLogo.png";
 import metaLogo from "../../photos/metaLogo.png";
 import Title from "../../components/Title/title";
 import { useCookies } from "react-cookie";
+import ReactPlayer from "react-player";
+import MoviePlayer from "./MoviePlayer/movie-player";
+
 
 const Container  = styled.div`
 min-height:100%;
 overflow:hidden;
 background:black;
+scroll-behavior: smooth;
 `
 
 const ContentContainer = styled.div`
@@ -61,12 +65,35 @@ const RatingLogo = styled.img`
 width:36px;
 height:36px;
 `
+const PlayersButtons = styled.div`
+display:flex;
+gap:1rem;
+width:100%;
+justify-content: center;
+`
+const PlayerButton = styled.button`
+background-color: orange;
+padding:.5rem 1rem;
+border:none;
+outline: none;
+color:white;
+border-radius: 6px;
+opacity: ${({$selected}) => $selected ? "1" : "0.4"};
+&:hover{
+    opacity: 1;
+}
+`
+
+const MOVIE_PLAYERS = ['https://vidsrc.xyz/embed/movie/', 'https://vidsrc.to/embed/movie/','https://moviesapi.club/movie/','https://vidsrc.pro/embed/movie/'];
 
 function Movie(){
     const {id} = useParams();
     const [cookies, setCookies] = useCookies();
     const [movieData, setMovieData ] = useState({})
-    
+    const [currentPlayer, setCurrentPlayer] = useState(MOVIE_PLAYERS[0])
+
+    const trailerSectionRef = useRef();
+
     useEffect(()=>{
         fetchMovieData(id)
     },[id])
@@ -111,7 +138,7 @@ function Movie(){
     return(
         <Container>
             <ContentContainer>
-                <AboveTheFolds movie={movieData} />
+                <AboveTheFolds movie={movieData} trailerSectionRef={trailerSectionRef} />
                 <Content>
                     <Ratings>
                         <Rating>
@@ -127,11 +154,21 @@ function Movie(){
                             <i style={{color:"var(--main-color)"}} className="fa-solid fa-star" />
                         </Rating>
                     </Ratings>
-
                     {movieData.trailer && 
-                        <SectionContainer>
+                        <SectionContainer ref={trailerSectionRef}>
                             <Title text="Trailer"/>
-                            <Trailer title={movieData.title} thumbnail={movieData.image} trailer={movieData.trailer}/>
+                            <Trailer thumbnail={movieData.image} url={movieData.trailer}/>
+                        </SectionContainer>
+                    }
+                    {movieData.imdbId && movieData.released && ((new Date(movieData.released)) < Date.now()) &&
+                        <SectionContainer>
+                            <Title text="Movie"/>
+                            <MoviePlayer url={`${currentPlayer}${movieData.imdbId}`} />
+                            <PlayersButtons>
+                                {MOVIE_PLAYERS.map((player,index) => (
+                                    <PlayerButton $selected={currentPlayer === player} onClick={()=>setCurrentPlayer(player)}>Player {index+1}</PlayerButton>
+                                ))}
+                            </PlayersButtons>
                         </SectionContainer>
                     }
                     <SectionContainer>

@@ -170,7 +170,7 @@ function LoginPage(){
 
     const [formData, setFormData] = useState({
         email : "",
-        passowrd : "",
+        password : "",
     })
 
     const [cookies,setCookie,removeCookie] = useCookies(["token"])
@@ -219,14 +219,12 @@ function LoginPage(){
 
         if (request?.status == 200){
             const data = response.data
-            const pfp = data.user.pfp && data.user.pfp != "null" ? 'http://127.0.0.1:8000' + data.user.pfp : null 
-
             const cookiesToSet = {
                 token: data.token,
                 email: data.user.email,
                 username: data.user.username,
                 id: data.user.id,
-                pfp: pfp
+                pfp: data.user.pfp
             };
 
             setCookies(cookiesToSet,setCookie);
@@ -257,8 +255,8 @@ function LoginPage(){
                     </TextContainer>
                     <Form onSubmit={handleSubmit}>
                         <Inputs>
-                            <TextInput errors={errors} formData={formData} setFormData={setFormData} name="email" type="email"/>
-                            <TextInput errors={errors} formData={formData} setFormData={setFormData} name="password" type="password"/>
+                            <TextInput label={'inner'} errors={errors} formData={formData} setFormData={setFormData} name="email" type="email"/>
+                            <TextInput label={'inner'} errors={errors} formData={formData} setFormData={setFormData} name="password" type="password" />
                         </Inputs>
                         <SignInButtonContainer>
                             <Link id="login-forgot-password" to="#">Forgot password ?</Link>

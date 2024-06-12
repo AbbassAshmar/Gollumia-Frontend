@@ -22,15 +22,14 @@ height:auto;
 border-radius: 8px;
 `
 
-export default function Trailer ({trailer,thumbnail,title}){
+export default function Trailer ({url,thumbnail}){
     return (
         <Container>
-            {/* <Video src={trailer} title={title+ " Trailer"} allowFullScreen/> */}
             <Wrapper>
                 <Video 
                 width="100%"
                 height="100%"
-                url={trailer}
+                url={url}
                 light={thumbnail || true}
                 playing
                 controls />

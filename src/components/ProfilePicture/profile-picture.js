@@ -14,7 +14,7 @@ const ProfileImage = styled.img`
 width:100%;
 height:100%;
 border-radius:50%;
-object-fit: contain;
+object-fit: cover;
 `
 const LetterPfp = styled.div`
 width:100%;
@@ -35,7 +35,9 @@ export default function ProfilePicture({style}){
     return (
         <Container style={style}>
             {cookies?.pfp && cookies.pfp != "null"?
-                <Profile><ProfileImage src={cookies.pfp}/></Profile> :
+                <Profile>
+                    <ProfileImage src={cookies.pfp}/>
+                </Profile> :
                 <LetterPfp>
                     {cookies?.username[0].toUpperCase() || "G"}
                 </LetterPfp>

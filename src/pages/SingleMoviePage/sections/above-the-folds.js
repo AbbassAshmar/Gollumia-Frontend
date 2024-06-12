@@ -201,7 +201,7 @@ padding:0;
 font-weight: inherit;
 `
 
-export default function AboveTheFolds({movie}){
+export default function AboveTheFolds({movie, trailerSectionRef}){
     const {addOrRemoveFavorite, isFavorite} = useFavorites(movie);
 
     const containerRef = useRef();
@@ -220,6 +220,10 @@ export default function AboveTheFolds({movie}){
 
     function handleFavoriteButtonCLick(){
         addOrRemoveFavorite();
+    }
+
+    function handleTrailerButtonClick(){
+        trailerSectionRef?.current?.scrollIntoView({ behaviour: "smooth" });
     }
 
     return(
@@ -255,7 +259,7 @@ export default function AboveTheFolds({movie}){
                             <FavoriteButton onClick={handleFavoriteButtonCLick}>
                                 <i style={{color:"inherit"}} className={`fa-${heartIconSolidOrRegular()} fa-heart`}/>
                             </FavoriteButton>
-                            <TrailerButton>
+                            <TrailerButton onClick={handleTrailerButtonClick}>
                                 <PlayTrailer>
                                     <i style={{color:"inherit"}} className="fa-solid fa-play"/>
                                 </PlayTrailer>

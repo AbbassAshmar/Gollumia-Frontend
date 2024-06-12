@@ -20,12 +20,16 @@ function Register(){
     let navigate = useNavigate();
     const [cookies, setCookie] = useCookies();
 
-    const [errors, setErrors] = useState({error_fields:[], messages:{}});
+    const [errors, setErrors] = useState({
+        error_fields:[],
+        messages:{}
+    });
+
     const [formData, setFormData] = useState({
         username : "",
         email : "",
-        passowrd : "",
-        confirmPassword: "",
+        password : "",
+        confirm_password: "",
     })
 
     useEffect(()=>{
@@ -43,7 +47,7 @@ function Register(){
     const imageY = useTransform(scrollYProgress,[0,1], ['0%', '28%']);
 
     async function requestRegister(user){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/users/`,{
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/register/`,{
             headers :{"Content-type":"application/json"},
             method: 'POST',
             body: JSON.stringify(user)}
@@ -59,20 +63,19 @@ function Register(){
         
         if (request.status == 201){
             const data = response.data
-            const pfp = data.user.pfp && data.user.pfp != "null" ? 'http://127.0.0.1:8000' + data.user.pfp : null 
-
             const cookiesToSet = {
                 token: data.token,
                 email: data.user.email,
                 username: data.user.username,
                 id: data.user.id,
-                pfp: pfp
+                pfp: data.user.pfp
             };
+
+            console.log(cookiesToSet)
 
             setCookies(cookiesToSet, setCookie);
             setErrors({error_fields:[], messages:{}});
             navigate("/home", { replace: true })
-
         }else if (request.status == 400){
             setErrors({
                 error_fields:response.metadata.error_fields,
@@ -94,10 +97,10 @@ function Register(){
                     </TextContainer>
                     <Form onSubmit={handleRegisterSubmit}>
                         <Inputs>
-                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="text" name="username"/>
-                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="email" name="email"/>
-                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="password" name="password"/>
-                            <TextInput setFormData={setFormData} formData={formData} errors={errors} type="passowrd" name="confirm_password"/>
+                            <TextInput label={'inner'} setFormData={setFormData} formData={formData} errors={errors} type="text" name="username"/>
+                            <TextInput label={'inner'} setFormData={setFormData} formData={formData} errors={errors} type="email" name="email"/>
+                            <TextInput label={'inner'} setFormData={setFormData} formData={formData} errors={errors} type="password" name="password"/>
+                            <TextInput label={'inner'} setFormData={setFormData} formData={formData} errors={errors} type="password" name="confirm_password"/>
                         </Inputs>
 
                         <RememberMeContainer>

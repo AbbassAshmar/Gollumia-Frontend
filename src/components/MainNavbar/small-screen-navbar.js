@@ -42,6 +42,7 @@ right:0;
 position: absolute;
 width:calc(100% - 2rem);
 margin: 0 1rem;
+z-index: 100;
 `
 
 
