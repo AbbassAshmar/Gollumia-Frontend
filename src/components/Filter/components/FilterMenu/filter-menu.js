@@ -1,35 +1,47 @@
-import { useEffect, useState } from "react";
 import FilterElementWrapper from "../FilterElementWrapper/filter-element-wrapper";
 import styled from "styled-components";
-import useGetGenres from "../../hooks/use-get-genres";
+import useGetGenres from "../../../../hooks/use-get-genres";
 import { useSearchParams } from "react-router-dom";
-import useGetContentRatings from "../../hooks/use-get-content-ratings";
+import useGetContentRatings from "../../../../hooks/use-get-content-ratings";
 
 const Form = styled.form`
+gap:2rem;
 display:flex;
 flex-direction:column;
 width:80%;
 margin:auto;
 `
+const FilterRows = styled.div`
+width:100%;
+`
 const Buttons = styled.div`
+gap:1rem;
 display:flex;
-gap:5px;
 align-self:flex-start;
 width:100%;
 margin:1rem 0;
 `
-const SubmitBtn= styled.button`
-background : orange;
-padding:.25rem 1rem ;
-border-radius:12px;
-font-size:.9rem;
-font-weight:300;
+const SubmitButton= styled.button`
 color:white;
+background :var(--main-color);
+border-radius:6px;
+padding:.35rem 1rem;
+font-size: var(--body);
+&:hover{
+    background :var(--main-color-dark);
+}
 `
-const CloseBtn = styled(SubmitBtn)`
-background:white;
-color:black;
+const CloseButton = styled(SubmitButton)`
+background:transparent;
+color:grey;
+
+&:hover{
+    color:white;
+    background-color: transparent;
+}
 `
+
+
 
 function FilterMenu({isActive, setIsActive}){
     const Genres = useGetGenres();
@@ -37,7 +49,6 @@ function FilterMenu({isActive, setIsActive}){
     const [searchParams, setSearchParams] = useSearchParams();
 
     const Released= [
-        {name:"All"},
         {name:"Unreleased"},
         {name:"2023"},
         {name:"2022"},
@@ -62,16 +73,19 @@ function FilterMenu({isActive, setIsActive}){
     return(
         <div style={{transition:"all 0.3s",maxHeight:`${isActive?"200vh":"0"}`,overflow:"hidden"}}>
             <Form onSubmit={handleFilterFormSubmit}>
-                <div style={{width:"100%",margin:"auto"}}>
-                    <FilterElementWrapper title="Released : " name="released" valueField={"name"} list={Released}/>
-                    <FilterElementWrapper title="Rating : " name="contentRating" valueField={"name"} list={ContentRatings}/>
-                    <FilterElementWrapper title="Genre : " name="genre" valueField={"name"} list={Genres}/>
-                </div>
+                <FilterRows>
+                    <FilterElementWrapper title="Released : " name="released" valueKey={"name"} list={Released}/>
+                    <FilterElementWrapper title="Rating : " name="rating" valueKey={"name"} list={ContentRatings}/>
+                    <FilterElementWrapper title="Genre : " name="genre" valueKey={"name"} list={Genres}/>
+                </FilterRows>
                 <Buttons>
-                    <SubmitBtn type="submit"><i className="fa-solid fa-filter"/>Filter</SubmitBtn>
-                    <CloseBtn type="button" onClick={()=>{setIsActive(!isActive)}}>
-                        <i style={{marginRight:".2rem",}} className="fa-solid fa-xmark"></i>Close
-                    </CloseBtn>
+                    <SubmitButton type="submit">
+                        <i style={{marginRight:'.5rem'}} className="fa-solid fa-filter"/>
+                        Filter
+                    </SubmitButton>
+                    <CloseButton type="button" onClick={()=>{setIsActive(!isActive)}}>
+                        <i style={{marginRight:'.5rem'}}  className="fa-solid fa-xmark"></i>Close
+                    </CloseButton>
                 </Buttons>
             </Form>   
         </div>

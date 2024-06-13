@@ -78,14 +78,14 @@ white-space: nowrap;
 text-overflow:ellipsis;
 `
 
-export default function MovieCard({movie={}, isLoading=false, posterOnly=false, imageStyle={}}){
+export default function MovieCard({movie={}, style={}, isLoading=false, posterOnly=false, imageStyle={}}){
     if (isLoading) 
     return(
         <LoadingMovieCard />
     )
 
     return(
-        <Container to={`/movies/${movie.id}`}>
+        <Container style={style} to={`/movies/${movie.id}`}>
             <PosterContainer>
                 <Poster as={motion.img} style={imageStyle} src={movie.poster}/>
                 <OnHoverContent>

@@ -46,6 +46,10 @@ export default function Pagination({totalPagesCount}){
         }
     },[searchParams.get("page")])
     
+    if (totalPagesCount == 0){
+        return <></>
+    }
+    
     return(
         <Container>
             <Page onClick={()=>handlePageClick(currentPage - 1)} style={{display:`${currentPage <= 1 ?"none":"inline-block"}`}}>

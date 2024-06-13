@@ -1,5 +1,5 @@
 import Pagination from "../../components/Pagination/pagination";
-import FilterContainer from "../../components/FilterContainer/filter-container";
+import FilterContainer from "../../components/Filter/filter-container";
 import { useEffect, useState } from "react";
 import { useSearchParams ,useLocation} from "react-router-dom";
 import MoviesGridContainer from "../../components/MoviesGridContainer/movies-grid-container";
@@ -8,14 +8,16 @@ import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies
 
 function MoviesCollection(){
     const [movies,setMovies] = useState([])
-    const [totalPagesCount , setTotalPagesCount] = useState(40)
+    const [totalPagesCount , setTotalPagesCount] = useState(10)
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [title , setTitle] = useState("All Movies");
 
+    const [isLoading, setIsLoading] = useState(false)
+
     useEffect(()=>{
         if (searchParams.get("genre"))
-        setTitle("All " +  searchParams.get("genre") + " Movies");
+        setTitle(searchParams.get("genre") + " Movies");
     },[searchParams])
 
     useEffect(()=>{
@@ -34,19 +36,26 @@ function MoviesCollection(){
     }
 
     async function fetchMovies(url){
+        setIsLoading(true)
         const request = await fetch(url);
+        const moviesList = await request.json()
+
         if (request.status == 200){
-            const moviesList = await request.json()
             setMovies(moviesList.data.movies)
             setTotalPagesCount(moviesList.metadata.pages_count)
         }
+        else{
+            setTotalPagesCount(0) 
+            setMovies([]);
+        }
+        setIsLoading(false)
     }
 
     return(
         <MoviesPagesContainers>
             <FilterContainer title={title}/>
             <Pagination totalPagesCount={totalPagesCount} />
-            <MoviesGridContainer movies={movies}/>
+            <MoviesGridContainer isLoading={isLoading} movies={movies}/>
             <Pagination totalPagesCount={totalPagesCount} />
         </MoviesPagesContainers>
         

@@ -1,12 +1,18 @@
 import { useState } from "react";
-import FilterHeader from "../FilterHeader/filter-header";
-import FilterMenu from "../FilterMenu/filter-menu";
+import FilterHeader from "./components/FilterHeader/filter-header";
+import FilterMenu from "./components/FilterMenu/filter-menu";
+import styled from "styled-components";
 
 
-function FilterContainer({title}){
+const Container = styled.div`
+gap:2rem;
+display:flex;
+flex-direction: column;
+`
+export default function Filter({title}){
     const [isActive, setIsActive] = useState(false)
     return(
-        <div>
+        <Container>
             <FilterHeader 
                 setIsActive={setIsActive} 
                 isActive={isActive}
@@ -16,7 +22,6 @@ function FilterContainer({title}){
                 setIsActive={setIsActive} 
                 isActive={isActive}
             />
-        </div>
+        </Container>
     )
 }
-export default FilterContainer;
