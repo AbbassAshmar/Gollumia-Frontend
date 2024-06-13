@@ -16,7 +16,6 @@ const UserProfilePicture = styled.div`
 width:57px;
 height:57px;
 border-radius:17px;
-background-color: orange;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -27,6 +26,15 @@ width:100%;
 height:100%;
 object-fit: cover;
 border-radius:17px;
+`
+const LetterProfile = styled.div`
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content: center;
+border-radius:17px;
+background:orange;
 `
 const Content = styled.div`
 width: 100%;
@@ -188,7 +196,7 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
                 likes_count: likes, 
                 dislikes_count: dislikes
             });
-    },[interaction])
+    },[interaction,likes,dislikes])
 
     async function requestDeleteCommentOrReply(id, isReply, token){
         const URL =`${process.env.REACT_APP_API_URL}/api/${isReply ? "replies" :"comments"}/${id}`;
@@ -369,12 +377,33 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
         setShowEditTextForm(false);
     }
 
+    function formatCreatedAt(createdAt) {
+        const now = new Date();
+        const createdDate = new Date(createdAt);
+        const diffMs = now - createdDate;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+        const diffMinutes = Math.floor((diffMs / (1000 * 60)) % 60);
+    
+        if (diffDays > 30) {
+            return createdDate.toLocaleDateString('en-GB');  // Format as dd-mm-yyyy
+        } else if (diffDays >= 1) {
+            return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        } else if (diffHours >= 1) {
+            return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        } else if (diffMinutes >= 1) {
+            return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+        } else {
+            return 'just now';
+        }
+    }
+
     return(
         <Container>
             <UserProfilePicture>
-                {user.pfp ? 
+                {user.pfp && user.pfp != 'null' ? 
                 <Picture src={user.pfp} alt={`${user.id}-profile`}/>:
-                user.username[0].toUpperCase()} 
+                <LetterProfile>{user.username[0].toUpperCase()}</LetterProfile>} 
             </UserProfilePicture>
             <Content>
                 <DetailsContainer>
@@ -388,7 +417,7 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
                                 </div>
                             )}
                         </Names>
-                        <CreatedAt>{createdAt}</CreatedAt>
+                        <CreatedAt>{formatCreatedAt(createdAt)}</CreatedAt>
                     </NameAndDate>
                     {cookies?.id && parseInt(cookies.id) === user.id && (
                         <ActionsContainer>
@@ -453,7 +482,7 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
                     setShow={setShowReplyInput} 
                     setCommentsRepliesCount={setCommentsRepliesCount} 
                     setCommentsReplies={setCommentsReplies}
-                    movie={movie} replyingTo={replyingTo.id} 
+                    movie={movie} replyingTo={id} 
                     parentComment={parentComment}/>
                 )}
 

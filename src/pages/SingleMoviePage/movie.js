@@ -84,7 +84,8 @@ opacity: ${({$selected}) => $selected ? "1" : "0.4"};
 }
 `
 
-const MOVIE_PLAYERS = ['https://vidsrc.xyz/embed/movie/', 'https://vidsrc.to/embed/movie/','https://moviesapi.club/movie/','https://vidsrc.pro/embed/movie/'];
+// 'https://vidsrc.xyz/embed/movie/',
+const MOVIE_PLAYERS = [ 'https://vidsrc.to/embed/movie/','https://moviesapi.club/movie/','https://vidsrc.pro/embed/movie/'];
 
 function Movie(){
     const {id} = useParams();

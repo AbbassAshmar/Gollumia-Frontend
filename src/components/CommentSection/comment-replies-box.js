@@ -22,6 +22,7 @@ export default function CommentRepliesBox({comment, repliesList, setCommentsRepl
             setCommentsReplies={setCommentsReplies}
             id={comment.id}
             text={comment.text} 
+            interaction={comment.interaction}
             movie={comment.movie}
             user={comment.user} 
             likes={comment.likes} 
@@ -43,6 +44,7 @@ export default function CommentRepliesBox({comment, repliesList, setCommentsRepl
                         likes={reply.likes} 
                         dislikes={reply.dislikes}
                         createdAt={reply.created_at}
+                        interaction={reply.interaction}
                         parentComment = {reply.parent_comment}
                         replyingTo={reply.replying_to}/>
                     ))}

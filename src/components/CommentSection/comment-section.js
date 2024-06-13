@@ -133,15 +133,20 @@ export default function CommentSection(){
     const { id } = useParams()    
     const [cookies,setCookies] = useCookies()
 
-    const [commentsReplies, setCommentsReplies] = useState(RESPONSE.data.comments_replies);
-    const [commentsRepliesCount,setCommentsRepliesCount] = useState(RESPONSE.metadata.comments_replies_count);
+    const [commentsReplies, setCommentsReplies] = useState([]);
+    const [commentsRepliesCount,setCommentsRepliesCount] = useState(0);
 
     const [recommendations, setRecommendations] = useState(MOVIES.data.movies);
     const [showSortList, setShowSortList] = useState(false);
 
     async function fetchCommentsAndReplies (id){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/movies/${id}/comments-and-replies/`);
+        const URL = `${process.env.REACT_APP_API_URL}/api/movies/${id}/comments-and-replies/`;
+        const INIT = {headers : {'Authorization' : "Token " + cookies.token}}
+
+        const request = await fetch(URL, INIT);
         const response = await request.json();
+
+        console.log(response);
 
         if (request.status == 200){
             setCommentsReplies(response.data.comments_replies);
