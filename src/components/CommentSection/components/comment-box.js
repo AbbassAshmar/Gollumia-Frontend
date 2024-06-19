@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ProfilePicture from "../ProfilePicture/profile-picture";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
@@ -181,7 +180,6 @@ background:white;
 export default function CommentBox({text, user, createdAt, interaction,  likes, dislikes, id, movie, isReply, replyingTo, parentComment,setCommentsReplies, setCommentsRepliesCount}){
     const [currentInteraction, setCurrentInteraction] = useState({type:0, likes_count : 0, dislikes_count : 0});
     
-
     const [showActionsList, setShowActionsList] = useState(false);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [showEditTextForm, setShowEditTextForm] = useState(false);
@@ -401,25 +399,25 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
     return(
         <Container>
             <UserProfilePicture>
-                {user.pfp && user.pfp != 'null' ? 
+                {user?.pfp && user.pfp != 'null' ? 
                 <Picture src={user.pfp} alt={`${user.id}-profile`}/>:
-                <LetterProfile>{user.username[0].toUpperCase()}</LetterProfile>} 
+                <LetterProfile>{user?.username[0].toUpperCase()}</LetterProfile>} 
             </UserProfilePicture>
             <Content>
                 <DetailsContainer>
                     <NameAndDate>
                         <Names>
-                            <Username>{user.username}</Username>
+                            <Username>{user?.username}</Username>
                             {isReply && replyingTo && (
                                 <div style={{display:"flex",gap:'.5rem',alignItems:"center",color:"#A8AAAE"}}>
                                     <i style={{rotate:"y 180deg"}} className="fa-solid fa-reply" />
-                                    <UserNameReplyingTo>{replyingTo.user.username}</UserNameReplyingTo>
+                                    <UserNameReplyingTo>{replyingTo?.user?.username}</UserNameReplyingTo>
                                 </div>
                             )}
                         </Names>
                         <CreatedAt>{formatCreatedAt(createdAt)}</CreatedAt>
                     </NameAndDate>
-                    {cookies?.id && parseInt(cookies.id) === user.id && (
+                    {cookies?.id && parseInt(cookies.id) === user?.id && (
                         <ActionsContainer>
                             <i style={{color:"white",cursor:'pointer'}} onClick={handleEllipsisClick} className="fa-solid fa-ellipsis-vertical"/>
                             <ActionsList show={showActionsList}>

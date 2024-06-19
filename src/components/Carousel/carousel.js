@@ -151,7 +151,7 @@ export default function Carousel(){
     const isAnimationActive = activateAnimation == 0 || activateAnimation == 2;
 
     async function fetchLatestMovies(){
-        const URL =`${process.env.REACT_APP_API_URL}/api/movies/latest/?limit=5`;
+        const URL =`${process.env.REACT_APP_API_URL}/api/movies/slider/?limit=5`;
         const INIT = {
             method:"GET",
             headers:{

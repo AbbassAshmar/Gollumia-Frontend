@@ -132,7 +132,7 @@ export default function UserProfileOrSignIn(){
                 <ActionLink to={`/user/${cookies.username}`}>
                     View Profile
                 </ActionLink>
-                <ActionLink to={`/movies/${cookies.id}/favorites`}>
+                <ActionLink to={`/favorites`}>
                     My Favourites
                 </ActionLink>
                 <ActionButton onClick={signOut}>

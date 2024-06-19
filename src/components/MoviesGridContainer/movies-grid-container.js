@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
 display: grid;
-grid-template-columns:repeat(auto-fit ,minmax(190px,1fr));
+grid-template-columns:repeat(auto-fill ,minmax(190px,1fr));
 justify-items: center;
 gap:2rem;
 width:100%;
@@ -43,7 +43,7 @@ function MoviesGridContainer({movies,isLoading}){
     return (
         <Container>
             {movies && movies.length >= 1 && movies.map((movie)=>(
-                <MovieCard style={{maxWidth:"250px"}} key={movie.id} movie={movie}/>
+                <MovieCard style={{minWidth:"min(200px, 18%)"}} key={movie.id} movie={movie}/>
             ))}
         </Container>
     )

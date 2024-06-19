@@ -19,9 +19,7 @@ height:100%;
 `
 
 export default function MoviePlayer({url}){
-
     return(
-
         <Container>
             <Wrapper>
                 <Iframe src={url} allowFullScreen />

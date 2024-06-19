@@ -51,7 +51,6 @@ export default function ReplyInputField({replyingTo,parentComment,movie, setComm
 
     function handleFormSubmit(e){
         e.preventDefault();
-
         if (!cookies.token){
             navigate('/login');
         }

@@ -31,7 +31,7 @@ function TopImdbPage(){
 
     return (
         <MoviesPagesContainers>
-            <Title ctg={"Top Imdb Movies"} />
+            <Title Title={"Top Imdb Movies"} />
             <Pagination totalPagesCount={totalPagesCount}/>
             <MoviesGridContainer movies={movies}/>
             <Pagination totalPagesCount={totalPagesCount}/>

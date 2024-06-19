@@ -35,6 +35,9 @@ background:black;
 gap: 4rem;
 display: flex;
 flex-direction: column;
+@media screen and (max-width:800px){
+    padding: 0 1rem;
+}
 `
 
 const SectionContainer  = styled.div`
@@ -50,20 +53,35 @@ width: fit-content;
 margin:auto;
 padding:1rem 2rem;
 display: flex;
+flex-wrap: wrap;
 border-radius: 8px;
 background-color: rgba(255,165,0,.25);
+
+@media screen and (max-width:800px){
+    gap:2rem;
+    padding:.75rem 1rem;
+}
+
 `
 const Rating = styled.div`
 gap:1rem;
 color:white;
 display: flex;
 font-weight: bold;
+white-space: nowrap;
 align-items: center;
 font-size: var(--heading-5);
+@media screen and (max-width:800px){
+    font-size: var(--heading-5--mobile);
+}
 `
 const RatingLogo = styled.img`
 width:36px;
 height:36px;
+@media screen and (max-width:800px){
+    width:28px;
+    height:28px;
+}
 `
 const PlayersButtons = styled.div`
 display:flex;
@@ -85,7 +103,8 @@ opacity: ${({$selected}) => $selected ? "1" : "0.4"};
 `
 
 // 'https://vidsrc.xyz/embed/movie/',
-const MOVIE_PLAYERS = [ 'https://vidsrc.to/embed/movie/','https://moviesapi.club/movie/','https://vidsrc.pro/embed/movie/'];
+// 'https://moviesapi.club/movie/' , 'https://vidsrc.to/embed/movie/', 'https://vidsrc.pro/embed/movie/'
+const MOVIE_PLAYERS = [ ];
 
 function Movie(){
     const {id} = useParams();
@@ -113,7 +132,7 @@ function Movie(){
         const response = await request.json();
 
         if (request.status == 200){
-            setMovieData(response)
+            setMovieData(response.data.movie)
         }
     }
     
@@ -161,7 +180,7 @@ function Movie(){
                             <Trailer thumbnail={movieData.image} url={movieData.trailer}/>
                         </SectionContainer>
                     }
-                    {movieData.imdbId && movieData.released && ((new Date(movieData.released)) < Date.now()) &&
+                    {movieData.imdbId && movieData.released && ((new Date(movieData.released)) < Date.now()) && currentPlayer &&
                         <SectionContainer>
                             <Title text="Movie"/>
                             <MoviePlayer url={`${currentPlayer}${movieData.imdbId}`} />

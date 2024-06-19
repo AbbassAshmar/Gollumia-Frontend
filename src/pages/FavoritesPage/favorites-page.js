@@ -34,7 +34,7 @@ function FavoritesPage(){
 
     return(
         <MoviesPagesContainers>
-            <Title ctg="Favourites" />
+            <Title text="Favorites" />
             <Pagination totalPagesCount={totalPagesCount}/>
             <MoviesGridContainer movies={favoriteMovies}/>
             <Pagination totalPagesCount={totalPagesCount}/>

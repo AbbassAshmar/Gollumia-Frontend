@@ -9,7 +9,7 @@ import Movie from './pages/SingleMoviePage/movie';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import UserPage from './pages/UserPage/user-page';
 import MoviesCollection from './pages/MoviesCollectionPage/movies-collection-page';
-import FavoritesPage from './pages/FavouritesPage/favorite-movies-page';
+import FavoritesPage from './pages/FavoritesPage/favorites-page';
 import TopImdbPage from './pages/TopImdbPage/top-imdb-page';
 import DefaultPage from './pages/DefaultPage/default-page';
 import SimpleNavbarFooterDefault from './pages/DefaultPage/simple-navbar-footer';
