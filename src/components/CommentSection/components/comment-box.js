@@ -4,6 +4,8 @@ import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import ReplyInputField from "./reply-input-field";
 import { useNavigate } from "react-router-dom";
+import ProfilePicture from "../../ProfilePicture/profile-picture";
+import { ProfilePictureContainer } from "../comment-section";
 
 const Container = styled.div`
 gap:1rem;
@@ -11,32 +13,8 @@ width:100%;
 display: flex;
 align-items: flex-start;
 `
-const UserProfilePicture = styled.div`
-width:57px;
-height:57px;
-border-radius:17px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 2rem;
-`
-const Picture = styled.img`
-width:100%;
-height:100%;
-object-fit: cover;
-border-radius:17px;
-`
-const LetterProfile = styled.div`
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-justify-content: center;
-border-radius:17px;
-background:orange;
-`
 const Content = styled.div`
-width: 100%;
+flex:1;
 gap:.5rem;
 display: flex;
 flex-direction: column;
@@ -50,7 +28,7 @@ align-items:flex-start;
 justify-content: space-between;
 `
 const NameAndDate= styled.div`
-gap:.25rem;
+gap:0;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
@@ -59,16 +37,21 @@ const Names = styled.div`
 display: flex;
 gap:1rem;
 `
-const Username = styled.div`
+const Username = styled.p`
+margin:0;
+padding:0;
 color:orange;
 font-size:1rem;
+@media screen and (max-width:500px){
+    font-size:var(--small-1);
+}
 `
 const UserNameReplyingTo = styled.div`
-font-size:14px;
+font-size:var(--small-1);
 `
 const CreatedAt = styled.div`
 color:#A8AAAE;
-font-size:14px;
+font-size:var(--small-1);
 `
 const ActionsContainer = styled.div`
 color:white;
@@ -88,13 +71,13 @@ const ActionsOption = styled.div`
 gap:.5rem;
 color:white;
 display: flex;
-font-size:14px;
 cursor: pointer;
 align-items: center;
 padding: .75rem 1.25rem;
 background-color: black;
 border: 2px solid #878787;
 justify-content: flex-start;
+font-size:var(--small-1);
 &:first-child{
     border-radius: 8px 8px 0 0;
 }
@@ -124,15 +107,14 @@ const LikeDislikeButton = styled.button`
 gap:.5rem;
 color:white;
 display:flex;
-font-size: 14px;
 align-items: center;
+font-size:var(--small-1);
 `
 const ReplyButton= styled.div`
 color:white;
-font-size:14px;
 cursor: pointer;
+font-size:var(--small-1);
 `
-
 const EditTextForm = styled.form`
 width:100%;
 position:relative;
@@ -179,7 +161,7 @@ background:white;
 `
 export default function CommentBox({text, user, createdAt, interaction,  likes, dislikes, id, movie, isReply, replyingTo, parentComment,setCommentsReplies, setCommentsRepliesCount}){
     const [currentInteraction, setCurrentInteraction] = useState({type:0, likes_count : 0, dislikes_count : 0});
-    
+
     const [showActionsList, setShowActionsList] = useState(false);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [showEditTextForm, setShowEditTextForm] = useState(false);
@@ -398,11 +380,9 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
 
     return(
         <Container>
-            <UserProfilePicture>
-                {user?.pfp && user.pfp != 'null' ? 
-                <Picture src={user.pfp} alt={`${user.id}-profile`}/>:
-                <LetterProfile>{user?.username[0].toUpperCase()}</LetterProfile>} 
-            </UserProfilePicture>
+            <ProfilePictureContainer>
+                <ProfilePicture />
+            </ProfilePictureContainer>
             <Content>
                 <DetailsContainer>
                     <NameAndDate>

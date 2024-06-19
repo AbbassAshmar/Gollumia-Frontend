@@ -6,17 +6,17 @@ import useGetGenres from "../../../../hooks/use-get-genres";
 const Container = styled.div`
 top:0;
 left:0;
-height:100vh;
 z-index: 120;
+min-height:100vh;
 display: flex;
-overflow:hidden;
 position:absolute;
 transition:width .3s;
+overflow-y:scroll;
 width:${({$show})=>$show ? "100%" : "0"};
 `
 const Content = styled.div`
 flex:4;
-height: 100%;
+min-height:100vh;
 background-color:black;
 padding:1rem;
 display: flex;
@@ -27,7 +27,7 @@ align-items: flex-start;
 const BluredBackground = styled.div`
 flex:1;
 height: 100%;
-background-color: rgba(0,0,0,0.6);
+background-color: rgba(0,0,0,0.4);
 transition: ${({$show})=> $show ? "opacity .3s .3s" : "opacity .1s"};
 opacity: ${({$show})=> $show ? "1" :  "0"};
 @media screen  and (max-width:400px){
@@ -67,7 +67,7 @@ const GenresList = styled.div`
 width:100%;
 overflow:hidden;
 transition:max-height .3s;
-max-height: ${({$show})=> $show ? "100vh" :  "0"};
+max-height: ${({$show})=> $show ? "200vh" :  "0"};
 `
 const GenresListContent = styled.div`
 width:100%;
@@ -89,16 +89,17 @@ color:white;
 text-decoration: none;
 `
 
-export default function SideNavigation({show, setShow}){
+export default function SideNavigation({show, setShow, setLockBody}){
     const genres = useGetGenres();
     const [showGenresList, setShowGenresList] = useState(false);
 
     function closeSideNavigation(){
         setShow(false);
+        setLockBody(false);
     }
 
     function openGenresList(){
-        setShowGenresList(!showGenresList)
+        setShowGenresList(!showGenresList);
     }
 
     return(

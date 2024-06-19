@@ -39,29 +39,28 @@ flex-direction: column;
     padding: 0 1rem;
 }
 `
-
 const SectionContainer  = styled.div`
 gap:3rem;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 `
-
 const Ratings = styled.div`
 gap:4rem;
 width: fit-content;
 margin:auto;
 padding:1rem 2rem;
 display: flex;
+align-items: center;
+justify-content: space-between;
 flex-wrap: wrap;
 border-radius: 8px;
-background-color: rgba(255,165,0,.25);
-
+background-color:rgba(255, 255, 255, .18);
 @media screen and (max-width:800px){
     gap:2rem;
+    width:100%;
     padding:.75rem 1rem;
 }
-
 `
 const Rating = styled.div`
 gap:1rem;
@@ -101,10 +100,14 @@ opacity: ${({$selected}) => $selected ? "1" : "0.4"};
     opacity: 1;
 }
 `
+const MovieTitle = styled.div`
+padding: 0 2rem;
+@media screen and (max-width:800px){
+    padding: 0 1rem;
+}
+`
 
-// 'https://vidsrc.xyz/embed/movie/',
-// 'https://moviesapi.club/movie/' , 'https://vidsrc.to/embed/movie/', 'https://vidsrc.pro/embed/movie/'
-const MOVIE_PLAYERS = [ ];
+const MOVIE_PLAYERS = ['https://vidsrc.xyz/embed/movie/','https://moviesapi.club/movie/' , 'https://vidsrc.to/embed/movie/', 'https://vidsrc.pro/embed/movie/'];
 
 function Movie(){
     const {id} = useParams();
@@ -180,17 +183,21 @@ function Movie(){
                             <Trailer thumbnail={movieData.image} url={movieData.trailer}/>
                         </SectionContainer>
                     }
-                    {movieData.imdbId && movieData.released && ((new Date(movieData.released)) < Date.now()) && currentPlayer &&
-                        <SectionContainer>
+                </Content>
+                {movieData.imdbId && movieData.released && ((new Date(movieData.released)) < Date.now()) && currentPlayer &&
+                    <SectionContainer>
+                        <MovieTitle>
                             <Title text="Movie"/>
-                            <MoviePlayer url={`${currentPlayer}${movieData.imdbId}`} />
-                            <PlayersButtons>
-                                {MOVIE_PLAYERS.map((player,index) => (
-                                    <PlayerButton $selected={currentPlayer === player} onClick={()=>setCurrentPlayer(player)}>Player {index+1}</PlayerButton>
-                                ))}
-                            </PlayersButtons>
-                        </SectionContainer>
-                    }
+                        </MovieTitle>
+                        <MoviePlayer url={`${currentPlayer}${movieData.imdbId}`} />
+                        <PlayersButtons>
+                            {MOVIE_PLAYERS.map((player,index) => (
+                                <PlayerButton $selected={currentPlayer === player} onClick={()=>setCurrentPlayer(player)}>Player {index+1}</PlayerButton>
+                            ))}
+                        </PlayersButtons>
+                    </SectionContainer>
+                }
+                <Content>
                     <SectionContainer>
                         <Title text="You may also like"/>
                         <SimilarMovies movie_id={movieData.id}/>

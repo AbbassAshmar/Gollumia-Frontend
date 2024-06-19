@@ -4,7 +4,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Form = styled.form`
-width:100%;
+flex:1;
 position:relative;
 `
 
@@ -34,11 +34,14 @@ scroll-padding: 4rem;
 &:focus + button {
     opacity:1;
 }
+
+@media screen and (max-width:500px) {
+height:200px;
+}
 `
 const SubmitButton = styled.button`
 opacity:${({$opacity}) => $opacity};
 z-index:2;
-
 bottom:1rem;
 right:1rem;
 color:white;
@@ -50,6 +53,9 @@ border-radius: 3000px;
 background:var(--main-color);
 transition: opacity .3s;
 transition-delay: .3s;
+@media screen and (max-width:500px) {
+font-size: var(--small-1);
+}
 `
 
 export default function InputField({setCommentsReplies, setCommentsRepliesCount}){
@@ -111,11 +117,10 @@ export default function InputField({setCommentsReplies, setCommentsRepliesCount}
     return(
         <Form onSubmit={handleFormSubmit}>
             <TextArea 
-            $maxHeight={text.length > 0 ? '300px' : '60px'} 
+            $maxHeight={text.length > 0 ? '300px' : '40px'} 
             value={text} 
             onChange={(e)=>setText(e.currentTarget.value)} 
             name="text" placeholder="New comment..."/>
-
             <SubmitButton 
             $opacity={text.length > 0 ? '1' : '0'}
             disabled={isLoading} 

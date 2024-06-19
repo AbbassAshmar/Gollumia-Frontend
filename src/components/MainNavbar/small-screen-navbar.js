@@ -6,6 +6,7 @@ import SideNavigation from "./components/SideNavigation/side-navigation";
 import UserProfileOrSignIn from "./components/UserProfileOrSignIn/user-profile-or-sign-in";
 
 const Container = styled.div`
+z-index: 120;
 display: flex;
 position:relative;
 padding: 1rem 2rem;
@@ -15,7 +16,7 @@ justify-content: space-between;
     display: none;
 }
 @media screen and (max-width:800px){
-    padding : .5rem 1rem;
+    padding : .75rem 1rem;
 }
 `
 const BarsLogo = styled.div`
@@ -46,10 +47,9 @@ z-index: 100;
 `
 
 
-export default function SmallScreenNavbar(){
+export default function SmallScreenNavbar({setLockBody}){
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [showSideNavigation, setShowSideNavigation] = useState(false);
-
 
     function handleSearchIconClick(){
         setShowSearchBar(!showSearchBar);
@@ -57,11 +57,12 @@ export default function SmallScreenNavbar(){
 
     function handleBarsIconClick(){
         setShowSideNavigation(true);
+        setLockBody(true);
     }
 
     return(
         <Container>
-            <SideNavigation show={showSideNavigation} setShow={setShowSideNavigation} />
+            <SideNavigation setLockBody={setLockBody} show={showSideNavigation} setShow={setShowSideNavigation} />
             <BarsLogo>
                 <BarsIcon onClick={handleBarsIconClick} className="fa-solid fa-bars"/>
                 <Logo />

@@ -5,16 +5,20 @@ import { useCookies } from 'react-cookie';
 
 
 const Container = styled.footer`
+padding-top:2rem;
 color:white;
 width:100%;
 display:flex;
 align-items:center;
 justify-content:center;
 background-color:black;
-
 `
 const Content = styled.div`
 width:80%;
+@media screen and (max-width:600px) {
+	width:100%;
+	padding:0 1rem;
+}
 `
 const Header = styled.div`
 gap:1rem;

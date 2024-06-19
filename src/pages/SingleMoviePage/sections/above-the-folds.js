@@ -66,6 +66,7 @@ aspect-ratio: 1/1.4;
 overflow: hidden;
 @media screen and (max-width:800px){
     width:100%;
+    max-width:400px;
 }
 `
 const Poster = styled.img`
@@ -104,6 +105,10 @@ font-weight:bold;
 letter-spacing: -0.05em;
 font-size: var(--heading-1);
 line-height: var(--heading-1);
+@media screen and (max-width:800px){
+    font-size: var(--heading-1-mobile);
+    line-height: 34px;
+}
 `
 
 const PlotContainer = styled.p`

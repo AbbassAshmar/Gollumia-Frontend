@@ -6,14 +6,15 @@ import BigScreenNavbar from "./big-screen-navbar";
 const Container = styled.nav`
 width: 100%;
 z-index:120;
-background-color: black;
+position:relative;
+background-color:black;
 `
 
-export default function Navbar({style}){
+export default function Navbar({style, setLockBody}){
     return(
         <Container style={style}>
             <BigScreenNavbar />
-            <SmallScreenNavbar />
+            <SmallScreenNavbar setLockBody={setLockBody} />
         </Container>
     )
 }

@@ -27,6 +27,15 @@ gap:2rem;
 display: flex;
 flex-direction: column;
 `
+export const ProfilePictureContainer = styled.div`
+width: 3rem;
+height: 3rem;
+
+@media screen and (max-width:800px){
+width:2.5rem;
+height:2.5rem;
+}
+`
 const DetailsCountContainer = styled.div`
 width:100%;
 display:flex;
@@ -91,12 +100,8 @@ width:100%;
 display: flex;
 gap:1rem;
 `
-
-const LogInAvatar = styled.div`
-width:57px;
-height:57px;
+const LogInAvatar = styled(ProfilePictureContainer)`
 display:flex;
-border-radius:17px;
 background-color:orange;
 justify-content:center;
 align-items:center;
@@ -121,7 +126,6 @@ export default function CommentSection(){
     const [commentsRepliesCount,setCommentsRepliesCount] = useState(0);
 
     const [isLoadingCommentsReplies, setIsLoadingCommentsReplies] = useState(false);
-
     const [showSortList, setShowSortList] = useState(false);
 
     const [totalPages, setTotalPages] = useState(1);
@@ -185,9 +189,9 @@ export default function CommentSection(){
     const renderAvatar = () => {
         if (cookies?.token) {
           return (
-                <div style={{width:'57px', height:'57px'}}>
-                    <ProfilePicture style={{borderRadius:"17px"}}/>
-                </div>
+                <ProfilePictureContainer>
+                    <ProfilePicture/>
+                </ProfilePictureContainer>
             );
         }
         return (
@@ -248,7 +252,9 @@ export default function CommentSection(){
                 )}
             </CommentsInputContainer>
             {windowWidth >= 1024 &&(
-                <Recommendations commentsRepliesContainerRef={commentsRepliesContainerRef} scrollPosition={scrollPosition}/>
+                <Recommendations 
+                commentsRepliesContainerRef={commentsRepliesContainerRef} 
+                scrollPosition={scrollPosition}/>
             )}
         </Container>
     )

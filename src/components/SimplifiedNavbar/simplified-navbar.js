@@ -10,7 +10,7 @@ padding:1rem 2rem;
 align-items:center;
 justify-content: space-between;
 @media screen and (max-width:800px){
-    padding : .5rem 1rem;
+    padding : .75rem 1rem;
 }
 `
 
