@@ -4,10 +4,8 @@ import styled from 'styled-components'
 import { Link, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import Facebook from "../../components/socialMedia/facebook";
-import Twitter from "../../components/socialMedia/twitter";
 import Google from "../../components/socialMedia/google";
-import MoviesBackground from "../../photos/wallpaperflare.com_wallpaper.jpg";
+import MoviesBackground from "../../photos/MoviesBackground.jpg";
 import { motion, useScroll, useTransform } from "framer-motion";
 import TextInput from "../../components/TextInput/text-input";
 
