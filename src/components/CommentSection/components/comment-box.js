@@ -381,7 +381,7 @@ export default function CommentBox({text, user, createdAt, interaction,  likes, 
     return(
         <Container>
             <ProfilePictureContainer>
-                <ProfilePicture />
+                <ProfilePicture src={user.pfp}/>
             </ProfilePictureContainer>
             <Content>
                 <DetailsContainer>

@@ -88,7 +88,6 @@ border-radius: 0 0 6px 6px;
 export default function UserProfileOrSignIn(){
     const navigate = useNavigate();
     const [cookies, setCookies, removeCookie] = useCookies();
-
     const [showActionsList, setShowActionsList] = useState(false);
 
     const actionsListRef = useRef();
@@ -101,14 +100,16 @@ export default function UserProfileOrSignIn(){
     }
 
     async function signOut(){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/logout/`,{
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/logout`;
+        const INIT = {
             method:"POST",
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization': 'Token '+ cookies.token
             }
-        })
+        };
 
+        const request = await fetch(URL ,INIT);
         if (request.status == 200){
             removeCookies(["token","username", "id", "email", "pfp"]);
             navigate("/",{replace:true})

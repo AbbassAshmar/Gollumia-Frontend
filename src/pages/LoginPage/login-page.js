@@ -198,16 +198,16 @@ function LoginPage(){
     })
 
     async function requestLogin(user){
-        const url = `${process.env.REACT_APP_API_URL}/api/login/`;
-        const request = await fetch(url,{
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/login`;
+        const INIT = {
             method:"POST",
             body:JSON.stringify(user),
-            headers :{
-                'Content-Type': 'application/json',
-            },
-        })
+            headers :{'Content-Type': 'application/json'},
+        }
 
+        const request = await fetch(URL,INIT)
         const response = await request.json();
+        
         return [request, response];
     }
 

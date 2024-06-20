@@ -181,7 +181,7 @@ function UserPage(){
 
     async function requestUpdateUser(data){
         setIsLoading(true);
-        const URL = `${process.env.REACT_APP_API_URL}/api/users/`
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/users`
         const INIT = {
             method:"PATCH",
             headers:{"Authorization":"Token "+cookie.token},
@@ -230,8 +230,6 @@ function UserPage(){
         let src = URL.createObjectURL(image);
         setDisplayedPFP(src);
     }
-
-   
 
     function handleChangePasswordTextClick(e){
         setShowPasswords(!showPasswords);

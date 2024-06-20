@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import './App.css';
 import LoginPage from "./pages/LoginPage/login-page";
@@ -18,7 +18,7 @@ function App() {
   const location = useLocation()
 
   return (
-    <GoogleOAuthProvider clientId="798671795051-c95amd54jght2rvvkbnqog71ilut2kch.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <div className="App">
         <Routes location={location} key={location.pathname}>
 

@@ -29,14 +29,14 @@ background-color:orange;
 `
 
 
-export default function ProfilePicture({style}){
+export default function ProfilePicture({style,src=null}){
     const [cookies, setCookies] = useCookies(["pfp"])
   
     return (
         <Container style={style}>
-            {cookies?.pfp && cookies.pfp != "null"?
+            {src || (cookies?.pfp && cookies.pfp != "null")?
                 <Profile>
-                    <ProfileImage src={cookies.pfp}/>
+                    <ProfileImage src={src? src :cookies.pfp}/>
                 </Profile> :
                 <LetterPfp>
                     {cookies?.username[0].toUpperCase() || "G"}

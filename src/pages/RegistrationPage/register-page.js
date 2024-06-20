@@ -47,12 +47,14 @@ function Register(){
     const imageY = useTransform(scrollYProgress,[0,1], ['0%', '28%']);
 
     async function requestRegister(user){
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/api/register/`,{
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/register`
+        const INIT = {
             headers :{"Content-type":"application/json"},
             method: 'POST',
-            body: JSON.stringify(user)}
-        )
+            body: JSON.stringify(user)
+        }
 
+        const request = await fetch(URL, INIT);
         const response = await request.json();
         return [request, response];
     }
@@ -62,7 +64,7 @@ function Register(){
         const [request, response] = await requestRegister(formData);
         
         if (request.status == 201){
-            const data = response.data
+            const data = response.data;
             const cookiesToSet = {
                 token: data.token,
                 email: data.user.email,
@@ -70,8 +72,6 @@ function Register(){
                 id: data.user.id,
                 pfp: data.user.pfp
             };
-
-            console.log(cookiesToSet)
 
             setCookies(cookiesToSet, setCookie);
             setErrors({error_fields:[], messages:{}});
