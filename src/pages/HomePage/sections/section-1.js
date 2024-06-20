@@ -112,12 +112,12 @@ export default function Section1(){
             <ContentContainer>
                 <Content as={motion.div} style={{y:contentY,x:"-50%"}}>
                     <Title>
-                        AFLIX <br/>
+                        Gollumia <br/>
                         “There's no place like home”
                     </Title>
                     <JoinUs to="/login">Join Us Now</JoinUs>
                 </Content>
-                <Image as={width >768 ? motion.img : ""} style={{ y: imageY, scale: imageScale }} src={Garfield} alt="garfield movie image"/>
+                <Image as={width >800 ? motion.img : ""} style={{ y: imageY, scale: imageScale }} src={Garfield} alt="garfield movie image"/>
             </ContentContainer>
         </Container>
     )

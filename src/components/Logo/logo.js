@@ -13,7 +13,7 @@ margin:0 0 0 0;
 export default function Logo({style}){
     return (
         <Container style={style}>
-            AFLIX
+            Gollumia
         </Container>
     )
 }
