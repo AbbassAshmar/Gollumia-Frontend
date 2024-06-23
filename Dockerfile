@@ -4,10 +4,13 @@ WORKDIR /usr/src/app/frontend
 
 #don't run npm install each time code changes
 COPY package.json .
-RUN npm install --force 
+RUN npm install
 COPY . .
 EXPOSE 3000
 CMD ["npm", "start"]
+
+
+
 
 FROM node:latest AS builder
 WORKDIR /usr/src/app/frontend
@@ -19,6 +22,9 @@ RUN npm install
 # layer of code files 
 COPY . .
 RUN npm run build
+
+
+
 
 #use the latest nginx image 
 FROM nginx:latest AS production
