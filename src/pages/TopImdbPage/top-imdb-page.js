@@ -5,13 +5,15 @@ import MoviesGridContainer from "../../components/MoviesGridContainer/movies-gri
 import Title from "../../components/Title/title";
 import Pagination from "../../components/Pagination/pagination";
 import MoviesPagesContainers from "../../components/MoviesPagesContainers/movies-pages-containers";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { removeCookies } from "../../components/MainNavbar/components/UserProfileOrSignIn/user-profile-or-sign-in";
 
 const Main = styled.div`
     background:black;
     margin:0 0 0 1.3rem;
 `
 function TopImdbPage(){
+    const navigate = useNavigate();
     const [movies, setMovies] = useState([])
     const [searchParams, setSearchParams] = useSearchParams()
     const [totalPagesCount, setTotalPagesCount] = useState(20);

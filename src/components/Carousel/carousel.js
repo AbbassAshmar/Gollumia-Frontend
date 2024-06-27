@@ -3,6 +3,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import CarouselElement from "./carousel-element";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import {removeCookies} from "../MainNavbar/components/UserProfileOrSignIn/user-profile-or-sign-in";
 
 // slide right
 // activate animation
@@ -58,7 +60,8 @@ transition: background-color .3s;
 }
 `
 export default function Carousel(){
-    const [cookies, setCookies] = useCookies();
+    const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [isLoading, setIsLoading] = useState(true);
     const [latestMovies, setLatestMovies] = useState([]);
     const [currentElement, setCurrentElement] = useState(0);
@@ -163,8 +166,9 @@ export default function Carousel(){
         const request = await fetch(URL,INIT);
         const response = await request.json()
 
-        if(request.status == 200)
-        setLatestMovies(response.data.movies)
+        if(request.status == 200){
+            setLatestMovies(response.data.movies)
+        }
 
         setIsLoading(false);
     }

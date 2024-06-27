@@ -5,6 +5,7 @@ import Navbar from "../../components/MainNavbar/navbar";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { useState } from "react";
+import { removeCookies } from "../../components/MainNavbar/components/UserProfileOrSignIn/user-profile-or-sign-in";
 
 const Container = styled.div`
 width: 100%;
@@ -14,7 +15,7 @@ height:${({$lock}) => $lock ? "100vh" : "auto"};
 
 export default function DefaultPage({navbarStyle}){
     const [lockBody, setLockBody] = useState(false);
-    const [cookies, setCookies] = useCookies();
+    const [cookies, setCookie, removeCookie] = useCookies();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,7 +25,36 @@ export default function DefaultPage({navbarStyle}){
     useEffect(()=>{
         if(!cookies.token) 
         navigate('/login',{replace:true})
+        else {
+            fetchIsUserAuthenticated()
+        }
     },[])
+
+    async function fetchIsUserAuthenticated(){
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/check`;
+        const INIT = {
+            method:"GET",
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Token '+ cookies.token
+            }
+        };
+
+        try {
+            const request = await fetch(URL ,INIT);
+            if (request.status != 200){
+                handleUnauthenticated()
+            }
+        }catch(e){
+            handleUnauthenticated()
+        }
+    }
+
+    function handleUnauthenticated() {
+        removeCookies(["token", "username", "id", "email", "pfp"], removeCookie);
+        navigate("/login", { replace: true });
+    }
+
 
     return (
         <Container $lock={lockBody}>

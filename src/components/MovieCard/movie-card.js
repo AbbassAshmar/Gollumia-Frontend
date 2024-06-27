@@ -104,7 +104,10 @@ const pulseAnimation = keyframes`
 0% {opacity: 0.5;}
 100% { opacity: 1;}
 `
-const LoadingContainer = styled(Container)`
+const LoadingContainer = styled.div`
+width: 100%;
+height:100%;
+min-width:0;
 color: #fff; 
 background-color: #333;
 aspect-ratio: 1/1.5;
@@ -117,7 +120,7 @@ background-color: var(--main-color);
 animation: ${pulseAnimation} 1s infinite alternate;
 `
 
-function LoadingMovieCard(){
+export function LoadingMovieCard(){
 
     return (
         <LoadingContainer>

@@ -108,7 +108,7 @@ export default function UserProfileOrSignIn(){
         };
 
         const request = await fetch(URL ,INIT);
-        if (request.status == 200){
+        if (request.status == 200 || request.status == 401){
             removeCookies(["token","username", "id", "email", "pfp"], removeCookie);
             navigate("/",{replace:true})
         }

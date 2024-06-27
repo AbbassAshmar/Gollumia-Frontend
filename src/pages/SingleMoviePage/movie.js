@@ -112,7 +112,8 @@ const MOVIE_PLAYERS = ['https://vidsrc.xyz/embed/movie/','https://moviesapi.club
 function Movie(){
     const {id} = useParams();
     const [cookies, setCookies] = useCookies();
-    const [movieData, setMovieData ] = useState({})
+    const [movieData, setMovieData ] = useState({});
+    const [isLoadingMovieData, setIsLoadingMovieData] = useState(true);
     const [currentPlayer, setCurrentPlayer] = useState(MOVIE_PLAYERS[0])
 
     const trailerSectionRef = useRef();
@@ -137,6 +138,8 @@ function Movie(){
         if (request.status == 200){
             setMovieData(response.data.movie)
         }
+
+        setIsLoadingMovieData(false);
     }
     
     function getAverageRating (){
@@ -161,7 +164,7 @@ function Movie(){
     return(
         <Container>
             <ContentContainer>
-                <AboveTheFolds movie={movieData} trailerSectionRef={trailerSectionRef} />
+                <AboveTheFolds isLoadingMovieData={isLoadingMovieData} movie={movieData} trailerSectionRef={trailerSectionRef} />
                 <Content>
                     <Ratings>
                         <Rating>

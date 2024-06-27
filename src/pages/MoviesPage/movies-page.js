@@ -34,25 +34,12 @@ align-items: flex-start;
 `
 
 
-export function MoviesPage(){
-    const[carouselMovies, setCarouselMovies]= useState([])
+export function MoviesPage(){   
 
-    useEffect(() => {
-        fetchCarouselMovies()
-    },[])
-
-    async function fetchCarouselMovies(){
-        const request =  await fetch(`${process.env.REACT_APP_API_URL}/api/movies/?limit=10`);
-        let response = await request.json()
-        if(request.ok == true && request.status == 200){
-            setCarouselMovies(response.data.movies)                   
-        }
-    }
-    
     return(
         <Container>
             <section>
-                <Crousel Moviesdata={carouselMovies} />
+                <Crousel />
             </section>
 
             <MoviesGrids>

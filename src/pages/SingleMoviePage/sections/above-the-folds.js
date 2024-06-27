@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import useFavorites from "../../../hooks/use-favorites";
 import { useEffect } from "react";
 import { useState } from "react";
+import { LoadingMovieCard } from "../../../components/MovieCard/movie-card";
 
 const Container = styled.div`
 z-index: 2;
@@ -69,6 +70,7 @@ overflow: hidden;
     max-width:400px;
 }
 `
+
 const Poster = styled.img`
 width: 100%;
 height:100%;
@@ -206,7 +208,7 @@ padding:0;
 font-weight: inherit;
 `
 
-export default function AboveTheFolds({movie, trailerSectionRef}){
+export default function AboveTheFolds({movie, trailerSectionRef, isLoadingMovieData}){
     const {addOrRemoveFavorite, isFavorite} = useFavorites(movie);
 
     const containerRef = useRef();
@@ -238,7 +240,10 @@ export default function AboveTheFolds({movie, trailerSectionRef}){
             </BackgroundImageContainer>
             <Content>
                 <PosterContainer>
-                    <Poster src={movie.poster} />
+                    {isLoadingMovieData ?
+                        <LoadingMovieCard /> : 
+                        <Poster src={movie.poster} />
+                    }
                 </PosterContainer>
                 <InformationContainer>
                     <GenresTitleContainer>
