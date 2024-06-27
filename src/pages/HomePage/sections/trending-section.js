@@ -212,7 +212,6 @@ export default function TrendingSection(){
                 const moviesList = await request.json()
                 setTrendingMovies(moviesList.data.movies)
             }
-
         }catch(error){
         }
         
@@ -224,9 +223,6 @@ export default function TrendingSection(){
         target : bigImageContainerRef,
         offset : ['start end' , 'end start']
     })
-
-    // const bigImageContainerY = useTransform(scrollYProgress, [0,1], ['50px', '-160px']);
-    // const bigImageY = useTransform(scrollYProgress, [0,0.2,1], ['0px','30px', '170px']);
 
     const bigImageContainerY = useTransform(scrollYProgress, [0,1], ['0%', '-10%']);
     const bigImageY = useTransform(scrollYProgress, [0,1], ['-6%', '28%']);
@@ -246,7 +242,6 @@ export default function TrendingSection(){
             {!isLoading && movie ? <ParallaxMovieCard movie={movie} posterOnly={true} imageY={imageY} containerY={containerY}/> : <ParallaxMovieCard isLoading={true} />}
         </MovieCardContainer>
     )
-    useEffect(()=>{console.log(isLoading)},[isLoading])
 
     return(
         <Container>

@@ -3,12 +3,23 @@ import styled from 'styled-components';
 import {  useCookies } from 'react-cookie';
 import { setCookies } from '../LoginPage/login-page';
 import TextInput from '../../components/TextInput/text-input';
+import ProfilePicture from '../../components/ProfilePicture/profile-picture';
+import { removeCookies } from '../../components/MainNavbar/components/UserProfileOrSignIn/user-profile-or-sign-in';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
 margin:0;
 padding:0;
+min-height: 64vh;
 width:100%;
 background:black;
+@media screen and (max-height:1400px){
+    min-height: 51vh;
+}
+
+@media screen and (max-width:800px) {
+    min-height: 0;
+}
 `
 const SuccessMessage = styled.div`
 opacity:${({$show}) => $show ? "1" : "0"};
@@ -75,12 +86,7 @@ overflow:hidden;
     aspect-ratio: 1/1;
 }
 `
-const ProfilePicture = styled.img`
-width:100%;
-height:100%;
-border-radius: 50%;
-object-fit: cover;
-`
+
 const ProfileLetter = styled.div`
 color:white;
 height:100%;
@@ -92,7 +98,7 @@ align-items: center;
 justify-content: center;
 background-color:var(--main-color);
 @media screen and (max-width:500px){
-    font-size: clamp(4rem,40vw,14rem);
+    
 }
 `
 const InputsContainer = styled.div`
@@ -149,10 +155,12 @@ background-color: var(--main-color);
 }
 `
 function UserPage(){
+    const navigate = useNavigate();
+
     const [showPasswords, setShowPasswords] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-    const [cookie,setCookie] = useCookies([]);
+    const [cookie,setCookie, removeCookie] = useCookies();
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({error_fields:[], messages:[]});
 
@@ -164,6 +172,10 @@ function UserPage(){
         old_password : "" ,
         confirm_password : "",
     })
+
+    useEffect(()=>{
+        setDisplayedPFP(cookie.pfp)
+    },[cookie.pfp])
 
     useEffect(()=>{
         return ()=>{
@@ -207,6 +219,11 @@ function UserPage(){
             })
         }
 
+        if (request.status == 401){
+            removeCookies(["token","username", "id", "email", "pfp"],removeCookie)
+            navigate("/",{replace:true})
+        }
+
         setIsLoading(false);
     }
     
@@ -243,19 +260,13 @@ function UserPage(){
                     <i style={{marginRight:".5rem"}} className="fa-regular fa-user"/> Update Profile
                 </TitleContainer>
                 <Form onSubmit={handleFormSubmit}>
-                    <ProfilePictureContainer for="pfp_input_user_page">
+                    <ProfilePictureContainer htmlFor="pfp_input_user_page">
                         <input 
                         id="pfp_input_user_page" 
                         onChange={handlePfpInputChange} 
                         name={"pfp"} type='file' accept=".jpg,.jpeg,.png" 
-                        style={{width:'1px' , position:"absolute", visibility:"hidden"}}/>
-                        
-                        {displayedPFP && displayedPFP != "null"?
-                            <ProfilePicture src={displayedPFP}/>:
-                            <ProfileLetter>
-                                {cookie.username[0].toUpperCase()}
-                            </ProfileLetter>
-                        }
+                        style={{width:'1px' , position:"absolute", visibility:"hidden"}}/>       
+                        <ProfilePicture style={{fontSize:"clamp(4rem,40vw,9rem)"}} src={displayedPFP}/>
                     </ProfilePictureContainer>
                     <InputsContainer>
                         <EmailUsername>

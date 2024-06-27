@@ -5,6 +5,7 @@ import SimplifiedNavbar from "../../components/SimplifiedNavbar/simplified-navba
 
 const Container = styled.div`
 width: 100%;
+min-height:100vh;
 `
 const NavbarContainer = styled.div`
 top:0;

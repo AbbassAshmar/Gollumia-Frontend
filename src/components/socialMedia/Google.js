@@ -35,10 +35,9 @@ export default function Google(){
         }
 
         const request = await fetch(URL,INIT);
-
         if (request.status == 200){
             const response = await request.json();
-            
+    
             const data = response.data;
             const cookiesToSet = {
                 token: data.token,
@@ -47,7 +46,7 @@ export default function Google(){
                 id: data.user.id,
                 pfp: data.user.pfp
             };
-
+            
             setCookies(cookiesToSet, setCookie);
             navigate("/home", { replace: true });
         }else{

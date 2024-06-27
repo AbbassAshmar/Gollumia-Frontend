@@ -12,6 +12,7 @@ width: 100%;
 display: flex;
 flex-direction: column;
 background-color: black;
+scroll-behavior: smooth;
 @media screen and (max-width:1024px){
     gap:3rem;
 }

@@ -84,6 +84,9 @@ border-radius: 0 0 6px 6px;
     color:white;
 }
 `
+export function removeCookies(cookies, removeCookie){
+    cookies.forEach((cookie)=> removeCookie(cookie, {path:"/"}))
+}
 
 export default function UserProfileOrSignIn(){
     const navigate = useNavigate();
@@ -93,11 +96,6 @@ export default function UserProfileOrSignIn(){
     const actionsListRef = useRef();
     const profileContainerRef = useRef();
     useClickOutside([actionsListRef,profileContainerRef], showActionsList, ()=>setShowActionsList(false));
-
-
-    function removeCookies(cookies){
-        cookies.forEach((cookie)=> removeCookie(cookie, {path:"/"}))
-    }
 
     async function signOut(){
         const URL = `${process.env.REACT_APP_API_URL}/api/auth/logout`;
@@ -111,7 +109,7 @@ export default function UserProfileOrSignIn(){
 
         const request = await fetch(URL ,INIT);
         if (request.status == 200){
-            removeCookies(["token","username", "id", "email", "pfp"]);
+            removeCookies(["token","username", "id", "email", "pfp"], removeCookie);
             navigate("/",{replace:true})
         }
     }

@@ -24,8 +24,6 @@ COPY . .
 RUN npm run build
 
 
-
-
 #use the latest nginx image 
 FROM nginx:latest AS production
 # remove the default nginx configuration file 

@@ -12,7 +12,7 @@ position:relative;
 padding: 1rem 2rem;
 align-items: center;
 justify-content: space-between;
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1025px) {
     display: none;
 }
 @media screen and (max-width:800px){
