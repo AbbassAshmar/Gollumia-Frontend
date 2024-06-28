@@ -13,7 +13,7 @@ export function TrendingMovies(){
         
         if (request.status == 200)
         setTrendingMovies(response.data.movies);
-        
+    
         setIsLoading(false);
     }
 

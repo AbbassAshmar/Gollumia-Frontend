@@ -9,7 +9,7 @@ gap: .5rem;
 `
 
 const OuterLabel = styled.label`
-color:${({$focus,$error}) => $error ? "red" : $focus ? "var(--main-color)" : "grey"};
+color:${({$focus,$error,$isLoading}) => $isLoading ? "grey" : $error ? "red" : $focus ? "var(--main-color)" : "grey"};
 font-size:1rem;
 `
 
@@ -36,11 +36,18 @@ padding:.5rem 1rem;
     color:var(--main-color);
     font-size: 12px;
 }
+&:disabled{
+    border:2px solid grey;
+    color:grey;
+}
+&:disabled + label{
+    color:grey;
+}
 `
 export const Message = styled.p`
-font-size:var(--small-1);
-color:red;
 padding: 0;
+font-size:var(--small-1);
+color:${({$isLoading}) => $isLoading ? "grey" : "red"};
 `
 
 const InnerLabel = styled.label`
@@ -54,7 +61,7 @@ font-size:${({$up}) => $up ? '12px' : "14px"};
 color:${({$error}) => $error ? "red" : "grey"};
 transition: top .3s, font-size .3s, color .3s;
 `
-export default function TextInput({errors, setFormData, formData, name, type, label=null, placeholder=null}){
+export default function TextInput({errors, setFormData, formData, name, type, label=null, placeholder=null, isLoading=false}){
     const [inputFocus, setInputFocus] = useState(false)
 
     function handleInputChange(e){
@@ -64,15 +71,23 @@ export default function TextInput({errors, setFormData, formData, name, type, la
     return (
         <Container>
             {label === "outer" &&(
-                <OuterLabel $error={errors.error_fields.includes(name)} $focus={inputFocus}>{name.replace("_"," ")}</OuterLabel>
+                <OuterLabel $isLoading={isLoading} $error={errors.error_fields.includes(name)} $focus={inputFocus}>
+                    {name.replace("_"," ")}
+                </OuterLabel>
             )}
             <InputContainer>
-                <Input onBlur={()=>setInputFocus(false)} onFocus={()=>setInputFocus(true)} $error={errors.error_fields.includes(name)} value={formData[name]} onChange={handleInputChange} type={type} placeholder={placeholder}/>
+                <Input 
+                disabled={isLoading} 
+                onBlur={()=>setInputFocus(false)} 
+                onFocus={()=>setInputFocus(true)} 
+                $error={errors.error_fields.includes(name)} 
+                value={formData[name]} onChange={handleInputChange} 
+                type={type} placeholder={placeholder}/>
                 {label === "inner" && (
                     <InnerLabel $error={errors.error_fields.includes(name)} $up={formData[name] || false}>{name.replace("_"," ")}</InnerLabel>
                 )}
             </InputContainer>
-            {errors.messages[name] && <Message>{errors.messages[name]}</Message>}
+            {errors.messages[name] && <Message $isLoading={isLoading}>{errors.messages[name]}</Message>}
         </Container>
     )
 }

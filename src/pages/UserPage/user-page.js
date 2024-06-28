@@ -6,39 +6,18 @@ import TextInput from '../../components/TextInput/text-input';
 import ProfilePicture from '../../components/ProfilePicture/profile-picture';
 import { removeCookies } from '../../components/MainNavbar/components/UserProfileOrSignIn/user-profile-or-sign-in';
 import { useNavigate } from 'react-router-dom';
+import PopUp from '../../components/PopUp/pop-up';
 
 const Container = styled.div`
 margin:0;
 padding:0;
-min-height: 64vh;
 width:100%;
 background:black;
-@media screen and (max-height:1400px){
-    min-height: 51vh;
-}
+`
 
-@media screen and (max-width:800px) {
-    min-height: 0;
-}
-`
-const SuccessMessage = styled.div`
-opacity:${({$show}) => $show ? "1" : "0"};
-right:${({$show}) => $show ? "1rem" : "-1rem"};
-transition:opacity .3s, right .3s;
-top:4rem;
-border-radius: 8px;
-font-weight: bold;
-font-size:var(--heading-6);
-padding:.75rem 1.5rem;
-color:	white;
-position: fixed;
-z-index:2;
-background-color: rgba(124,252,0,1);
-`
 const Content = styled.div`
 overflow: hidden;
 position:relative;
-z-index: 1;
 padding: 4rem 0;
 gap:2rem;
 width:60%;
@@ -158,7 +137,7 @@ function UserPage(){
     const navigate = useNavigate();
 
     const [showPasswords, setShowPasswords] = useState(false);
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [popUpMessage, setPopUpMessage] = useState({show:false, message:"", status:"success"});
 
     const [cookie,setCookie, removeCookie] = useCookies();
     const [isLoading, setIsLoading] = useState(false);
@@ -179,32 +158,23 @@ function UserPage(){
 
     useEffect(()=>{
         return ()=>{
-            if (displayedPFP && displayedPFP != cookie.pfp){
-                URL.revokeObjectURL(displayedPFP);
-            }
+            if (displayedPFP && displayedPFP != cookie.pfp)
+            URL.revokeObjectURL(displayedPFP);
         }
     },[])
 
-    useEffect(()=>{
-        if(showSuccessMessage){
-            setTimeout(()=> setShowSuccessMessage(false), 3000)
-        }
-    },[showSuccessMessage])
-
-    async function requestUpdateUser(data){
-        setIsLoading(true);
-        const URL = `${process.env.REACT_APP_API_URL}/api/auth/users`
-        const INIT = {
-            method:"PATCH",
-            headers:{"Authorization":"Token "+cookie.token},
-            body:data
+    function handleReponse(request, response){
+        if (request == null){ 
+            setPopUpMessage({show:true, message:"Service Unavailable", status:"error"});
+            setErrors({
+                messages: {},
+                error_fields: [], 
+            })
         }
 
-        let request = await fetch(URL,INIT);
-        let response = await request.json();
-        
-        if (request.status == 200){
-            setShowSuccessMessage(true);
+        else if (request.status == 200){
+            setPopUpMessage({show:true, message:"Profile Updated", status:"success"});
+            
             setCookies(response.data.user,setCookie)
             setErrors({
                 messages: {},
@@ -212,18 +182,44 @@ function UserPage(){
             })
         }
 
-        if (request.status == 400){
+        else if (request.status == 400){
             setErrors({
                 messages: response.error?.details,
                 error_fields: response.metadata?.error_fields, 
             })
         }
 
-        if (request.status == 401){
+        else if (request.status == 401){
             removeCookies(["token","username", "id", "email", "pfp"],removeCookie)
             navigate("/",{replace:true})
         }
 
+        else{
+            setPopUpMessage({show:true, message:"Try again later", status:"error"});
+            setErrors({
+                messages: {},
+                error_fields: [], 
+            })
+        }
+    }
+
+    async function requestUpdateUser(data){
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/users`
+        const INIT = {
+            method:"PATCH",
+            headers:{"Authorization":"Token "+cookie.token},
+            body:data
+        }
+
+        try {
+            let request = await fetch(URL,INIT);
+            let response = await request.json();    
+            handleReponse(request, response)
+        }
+        catch(error){
+            handleReponse(null, null)
+        }
+        
         setIsLoading(false);
     }
     
@@ -235,6 +231,7 @@ function UserPage(){
             formDataObject.append(key, formData[key]);
         }
 
+        setIsLoading(true);
         requestUpdateUser(formDataObject)
     }
 
@@ -254,14 +251,15 @@ function UserPage(){
 
     return(
         <Container>
+            <PopUp details={popUpMessage} setDetails={setPopUpMessage}/>
             <Content>
-                <SuccessMessage $show={showSuccessMessage}><i style={{marginRight:".5rem"}} className="fa-regular fa-circle-check"/> Profile Updated</SuccessMessage>
                 <TitleContainer>
                     <i style={{marginRight:".5rem"}} className="fa-regular fa-user"/> Update Profile
                 </TitleContainer>
                 <Form onSubmit={handleFormSubmit}>
                     <ProfilePictureContainer htmlFor="pfp_input_user_page">
                         <input 
+                        disabled={isLoading}
                         id="pfp_input_user_page" 
                         onChange={handlePfpInputChange} 
                         name={"pfp"} type='file' accept=".jpg,.jpeg,.png" 
@@ -270,14 +268,14 @@ function UserPage(){
                     </ProfilePictureContainer>
                     <InputsContainer>
                         <EmailUsername>
-                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="username" type="text" placeholder="username"/>
-                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="email" type="email" placeholder="ex. ab@gmail.com"/>
+                            <TextInput isLoading={isLoading} label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="username" type="text" placeholder="username"/>
+                            <TextInput isLoading={isLoading} label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="email" type="email" placeholder="ex. ab@gmail.com"/>
                         </EmailUsername>
                         <ChangePassword onClick={handleChangePasswordTextClick}>Change Password</ChangePassword>
                         <PasswordsContainer $show={showPasswords}>
-                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="old_password" type="password" placeholder="your password"/>
-                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="new_password" type="password" placeholder="ex. Ab43j#245jgi"/>
-                            <TextInput label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="confirm_password" type="password" placeholder="re-write new password"/>
+                            <TextInput isLoading={isLoading} label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="old_password" type="password" placeholder="your password"/>
+                            <TextInput isLoading={isLoading} label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="new_password" type="password" placeholder="ex. Ab43j#245jgi"/>
+                            <TextInput isLoading={isLoading} label={'outer'} errors={errors} formData={formData} setFormData={setFormData} name="confirm_password" type="password" placeholder="re-write new password"/>
                         </PasswordsContainer>
                         <SubmitButton type='submit' disabled={isLoading}>Update profile</SubmitButton>
                     </InputsContainer>

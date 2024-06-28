@@ -76,7 +76,6 @@ export default function GenresSection(){
 
     async function fetchHorrorActionAdventureMovies(){
         try{
-
             const [horrorMovie, adventureMovie, actionMovie] = await Promise.all([
                 fetchMovieByGenre("Horror"),
                 fetchMovieByGenre("Adventure"),
@@ -135,8 +134,8 @@ export default function GenresSection(){
                 </PosterContainer>
             </PostersContainer>
             <GenresContainer>
-                {GENRES.map((genre,index)=>(
-                    <GenreBox  movie={movies[index]} isLoading={isLoading} style={{zIndex:`${GENRES.length - index}`}} key={genre.id} colors={genre.colors} name={genre.name} image={genre.image} />
+                {GENRES.map((genre)=>(
+                    <GenreBox key={genre.id} colors={genre.colors} name={genre.name} image={genre.image} />
                 ))}
             </GenresContainer>
         </Container>

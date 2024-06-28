@@ -4,6 +4,7 @@ import ProfilePicture from "../../../ProfilePicture/profile-picture";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../../../hooks/use-click-outside";
+import PopUp from "../../../PopUp/pop-up";
 
 const Container = styled.div`
 position:relative;
@@ -90,6 +91,8 @@ export function removeCookies(cookies, removeCookie){
 
 export default function UserProfileOrSignIn(){
     const navigate = useNavigate();
+    const [popUpMessage, setPopUpMessage] = useState({show:false, message:"", status:"success"});
+
     const [cookies, setCookies, removeCookie] = useCookies();
     const [showActionsList, setShowActionsList] = useState(false);
 
@@ -107,11 +110,19 @@ export default function UserProfileOrSignIn(){
             }
         };
 
-        const request = await fetch(URL ,INIT);
-        if (request.status == 200 || request.status == 401){
-            removeCookies(["token","username", "id", "email", "pfp"], removeCookie);
-            navigate("/",{replace:true})
+    
+        try{
+            const request = await fetch(URL ,INIT);
+            if (request.status == 200 || request.status == 401){
+                removeCookies(["token","username", "id", "email", "pfp"], removeCookie);
+                navigate("/",{replace:true})
+            }else{
+                setPopUpMessage({show:true, message:"Try again later", status:"error"});
+            }
+        }catch(error){
+            setPopUpMessage({show:true, message:"Service Unavailable", status:"error"});
         }
+        
     }
 
     function handleProfileClick(){
@@ -119,7 +130,8 @@ export default function UserProfileOrSignIn(){
     }
 
     if (cookies.token) return(
-        <Container > 
+        <Container> 
+            <PopUp details={popUpMessage} setDetails={setPopUpMessage}/>
             <ProfileContainer ref={profileContainerRef} onClick={handleProfileClick}>
                 <UserProfile>
                     <ProfilePicture />

@@ -11,6 +11,10 @@ const Container = styled.div`
 width: 100%;
 overflow:${({$lock}) => $lock ? "hidden" : "auto"};
 height:${({$lock}) => $lock ? "100vh" : "auto"};
+min-height: 100vh;
+background-color: black;
+display: flex;
+flex-direction: column;
 `
 
 export default function DefaultPage({navbarStyle}){
@@ -59,7 +63,9 @@ export default function DefaultPage({navbarStyle}){
     return (
         <Container $lock={lockBody}>
             <Navbar setLockBody={setLockBody} style={navbarStyle}/>
-            <Outlet />
+            <div style={{flex:"1"}}>
+                <Outlet />
+            </div>
             <Footer />
         </Container>
     )

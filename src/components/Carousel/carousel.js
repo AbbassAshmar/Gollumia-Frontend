@@ -3,8 +3,11 @@ import { useState } from "react";
 import styled from "styled-components";
 import CarouselElement from "./carousel-element";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import {removeCookies} from "../MainNavbar/components/UserProfileOrSignIn/user-profile-or-sign-in";
+
+import deadPool from "../../photos/deadPool.jpg";
+import barbie from "../../photos/barbie.jpg";
+import lordOfTheRings from "../../photos/lordOfTheRings.jpeg";
+
 
 // slide right
 // activate animation
@@ -59,22 +62,43 @@ transition: background-color .3s;
     background-color: orange;
 }
 `
+
+const QUOTES = [
+    {
+        quote : `"She thinks I'm a fascist? I don't control the railways or the flow of commerce!"`,
+        by : 'Barbie in Barbie (2023)',
+        image : barbie,
+        id:1,
+    },
+    {
+        quote : `"That still only counts as one!"`,
+        by : `Gimli in The Lord of the Rings: The Return of the King (2003)`,
+        image : lordOfTheRings,
+        id:2,
+    },
+    {
+        quote : `"Looks are everything. You ever heard David Beckham speak? It's like he mouth-sexed a can of helium. Think Ryan Reynolds got this far on his superior acting method?"`,
+        by : 'Wade Wilson in Deadpool (2016)',
+        image : deadPool,
+        id:3,
+    }
+]
+
 export default function Carousel(){
-    const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies();
+    const [cookies, setCookie] = useCookies();
     const [isLoading, setIsLoading] = useState(true);
-    const [latestMovies, setLatestMovies] = useState([]);
+    const [carouselMovies, setCarouselMovies] = useState([]);
     const [currentElement, setCurrentElement] = useState(0);
     
     // Right : 0 true, 1 false , Left : 2 true, 3 false, IDLE = 4
     const [activateAnimation, setActivateAnimation] = useState(4);
 
     useEffect(()=>{
-        fetchLatestMovies()
+        fetchCarouselMovies()
     },[])
 
     useEffect(()=>{
-        let timer = setInterval(handleNavigateRight,3000);
+        let timer = setInterval(handleNavigateRight,5000);
         return () => {
             clearTimeout(timer);
         }; 
@@ -85,7 +109,7 @@ export default function Carousel(){
 
         // false and left
         if(activateAnimation == 3){
-            setLatestMovies((prev)=> { 
+            setCarouselMovies((prev)=> { 
                 let last=  prev[prev.length - 1]
                 return [last, ...prev.slice(0,-1)] 
             });
@@ -123,7 +147,7 @@ export default function Carousel(){
 
         // false and right
         if (activateAnimation == 1){
-            timer2 = setLatestMovies((prev)=> { 
+            timer2 = setCarouselMovies((prev)=> { 
                 let first=  prev[0]
                 return [...prev.slice(1,undefined), first] 
             })
@@ -153,7 +177,7 @@ export default function Carousel(){
 
     const isAnimationActive = activateAnimation == 0 || activateAnimation == 2;
 
-    async function fetchLatestMovies(){
+    async function fetchCarouselMovies(){
         const URL =`${process.env.REACT_APP_API_URL}/api/movies/slider/?limit=5`;
         const INIT = {
             method:"GET",
@@ -163,15 +187,24 @@ export default function Carousel(){
             },
         }
 
-        const request = await fetch(URL,INIT);
-        const response = await request.json()
+        try{
+            const request = await fetch(URL,INIT);
+            const response = await request.json()
 
-        if(request.status == 200){
-            setLatestMovies(response.data.movies)
+            if(request.status == 200){
+                if (response.data.movie && response.data.movies.length > 0)
+                setCarouselMovies(response.data.movies);
+                else setCarouselMovies(QUOTES);
+            }else{
+                setCarouselMovies(QUOTES);
+            }
+        }catch(error){
+            setCarouselMovies(QUOTES);
         }
 
         setIsLoading(false);
     }
+
 
     if (isLoading)
     return(
@@ -179,12 +212,12 @@ export default function Carousel(){
             <CarouselElement isLoading={true} />
         </Container>
     )
-    
+
     return(
         <Container>
             <ElementsContainer $transition={isAnimationActive?"transform .3s" : "none"} style={{transform:`translateX(-${currentElement * 100}vw)`}}>
-                {latestMovies.length > 0 && latestMovies.map(movie=>(
-                    <CarouselElement key={movie.id} movie={movie} /> 
+                {carouselMovies.length > 0 && carouselMovies.map((movie,index)=>(
+                    <CarouselElement isQuote={movie.quote != undefined} key={movie?.id || index} movie={movie} /> 
                 ))}
             </ElementsContainer>
             <Navigate>

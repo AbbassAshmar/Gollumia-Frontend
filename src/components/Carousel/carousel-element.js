@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled, {keyframes} from "styled-components";
-import {useCookies} from "react-cookie";
 import useFavorites from "../../hooks/use-favorites";
 
-const Container = styled.div`
+export const Container = styled.div`
 text-decoration: none;
 color:white;
 background:url(${({$background})=>$background});
@@ -33,7 +32,8 @@ z-index: 2;
     height: min(70vh, 700px);
 }
 `
-const ContentContainer=  styled.div`
+
+export const ContentContainer=  styled.div`
 padding:2rem;
 padding-bottom: 4rem;
 display: flex;
@@ -169,11 +169,9 @@ cursor:pointer;
 const HeartIcon = styled.i`
 
 `
-export default function CarouselElement({movie, isLoading}){
+export default function CarouselElement({movie, isLoading, isQuote}){
     const [addToFavoritesHover, setAddToFavoritesHover] = useState(false);
     const {addOrRemoveFavorite, isFavorite} = useFavorites(movie);
-
-
 
     function heartIconSolidOrRegular (){
         if (addToFavoritesHover) return "solid";
@@ -189,6 +187,11 @@ export default function CarouselElement({movie, isLoading}){
     return(
         <LoadingCarouselElement />
     )
+
+    if(isQuote)
+    return(
+        <QuoteCarouselElement quote={movie}/>
+    )   
 
     return(
         <Container $background={movie.image}>
@@ -237,15 +240,14 @@ color: #fff;
 min-height:0;
 background-color: #333;
 width: 100%;
-padding:2rem;
 padding-top: 4rem;
 display: flex;
 align-items: flex-start;
 `
 const LoadingAnimation = styled.div`
 width: 100%;
-border-radius:8px;
 height: 70vh; 
+border-radius:8px;
 background-color: var(--main-color); 
 animation: ${pulseAnimation} 1s infinite alternate;
 `
@@ -256,5 +258,37 @@ function LoadingCarouselElement(){
         <LoadingContainer>
             <LoadingAnimation/>
         </LoadingContainer>
+    )
+}
+
+
+
+const QuoteText = styled.h5`
+color:white;
+font-size:var(--heading-5);
+text-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+
+@media screen and (max-width:800px) {
+    font-size: var(--heading-5-mobile);
+}
+`
+const QuoteTeller = styled.h3`
+color:var(--main-color);
+font-size:var(--heading-3);
+text-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+font-weight: bold;
+@media screen and (max-width:800px) {
+    font-size: var(--heading-3-mobile);
+}
+`
+
+function QuoteCarouselElement({quote}){
+    return(
+        <Container $background={quote.image}>
+            <ContentContainer style={{maxWidth:'700px'}}>
+                <QuoteText>{quote.quote}</QuoteText>
+                <QuoteTeller>{quote.by}</QuoteTeller>
+            </ContentContainer>
+        </Container>
     )
 }

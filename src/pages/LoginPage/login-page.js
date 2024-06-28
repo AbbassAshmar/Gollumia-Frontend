@@ -8,6 +8,7 @@ import Google from "../../components/socialMedia/google";
 import MoviesBackground from "../../photos/MoviesBackground.jpg";
 import { motion, useScroll, useTransform } from "framer-motion";
 import TextInput from "../../components/TextInput/text-input";
+import PopUp from "../../components/PopUp/pop-up";
 
 export const Container =styled.div`
 color:white;
@@ -138,6 +139,10 @@ background-color:orange;
 &:hover{
     background-color: var(--main-color-dark);
 }
+
+&:disabled{
+    background-color: grey;
+}
 `
 const SocialMediaContainer = styled.div`
 width: 100%;
@@ -165,6 +170,9 @@ const SUBTITLE = 'Enter your details to sign in to your account and join us';
 function LoginPage(){
     let navigate = useNavigate();
     const {state}= useLocation();
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [popUpMessage, setPopUpMessage] = useState({show:false, message:"", status:"success"});
 
     const [formData, setFormData] = useState({
         email : "",
@@ -197,25 +205,13 @@ function LoginPage(){
         setFormData((prev) => ({...prev, email : state.email}));
     })
 
-    async function requestLogin(user){
-        const URL = `${process.env.REACT_APP_API_URL}/api/auth/login`;
-        const INIT = {
-            method:"POST",
-            body:JSON.stringify(user),
-            headers :{'Content-Type': 'application/json'},
+    function handleResponse(request, response){
+        if (request == null){
+            setPopUpMessage({show:true, message:"Service Unavailable", status:"error"});
+            setErrors({error_fields:[], messages:{}});
         }
-
-        const request = await fetch(URL,INIT)
-        const response = await request.json();
         
-        return [request, response];
-    }
-
-    async function handleSubmit(e){
-        e.preventDefault()
-        const [request, response] = await requestLogin(formData);
-
-        if (request?.status == 200){
+        else if (request.status == 200){
             const data = response.data
             const cookiesToSet = {
                 token: data.token,
@@ -231,17 +227,49 @@ function LoginPage(){
         }
 
         //validation error
-        if (request?.status == 400){
+        else if (request.status == 400){
             setErrors({
                 error_fields:response.metadata.error_fields,
                 messages: response.error.details
             })
         }
+        else{
+            setPopUpMessage({show:true, message:"Try again later", status:"error"});
+            setErrors({
+                messages: {},
+                error_fields: [], 
+            })
+        }
+    }
+
+    async function requestLogin(user){
+        const URL = `${process.env.REACT_APP_API_URL}/api/auth/login`;
+        const INIT = {
+            method:"POST",
+            body:JSON.stringify(user),
+            headers :{'Content-Type': 'application/json'},
+        }
+
+        try{
+            const request = await fetch(URL,INIT)
+            const response = await request.json();
+            handleResponse(request, response);
+        }catch(error){
+            handleResponse(null,null);
+        }
+
+        setIsLoading(false);
+    }
+
+    async function handleSubmit(e){
+        e.preventDefault()
+        setIsLoading(true);
+        requestLogin(formData)
     }
  
-  
     return(
         <Container>
+            <PopUp details={popUpMessage} setDetails={setPopUpMessage}/>
             <BackgroundImageContainer as={motion.div} style={{y:imageContainerY}} ref={imageContainerRef}>
                 <BackgroundImage as={motion.img} style={{y:imageY}} src={MoviesBackground} alt="movies posters grid background"/>
             </BackgroundImageContainer>
@@ -253,20 +281,19 @@ function LoginPage(){
                     </TextContainer>
                     <Form onSubmit={handleSubmit}>
                         <Inputs>
-                            <TextInput label={'inner'} errors={errors} formData={formData} setFormData={setFormData} name="email" type="email"/>
-                            <TextInput label={'inner'} errors={errors} formData={formData} setFormData={setFormData} name="password" type="password" />
+                            <TextInput isLoading={isLoading} label={'inner'} errors={errors} formData={formData} setFormData={setFormData} name="email" type="email"/>
+                            <TextInput isLoading={isLoading} label={'inner'} errors={errors} formData={formData} setFormData={setFormData} name="password" type="password" />
                         </Inputs>
                         <SignInButtonContainer>
                             <Link id="login-forgot-password" to="#">Forgot password ?</Link>
-                            <SignInButton>Sign in</SignInButton>
+                            <SignInButton type={"submit"} disabled={isLoading}>Sign in</SignInButton>
                         </SignInButtonContainer>
                         <SocialMediaContainer>
                             <p style={{margin:'0'}}>Or login with</p>
                             <SocialMediaButtons>
-                                <Google />
+                                <Google isLoading={isLoading} setIsLoading={setIsLoading}/>
                             </SocialMediaButtons>
                         </SocialMediaContainer>
-
                         <div>
                             <p style={{marginRight:'5px',display:"inline"}}>Don't have an account ?</p>
                             <Link style={{color:"var(--main-color)"}} to="/register">Sign up !</Link>

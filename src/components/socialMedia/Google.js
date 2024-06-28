@@ -19,12 +19,14 @@ min-width:82px;
 &:hover{
     opacity:0.6;
 }
+&:disabled{
+    background-color: grey;
+}
 `
 
-export default function Google(){
+export default function Google({isLoading=false, setIsLoading}){
     const [cookies, setCookie] = useCookies(["token"])
     let navigate = useNavigate()
-
     
     async function send_token(access_token){
         const URL = `${process.env.REACT_APP_API_URL}/api/auth/google/register`;
@@ -67,8 +69,14 @@ export default function Google(){
         onError: Error,
     });
 
+    function handleClick(e){
+        e.preventDefault();
+        setIsLoading(true);
+        login()
+    }
+
     return(
-        <Button type='Button' onClick={() => login()}>
+        <Button type={"button"} disabled={isLoading} onClick={handleClick}>
             <i style={{margin:"0 1px 0 2px"}} className="fa-brands fa-google"></i> Google
         </Button>
     )

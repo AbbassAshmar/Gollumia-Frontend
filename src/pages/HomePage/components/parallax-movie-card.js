@@ -7,6 +7,7 @@ const Container = styled.div`
 flex:1;
 width:100%;
 height:100%;
+will-change: transform;
 `
 
 export default function ParallaxMovieCard({movie={}, isLoading=false, posterOnly=false, imageY=[0,0], containerY=[0,0]}){
@@ -17,6 +18,7 @@ export default function ParallaxMovieCard({movie={}, isLoading=false, posterOnly
     })
 
     const imageStyle = {
+        willChange: "transform",
         y : useTransform(scrollYProgress, [0,1], imageY),
         scale : 1.3
     }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {motion, useTransform, useScroll} from "framer-motion";
 import MovieCard from "../../../components/MovieCard/movie-card";
+import useWindowDimensions from "../../../hooks/use-window-dimensions";
 
 
 const Container = styled.div`
@@ -52,6 +53,7 @@ width:140%;
 max-width: 140%;
 height:140%;
 object-fit: cover;
+will-change: transform;
 `
 const TextContainer = styled.div`
 gap:1rem;
@@ -107,7 +109,8 @@ left:50%;
 background-color: ${({$color})=>$color};
 `
 
-export default function GenreBox({name, image, colors, style, movie, isLoading}){
+export default function GenreBox({name, image, colors}){
+    const {width} = useWindowDimensions();
     const imageContainerRef = useRef();
 
     const {scrollYProgress} = useScroll({
@@ -115,8 +118,8 @@ export default function GenreBox({name, image, colors, style, movie, isLoading})
         offset:['start end', 'end start']
     })
 
-    const imageY = useTransform(scrollYProgress, [0,1], ['20%', '-20%']);
-    const imageScale = useTransform(scrollYProgress, [0,1], [1, 1.15]);
+    const imageY = useTransform(scrollYProgress, [0,1], width > 800 ? ['20%', '-20%'] : ['10%' , '-10%']);
+    const imageScale = useTransform(scrollYProgress, [0,1], width > 800 ? [1, 1.15] : [1, 1.05]);
 
     return(
         <Container>

@@ -10,8 +10,9 @@ function UpcomingMovies(){
         const request = await fetch(URL);
         const response = await request.json();
 
-        if (request.status == 200)
-        setUpcomingMovies(response.data.movies);
+        if (request.status == 200){
+            setUpcomingMovies(response.data.movies);
+        }
 
         setIsLoading(false);
     }

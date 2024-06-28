@@ -4,6 +4,7 @@ import Up from "../../../photos/Up.jpg";
 import ParallaxMovieCard from "../components/parallax-movie-card";
 import { motion, useScroll, useTransform } from "framer-motion";
 import curvedArrow from "../../../photos/curvedArrow.png";
+import useWindowDimensions from "../../../hooks/use-window-dimensions";
 
 const Container = styled.div`
 width:100%;
@@ -197,6 +198,7 @@ const title = "See What's Hot Now Your Next Adventure Awaits.";
 const subtitle2 = "Explore our curated selection of trending movies, showcasing the latest and most captivating collections.";
 
 export default function TrendingSection(){
+    const {width} = useWindowDimensions();
     const [trendingMovies, setTrendingMovies] = useState([])
     const [isLoading, setIsLoading] = useState(true);
 
@@ -213,6 +215,7 @@ export default function TrendingSection(){
                 setTrendingMovies(moviesList.data.movies)
             }
         }catch(error){
+            setTrendingMovies([])
         }
         
         setIsLoading(false);
@@ -224,10 +227,9 @@ export default function TrendingSection(){
         offset : ['start end' , 'end start']
     })
 
-    const bigImageContainerY = useTransform(scrollYProgress, [0,1], ['0%', '-10%']);
-    const bigImageY = useTransform(scrollYProgress, [0,1], ['-6%', '28%']);
-
-    const bigImageScale = useTransform(scrollYProgress, [0.2,0.9], [1.25, 1.15]);
+    const bigImageContainerY = useTransform(scrollYProgress, [0,1], width > 800 ? ['0%', '-10%'] : ['0%', '-5%']);
+    const bigImageY = useTransform(scrollYProgress, [0,1], width > 800 ? ['-6%', '28%'] : ['-3%', '14%']);
+    const bigImageScale = useTransform(scrollYProgress, [0.2,0.9], width > 800 ? [1.25, 1.15] : [1.15, 1.1]);
 
     const contentContainerRef = useRef();
     const {scrollYProgress:contentScrollYProgress} = useScroll({
@@ -237,11 +239,31 @@ export default function TrendingSection(){
 
     const contentY = useTransform(contentScrollYProgress, [0,1], ['0%', '30%']);
 
-    const renderMovieCard = (movie, isLoading, style, imageY, containerY) => (
-        <MovieCardContainer style={style}>
-            {!isLoading && movie ? <ParallaxMovieCard movie={movie} posterOnly={true} imageY={imageY} containerY={containerY}/> : <ParallaxMovieCard isLoading={true} />}
-        </MovieCardContainer>
+    const divideByTwo = (arr) => (
+        arr.map(value => {
+            const match = value.match(/^(-?\d+\.?\d*)(.*)$/);
+            if (match) {
+                const number = parseFloat(match[1]);
+                const unit = match[2];
+                const halvedNumber = number / 2;
+                return `${halvedNumber}${unit}`;
+            }
+            return value; 
+        })
     )
+
+    const renderMovieCard = (movie, isLoading, style, imageY, containerY) => {
+        if (width > 800){
+            imageY = divideByTwo(imageY)
+            containerY = divideByTwo(containerY)
+        }
+
+        return (
+            <MovieCardContainer style={style}>
+                <ParallaxMovieCard isLoading={isLoading} movie={movie} posterOnly={true} imageY={imageY} containerY={containerY}/>
+            </MovieCardContainer>
+        )
+    }
 
     return(
         <Container>
@@ -257,8 +279,7 @@ export default function TrendingSection(){
                 </Content>
                 <MovieCardsContainer>
                     <MovieCardsRow>
-                        {/* {renderMovieCard(trendingMovies[0], isLoading, {transform:'translate(0,10%)'}, ['-100px','20px'], ['140px','-140px'])} */}
-                        {renderMovieCard(trendingMovies[0], isLoading, {transform:'translate(0,10%)'}, ['-15%','20%'], ['20%','-10%'])}
+                        {renderMovieCard(trendingMovies[0], isLoading, {transform:'translate(0,10%)'},['-15%','20%'], ['20%','-10%'])}
                         {renderMovieCard(trendingMovies[1], isLoading, {}, ['-15%','15%'], ['18%','-18%'] )}
                     </MovieCardsRow>
                     <MovieCardsRow2>

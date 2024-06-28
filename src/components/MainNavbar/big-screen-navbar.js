@@ -100,22 +100,14 @@ display:flex;
 gap:2rem;
 align-items: center;
 `
-
-
 const SearchBarContainer = styled.div`
 height:100%;
 width:250px;
 position:relative;
 `
 export default function BigScreenNavbar(){
-    const navigate = useNavigate();
-    const [cookies,setCookies] = useCookies(["token"])
-
-    const [showGenresList, setShowGenresList] = useState(true);
     const genres = useGetGenres();
 
-
-    
     return ( 
         <Container>
             <ElementsContainer>
@@ -129,8 +121,8 @@ export default function BigScreenNavbar(){
                         <i className="fa-solid fa-layer-group"/>
                         <span>Genre</span> 
                     </GenreWord>
-                    <GenresList $show={showGenresList}>
-                        <GenresListTitle>Pick a Genre</GenresListTitle>
+                    <GenresList>
+                        <GenresListTitle>{genres.length == 0 ? "No genres available" : "Pick a Genre"}</GenresListTitle>
                         {genres.length>0 && genres.map((genre)=>(
                             <GenreElement key={genre.id} to={`/movies/?genre=${genre.name}`}>{genre.name}</GenreElement>
                         ))}

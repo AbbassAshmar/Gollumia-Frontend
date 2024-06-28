@@ -25,7 +25,6 @@ min-width:0;
 `
 
 function MoviesGridContainer({movies,isLoading}){
-
     if (isLoading) 
     return (
         <Container>
@@ -42,8 +41,8 @@ function MoviesGridContainer({movies,isLoading}){
     
     return (
         <Container>
-            {movies && movies.length >= 1 && movies.map((movie)=>(
-                <MovieCard style={{minWidth:"min(200px, 18%)"}} key={movie.id} movie={movie}/>
+            {movies && movies.length >= 1 && movies.map((movie,index)=>(
+                <MovieCard key={movie?.id || index} style={{minWidth:"min(200px, 18%)"}} movie={movie}/>
             ))}
         </Container>
     )

@@ -86,6 +86,7 @@ background-color: ${({$background})=>$background};
 }
 `
 const MoviesContainer = styled.div`
+width:100%;
 gap:2rem;
 display: grid;
 grid-template-columns: repeat(4,1fr);
@@ -108,10 +109,13 @@ const STATUS_SUBTITLES = {
 }
 
 export default function HighLightsSection(){
-    const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedStatus, setSelectedStatus] = useState("Latest");
-
+    const [movies, setMovies] = useState({
+        trending : [{} ,{} ,{}, {}],
+        latest : [{} ,{} ,{}, {}],
+        upcoming : [{} ,{} ,{}, {}],
+    });
 
     useEffect(()=>{
         fetchUpcomingLatestTrendingMovies();
@@ -122,35 +126,29 @@ export default function HighLightsSection(){
     }
 
     async function fetchMovies(url){
-        const request = await fetch(url);
-        if (request.status == 200){
-            const moviesList = await request.json()
-            return moviesList.data.movies;
+        try{
+            const request = await fetch(url);
+            if (request.status == 200){
+                const moviesList = await request.json()
+                return moviesList.data.movies.length > 0 ? moviesList.data.movies : [{}, {}, {}, {}];
+            }
+            return [{}, {}, {}, {}];
+        }catch(error){
+            return [{}, {}, {}, {}];
         }
-
-        return []
     }
 
     async function fetchUpcomingLatestTrendingMovies(){
-        try{
-            const [trendingMovies, latestMovies, upcomingMovies] = await Promise.all(
-                Object.keys(STATUS_SUBTITLES).map(status => fetchMovies(get4MoviesUrl(status)))
-            );
+        const [trendingMovies, latestMovies, upcomingMovies] = await Promise.all(
+            Object.keys(STATUS_SUBTITLES).map(status => fetchMovies(get4MoviesUrl(status)))
+        );
 
-            setMovies({
-                trending: trendingMovies,
-                latest: latestMovies,
-                upcoming: upcomingMovies
-            });
-           
-        }catch (error) {
-            setMovies({
-                trending: [],
-                latest: [],
-                upcoming: []
-            });
-        }
-
+        setMovies({
+            trending: trendingMovies,
+            latest: latestMovies,
+            upcoming: upcomingMovies
+        });
+        
         setIsLoading(false);
     }
 
@@ -176,11 +174,8 @@ export default function HighLightsSection(){
             </Header>
     
             <MoviesContainer>
-                {isLoading && Array.from({length:4}).map((_,index) =>(
-                    <MovieCard key={index} isLoading={true} />
-                ))}
-                {!isLoading && movies[selectedStatus.toLowerCase()]?.length > 0 && movies[selectedStatus.toLowerCase()].map((movie)=>(
-                    <MovieCard key={movie.id} movie={movie} />
+                {movies[selectedStatus.toLowerCase()]?.length > 0 && movies[selectedStatus.toLowerCase()].map((movie,index)=>(
+                    <MovieCard isLoading={isLoading} key={movie?.id || index} movie={movie} />
                 ))}
             </MoviesContainer>
         </Container>

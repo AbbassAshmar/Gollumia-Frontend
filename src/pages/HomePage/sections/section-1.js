@@ -110,7 +110,7 @@ export default function Section1(){
     return(
         <Container ref={containerRef}>
             <ContentContainer>
-                <Content as={motion.div} style={{y:contentY,x:"-50%"}}>
+                <Content as={width >800 ? motion.div : ""} style={{y:contentY,x:"-50%"}}>
                     <Title>
                         Gollumia <br/>
                         “There's no place like home”

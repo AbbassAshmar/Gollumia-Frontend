@@ -29,7 +29,7 @@ background-color: black;
 }
 `
 
-function Home(){
+export default function Home(){
     useEffect(() => {
         window.scrollTo(0, 0)
     }, []);
@@ -46,5 +46,3 @@ function Home(){
         </Container>
     )
 }
-
-export default Home;

@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import {motion, useScroll, useTransform} from "framer-motion";
 import React, { useEffect, useRef } from "react";
 import styled, {keyframes} from 'styled-components';
+import cameraSlash from "../../photos/cameraSlash.png";
 
 const OnHoverContent = styled.div`
 top:50%;
@@ -63,6 +64,16 @@ object-fit: cover;
 border-radius: 8px;
 will-change: transform;
 `
+const NoPoster = styled.div`
+width:100%;
+height:100%;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 8px;
+will-change: transform;
+background-color: rgba(255,255,255,0.8);
+`
 const Play = styled.i`
 font-size:3.5rem;
 color:orange;
@@ -84,10 +95,20 @@ export default function MovieCard({movie={}, style={}, isLoading=false, posterOn
         <LoadingMovieCard />
     )
 
+    if (!movie || Object.keys(movie).length === 0)
+    return(
+        <NoMovieCard />
+    )
+
     return(
         <Container style={style} to={`/movies/${movie.id}`}>
             <PosterContainer>
-                <Poster as={motion.img} style={imageStyle} src={movie.poster}/>
+                {movie.poster ?
+                    <Poster as={motion.img} style={imageStyle} src={movie.poster}/>:
+                    <NoPoster as={motion.div} style={imageStyle} >
+                        <img style={{width:'70px'}} src={cameraSlash}/>
+                    </NoPoster>
+                }
                 <OnHoverContent>
                     {posterOnly && <Title style={{textAlign:"center"}}>{movie.title}</Title>}
                     <Play className="fa-regular fa-circle-play"/>
@@ -109,6 +130,7 @@ width: 100%;
 height:100%;
 min-width:0;
 color: #fff; 
+border-radius: 8px;
 background-color: #333;
 aspect-ratio: 1/1.5;
 `
@@ -121,10 +143,51 @@ animation: ${pulseAnimation} 1s infinite alternate;
 `
 
 export function LoadingMovieCard(){
-
     return (
         <LoadingContainer>
             <LoadingAnimation/>
         </LoadingContainer>
+    )
+}
+
+
+
+
+const PlaceholderContainer = styled.div`
+width: 100%;
+height:100%;
+min-width:0;
+color: #fff; 
+position: relative;
+border-radius: 8px;
+background-color: black;
+aspect-ratio: 1/1.5;
+`
+
+const Placeholder = styled.div`
+gap:.5rem;
+width: 100%;
+height: 100%;
+color: white;
+display: flex;
+font-size: 2rem;
+text-align: center;
+position: relative;
+border-radius: 8px;
+align-items: center;
+flex-direction: column;
+justify-content: center;
+background-color: rgba(255, 255, 255, 0.19); 
+`
+
+export function NoMovieCard(){
+    return (
+        <PlaceholderContainer>
+            <Placeholder>
+                <p style={{fontSize:"18px"}}>Oops !</p>
+                <p style={{fontSize:'14px',marginBottom:".5rem"}}>movie not available</p>
+                <i className="fa-solid fa-heart-crack"/>
+            </Placeholder>
+        </PlaceholderContainer>
     )
 }
