@@ -24,11 +24,11 @@ min-width:82px;
 }
 `
 
-export default function Google({isLoading=false, setIsLoading}){
+export default function Google({isLoading=false, setIsLoading, setPopUpMessage}){
     const [cookies, setCookie] = useCookies(["token"])
     let navigate = useNavigate()
     
-    async function send_token(access_token){
+    async function requestLogin(access_token){
         const URL = `${process.env.REACT_APP_API_URL}/api/auth/google/register`;
         const INIT = {
             method:"POST",
@@ -36,32 +36,40 @@ export default function Google({isLoading=false, setIsLoading}){
             body: JSON.stringify({"access_token" : access_token})
         }
 
-        const request = await fetch(URL,INIT);
-        if (request.status == 200){
+        try {
+            const request = await fetch(URL,INIT);
             const response = await request.json();
-    
-            const data = response.data;
-            const cookiesToSet = {
-                token: data.token,
-                email: data.user.email,
-                username: data.user.username,
-                id: data.user.id,
-                pfp: data.user.pfp
-            };
-            
-            setCookies(cookiesToSet, setCookie);
-            navigate("/home", { replace: true });
-        }else{
-            alert("Error try again later")
+
+            if (request.status == 200){
+                const data = response.data;
+                const cookiesToSet = {
+                    token: data.token,
+                    email: data.user.email,
+                    username: data.user.username,
+                    id: data.user.id,
+                    pfp: data.user.pfp
+                };
+                
+                setCookies(cookiesToSet, setCookie);
+                navigate("/home", { replace: true });
+            }else{
+                alert()
+                setPopUpMessage({show:true, message:"Try again later", status:"error"});
+            }
+        }catch(error){
+            setPopUpMessage({show:true, message:"Service Unavailable", status:"error"});
         }
+
+        setIsLoading(false);
     }
 
     const Success = (response)=>{
-        send_token(response.access_token)
+        requestLogin(response.access_token)
     }
 
     const Error = ()=>{
-        alert("Error try again later")
+        setPopUpMessage({show:true, message:"Try again later", status:"error"});
+        setIsLoading(false);
     }
     
     const login = useGoogleLogin({

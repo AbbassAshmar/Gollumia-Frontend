@@ -240,9 +240,13 @@ color: #fff;
 min-height:0;
 background-color: #333;
 width: 100%;
-padding-top: 4rem;
 display: flex;
 align-items: flex-start;
+padding:4rem 2rem 2rem 2rem;
+
+@media screen and (max-width:800px){
+    padding:4rem 1rem 2rem 1rem;
+}
 `
 const LoadingAnimation = styled.div`
 width: 100%;

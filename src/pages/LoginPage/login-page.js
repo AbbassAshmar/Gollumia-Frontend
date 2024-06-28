@@ -291,7 +291,7 @@ function LoginPage(){
                         <SocialMediaContainer>
                             <p style={{margin:'0'}}>Or login with</p>
                             <SocialMediaButtons>
-                                <Google isLoading={isLoading} setIsLoading={setIsLoading}/>
+                                <Google setPopUpMessage={setPopUpMessage} isLoading={isLoading} setIsLoading={setIsLoading}/>
                             </SocialMediaButtons>
                         </SocialMediaContainer>
                         <div>

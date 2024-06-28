@@ -192,8 +192,9 @@ export default function Carousel(){
             const response = await request.json()
 
             if(request.status == 200){
-                if (response.data.movie && response.data.movies.length > 0)
-                setCarouselMovies(response.data.movies);
+                if (response?.data?.movies && response.data.movies.length > 0){
+                    setCarouselMovies(response.data.movies);
+                }
                 else setCarouselMovies(QUOTES);
             }else{
                 setCarouselMovies(QUOTES);
@@ -204,7 +205,11 @@ export default function Carousel(){
 
         setIsLoading(false);
     }
-
+    
+    useEffect(()=>{
+        console.log(carouselMovies)
+        // console.log(carouselMovies[0].quote)
+    }, [carouselMovies])
 
     if (isLoading)
     return(
@@ -217,7 +222,7 @@ export default function Carousel(){
         <Container>
             <ElementsContainer $transition={isAnimationActive?"transform .3s" : "none"} style={{transform:`translateX(-${currentElement * 100}vw)`}}>
                 {carouselMovies.length > 0 && carouselMovies.map((movie,index)=>(
-                    <CarouselElement isQuote={movie.quote != undefined} key={movie?.id || index} movie={movie} /> 
+                    <CarouselElement isQuote={movie?.quote ? true : false} key={movie?.id || index} movie={movie} /> 
                 ))}
             </ElementsContainer>
             <Navigate>
