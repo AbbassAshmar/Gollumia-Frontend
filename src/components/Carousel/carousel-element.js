@@ -91,6 +91,7 @@ gap:.5rem;
 text-align: center;
 display: flex;
 align-items: center;
+flex-wrap: wrap;
 text-shadow: 0px 0px 4px rgba(0,0,0,.9);
 `
 const Genre = styled(Link)`
@@ -235,29 +236,28 @@ const pulseAnimation = keyframes`
 0% {opacity: 0.5;}
 100% { opacity: 1;}
 `
-const LoadingContainer = styled(Container)`
+const LoadingContainer = styled.div`
 color: #fff; 
 min-height:0;
-background-color: #333;
+background-color:black;
 width: 100%;
 display: flex;
 align-items: flex-start;
-padding:4rem 2rem 2rem 2rem;
+padding:5rem 2rem 0 2rem;
 
 @media screen and (max-width:800px){
-    padding:4rem 1rem 2rem 1rem;
+    padding:5rem 1rem 0 1rem;
 }
 `
 const LoadingAnimation = styled.div`
 width: 100%;
-height: 70vh; 
+height: 80vh; 
 border-radius:8px;
 background-color: var(--main-color); 
 animation: ${pulseAnimation} 1s infinite alternate;
 `
 
 function LoadingCarouselElement(){
-
     return (
         <LoadingContainer>
             <LoadingAnimation/>

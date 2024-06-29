@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import useFavorites from "../../../hooks/use-favorites";
-import { useEffect } from "react";
-import { useState } from "react";
 import { LoadingMovieCard } from "../../../components/MovieCard/movie-card";
+import useWindowDimensions from "../../../hooks/use-window-dimensions";
+import LoadingText from "../../../components/LoadingText/loading-text";
 
 const Container = styled.div`
 z-index: 2;
@@ -80,6 +80,7 @@ border-radius: 8px;
 const InformationContainer = styled.div`
 flex:4;
 gap:2rem;
+width:100%;
 display: flex;
 flex-direction: column;
 `
@@ -89,6 +90,7 @@ const GenresTitleContainer = styled.div`
 const GenresContainer = styled.div`
 gap:.5rem;
 display: flex;
+flex-wrap: wrap;
 align-items: center;
 `
 const Genre = styled(Link)`
@@ -209,6 +211,7 @@ font-weight: inherit;
 `
 
 export default function AboveTheFolds({movie, trailerSectionRef, isLoadingMovieData}){
+    const {width} = useWindowDimensions();
     const {addOrRemoveFavorite, isFavorite} = useFavorites(movie);
 
     const containerRef = useRef();
@@ -217,8 +220,8 @@ export default function AboveTheFolds({movie, trailerSectionRef, isLoadingMovieD
         offset: ['0' , 'end start']
     })
     
-    const imageYContainer =useTransform(scrollYProgress, [0,1], ['0%', '-10%']);
-    const imageY = useTransform(scrollYProgress,[0,1], ['0%', '28%']);
+    const imageYContainer =useTransform(scrollYProgress, [0,1], width > 800 ? ['0%', '-10%'] : ["0%", "-7%"]);
+    const imageY = useTransform(scrollYProgress,[0,1],width > 800 ? ['0%', '28%'] : ['0%', '20%']);
 
     function heartIconSolidOrRegular(){
         if (isFavorite) return 'solid';
@@ -257,13 +260,15 @@ export default function AboveTheFolds({movie, trailerSectionRef, isLoadingMovieD
                                 ))}
                             </GenresContainer>
                         )}
-                        <TitleContainer>
-                            {movie.title}
-                        </TitleContainer>
+                        {isLoadingMovieData ? 
+                            <LoadingText width={'min(45%,450px)'} height={'50px'}/> :
+                            <TitleContainer>{movie.title}</TitleContainer>
+                        }
                     </GenresTitleContainer>
-                    <PlotContainer>
-                        {movie.plot}
-                    </PlotContainer>
+                    {isLoadingMovieData ? 
+                        <LoadingText width={'min(100%,700px)'} height={'120px'}/> :
+                        <PlotContainer>{movie.plot}</PlotContainer>
+                    }
                     <ButtonDetailsContainer>
                         <ButtonsContainer>
                             <FavoriteButton onClick={handleFavoriteButtonCLick}>
@@ -277,13 +282,18 @@ export default function AboveTheFolds({movie, trailerSectionRef, isLoadingMovieD
                             </TrailerButton>
                         </ButtonsContainer>
                         <Line />
-                        <Details>
-                            <DetailText>{movie.duration}</DetailText>
-                            <span style={{cursor:"default"}}>.</span>
-                            <DetailText>{movie?.director?.name || "N/A"}</DetailText>
-                            <span style={{cursor:"default"}}>.</span>
-                            <DetailText>{movie.released}</DetailText>
-                        </Details>
+
+                        {isLoadingMovieData ? 
+                            <LoadingText width={'40%'} height={'30px'}/> :
+                            <Details>
+                                <DetailText>{movie.duration}</DetailText>
+                                <span style={{cursor:"default"}}>.</span>
+                                <DetailText>{movie?.director?.name || "N/A"}</DetailText>
+                                <span style={{cursor:"default"}}>.</span>
+                                <DetailText>{movie.released}</DetailText>
+                            </Details>
+                        }
+                        
                     </ButtonDetailsContainer>
                 </InformationContainer>
             </Content>

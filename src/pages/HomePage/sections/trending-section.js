@@ -19,7 +19,7 @@ padding:0 2rem;
 display: flex;
 align-items: flex-start;
 justify-content: space-between;
-@media screen and (max-width:768px){
+@media screen and (max-width:800px){
     padding:1rem;
     flex-direction: column;
 }
@@ -245,7 +245,7 @@ export default function TrendingSection(){
             if (match) {
                 const number = parseFloat(match[1]);
                 const unit = match[2];
-                const halvedNumber = number / 2;
+                const halvedNumber = number / 2.5;
                 return `${halvedNumber}${unit}`;
             }
             return value; 
@@ -253,7 +253,7 @@ export default function TrendingSection(){
     )
 
     const renderMovieCard = (movie, isLoading, style, imageY, containerY) => {
-        if (width > 800){
+        if (width < 800){
             imageY = divideByTwo(imageY)
             containerY = divideByTwo(containerY)
         }
@@ -268,7 +268,7 @@ export default function TrendingSection(){
     return(
         <Container>
             <ContentContainer ref={contentContainerRef}>
-                <Content as={motion.div} style={{y:contentY}}> 
+                <Content as={width > 800 ? motion.div : ""} style={{y:contentY}}> 
                     <TextContainer>
                         <Subtitle>{subtitle}</Subtitle>
                         <Title>{title}</Title>
